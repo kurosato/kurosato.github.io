@@ -62,6 +62,14 @@ def allowed_source_url(url: str) -> bool:
     return bool(host) and not any(host == d or host.endswith("." + d) for d in EXCLUDED)
 
 
+def clean_source_title(value: object) -> str:
+    text = str(value or "Bron")
+    text = re.sub(r"\s*\(\[([^\]]+)\]\(https?://[^)]+\)\)\s*", r" — \1", text, flags=re.I)
+    text = re.sub(r"\s*\[([^\]]+)\]\(https?://[^)]+\)\s*", r" — \1", text, flags=re.I)
+    text = re.sub(r"\s*—\s*—\s*", " — ", text)
+    return re.sub(r"\s+", " ", text).strip() or "Bron"
+
+
 SYSTEM = """Je bent een kritische Belgische B2B-fleetresearcher voor een gevestigde Toyota-garage.
 Maak een beslissingskaart, geen generiek bedrijfsprofiel.
 
@@ -72,13 +80,15 @@ Harde regels:
 - Een kantooradres, NACE of vacature bewijst geen wagenpark. Fleetomvang, merkenmix en contracteindes blijven onbekend zonder primaire bron.
 - Oudere cijfers mogen intern richting geven, maar nooit prominent in reden, opener of vragen. Noem geen oud jaartal of oude telling als actuele waarheid.
 - Scheid bevestigd feit, hypothese, timingvraag en risico.
-- Elke signaal-body: exact twee zinnen. Zin één geeft het feit of de hypothese; zin twee zegt waarom dit commercieel relevant is.
+- Elke signaal-body: exact één zin met feit plus commerciële betekenis, maximaal 220 tekens.
+- Elk signaal bevat een aparte question: één letterlijk uitspreekbare brugvraag die uit dat signaal volgt.
 - Geen meta-instructies in signaaltekst: geen coaching voor de bouwer, geen 'gebruik intern', geen procesuitleg en geen instructie om iets later te valideren.
 - Signaaltitels zijn concrete stellingen, geen generieke categorieën.
 - Toyota-modellen zijn alleen te toetsen fits op een concrete voertuigmissie.
 - Belscript: 2-3 natuurlijke zinnen. Geen adres, postcode, 'ik zag dat', 'officieel gevestigd', cijferdump, creepy researchtoon of productcatalogus.
 - Exact zes vragen: actuele voertuigmissie, vervangmoment, frictie, TCO/besliscriteria, beslisroute, bewijs/praktijktest.
 - Als bronnen onvoldoende zijn: zeg dat en genereer geen valse zekerheid.
+- Geen Markdown in brontitels: title is platte tekst; de URL staat uitsluitend in het aparte url-veld.
 - Antwoord uitsluitend als geldig JSON-object zonder markdown.
 """
 
@@ -97,13 +107,14 @@ CARD_FORMAT = """{
   "contactUrl":"officiële contactpagina of website",
   "phone":"alleen officieel bevestigd, anders leeg",
   "email":"alleen officieel bevestigd, anders leeg",
-  "reason":"waarom nu, zonder oude cijfers",
+  "reason":"volledige waarom-nu-onderbouwing zonder oude cijfers",
+  "headline":"maximaal 16 woorden voor de hero",
   "opener":"natuurlijke belopening",
-  "signals":[{"tag":"Bevestigd|Hypothese|Timing toetsen|Risico","kind":"fact|hot|question","title":"concrete stelling","text":"exact twee zinnen: feit/hypothese + commerciële betekenis","sourceUrl":"...","sourceTitle":"...","sourceDate":"YYYY-MM-DD of onbekend"}],
+  "signals":[{"tag":"Bevestigd|Hypothese|Timing toetsen|Risico","kind":"fact|hot|question","title":"concrete stelling","text":"exact één zin: feit plus commerciële betekenis","question":"letterlijk uitspreekbare brugvraag","sourceUrl":"...","sourceTitle":"...","sourceDate":"YYYY-MM-DD of onbekend"}],
   "fleet":[{"pool":"voertuiggroep","use":"missie","fit":"te toetsen Toyota-fit","certainty":"Bevestigd|Hypothese|Onbekend|Geen fit"}],
   "questions":["exact zes vragen"],
   "unknowns":["minstens vier"],
-  "sources":[{"type":"Officieel|Eigen site|Overheid|Pers","title":"...","url":"...","meta":"datum en bewijsgrens"}]
+  "sources":[{"type":"Officieel|Eigen site|Overheid|Pers","title":"platte brontitel zonder Markdown of URL","url":"...","meta":"datum en bewijsgrens"}]
 }"""
 
 
@@ -228,7 +239,7 @@ def app_card(raw_card: dict, digits: str, depth: str, research_raw: dict, polish
         if not url or url in by_url or not allowed_source_url(url):
             continue
         by_url[url] = len(sources) + 1
-        sources.append({"n": len(sources) + 1, **source})
+        sources.append({"n": len(sources) + 1, **source, "title": clean_source_title(source.get("title", "Bron"))})
     kbo_url = f"https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer={digits}&actionLu=Zoek"
     if kbo_url not in by_url:
         by_url[kbo_url] = len(sources) + 1
@@ -266,7 +277,7 @@ def app_card(raw_card: dict, digits: str, depth: str, research_raw: dict, polish
         "researchedAt": date.today().isoformat(), "confidence": raw_card.get("confidence", "Middel"), "confidenceNote": "Live bronnen + NBB/KBO-controle", "potential": raw_card.get("potential", "Te toetsen"), "potentialNote": "Hypothese op missie en gebruik", "nextStep": "15 min. kwalificatie", "nextStepNote": "Valideer missie, timing en beslisroute",
         "freshness": raw_card.get("freshness", "Live gecontroleerd"), "freshnessNote": raw_card.get("freshnessNote", "Bronnen tijdens live research opgehaald"),
         "reportType": "full", "website": raw_card.get("website", ""), "contactUrl": raw_card.get("contactUrl") or raw_card.get("website", ""),
-        "phone": raw_card.get("phone", ""), "email": raw_card.get("email", ""), "reason": raw_card.get("reason", ""), "opener": raw_card.get("opener", ""),
+        "phone": raw_card.get("phone", ""), "email": raw_card.get("email", ""), "reason": raw_card.get("reason", ""), "headline": raw_card.get("headline") or raw_card.get("reason", ""), "opener": raw_card.get("opener", ""),
         "signals": signals, "fleet": raw_card.get("fleet", []), "questions": raw_card.get("questions", []), "unknowns": raw_card.get("unknowns", []), "sources": sources,
         "timeline": [{"date": date.today().strftime("%d %b"), "text": f"Live OpenRouter-onderzoek afgerond — {DEPTHS[depth]['label']}."}], "notes": [],
         "apiMeta": {"depth": depth, "researchModel": research_raw.get("model"), "salesModel": polish_raw.get("model"), "cost": round((usage1.get("cost") or 0) + (usage2.get("cost") or 0), 6)},
