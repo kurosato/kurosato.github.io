@@ -24,7 +24,7 @@
     .topbar{height:var(--top);position:sticky;top:0;z-index:20;background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:3px solid var(--red)}
     .brand{font-size:14px;font-weight:900;letter-spacing:.06em;white-space:nowrap}.brand b{color:#fff}.brand i{color:#ff4050;font-style:normal}
     .event{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#a7a7a7;border-left:1px solid #3a3a3a;padding-left:18px}
-    .top-meta{margin-left:auto;font-size:12px;color:#bdbdbd;display:flex;gap:16px;align-items:center}.live-dot{display:inline-block;width:7px;height:7px;background:#55b878;border-radius:50%;margin-right:6px}.top-export{min-height:34px;padding:7px 10px;color:#fff;background:transparent;border:1px solid #666;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.top-export:hover{border-color:#fff}
+    .top-meta{margin-left:auto;font-size:12px;color:#bdbdbd;display:flex;gap:12px;align-items:center}.live-dot{display:inline-block;width:7px;height:7px;background:#55b878;border-radius:50%;margin-right:6px}.live-link{padding:6px 8px;color:#fff;border:1px solid #777;font-size:9px;font-weight:800;text-decoration:none;text-transform:uppercase;white-space:nowrap}.live-link:hover{border-color:#fff}.top-export{min-height:34px;padding:7px 10px;color:#fff;background:transparent;border:1px solid #666;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.top-export:hover{border-color:#fff}
     .shell{min-height:calc(100vh - var(--top));display:grid;grid-template-columns:var(--side) minmax(0,1fr);max-width:1640px;margin:auto;background:var(--paper);box-shadow:0 0 0 1px #ddd}
     .sidebar{border-right:1px solid var(--line);background:#f7f7f5;min-height:calc(100vh - var(--top));position:sticky;top:var(--top);height:calc(100vh - var(--top));overflow:auto}
     .side-section{padding:20px;border-bottom:1px solid var(--line)}
@@ -66,7 +66,7 @@
   <header class="topbar">
     <div class="brand"><i>TOYOTA</i> · FLEET SIGNAL</div>
     <div class="event">TOTY pre-show / werkende pre-demo</div>
-    <div class="top-meta"><span class="cost-live"><span class="live-dot"></span><span id="backendStatus">Vaste demo · live backend controleren…</span></span><button class="top-export" id="exportAll" type="button">Exporteer alles naar Excel</button><span id="today"></span></div>
+    <div class="top-meta"><span class="cost-live"><span class="live-dot"></span><span id="backendStatus">Vaste demo · live backend controleren…</span></span><a class="live-link" id="liveLink" href="http://127.0.0.1:8765/" target="_blank" rel="noreferrer" hidden>Open lokale live versie</a><button class="top-export" id="exportAll" type="button">Exporteer alles naar Excel</button><span id="today"></span></div>
   </header>
 
   <div class="shell">
@@ -265,7 +265,7 @@ function validVat(v){const d=normalizeVat(v);if(d.length!==10)return false;const
 async function checkBackend(){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),1800);
  try{const r=await fetch('api/health',{cache:'no-store',signal:controller.signal});const j=await r.json();backendAvailable=!!(r.ok&&j.live)}catch{backendAvailable=false}finally{clearTimeout(timer)}
- const s=$('#backendStatus');if(s)s.textContent=backendAvailable?'Live OpenRouter-backend verbonden':'Vaste demo · start lokale backend voor live research';return backendAvailable;
+ const s=$('#backendStatus'),link=$('#liveLink');if(s)s.textContent=backendAvailable?'Live OpenRouter-backend verbonden':'Vaste demo · open de lokale live versie';if(link)link.hidden=backendAvailable;return backendAvailable;
 }
 function openProgress(company,digits){
  const modal=$('#modal'),steps=[...document.querySelectorAll('#steps li')],bar=$('#bar'),pct=$('#progressPct'),elapsed=$('#progressElapsed'),hint=$('#progressHint');
