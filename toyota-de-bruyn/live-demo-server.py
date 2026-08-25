@@ -72,6 +72,9 @@ Harde regels:
 - Een kantooradres, NACE of vacature bewijst geen wagenpark. Fleetomvang, merkenmix en contracteindes blijven onbekend zonder primaire bron.
 - Oudere cijfers mogen intern richting geven, maar nooit prominent in reden, opener of vragen. Noem geen oud jaartal of oude telling als actuele waarheid.
 - Scheid bevestigd feit, hypothese, timingvraag en risico.
+- Elke signaal-body: exact twee zinnen. Zin één geeft het feit of de hypothese; zin twee zegt waarom dit commercieel relevant is.
+- Geen meta-instructies in signaaltekst: geen coaching voor de bouwer, geen 'gebruik intern', geen procesuitleg en geen instructie om iets later te valideren.
+- Signaaltitels zijn concrete stellingen, geen generieke categorieën.
 - Toyota-modellen zijn alleen te toetsen fits op een concrete voertuigmissie.
 - Belscript: 2-3 natuurlijke zinnen. Geen adres, postcode, 'ik zag dat', 'officieel gevestigd', cijferdump, creepy researchtoon of productcatalogus.
 - Exact zes vragen: actuele voertuigmissie, vervangmoment, frictie, TCO/besliscriteria, beslisroute, bewijs/praktijktest.
@@ -96,7 +99,7 @@ CARD_FORMAT = """{
   "email":"alleen officieel bevestigd, anders leeg",
   "reason":"waarom nu, zonder oude cijfers",
   "opener":"natuurlijke belopening",
-  "signals":[{"tag":"Bevestigd|Hypothese|Timing toetsen|Risico","kind":"fact|hot|question","title":"...","text":"...","sourceUrl":"...","sourceTitle":"...","sourceDate":"YYYY-MM-DD of onbekend"}],
+  "signals":[{"tag":"Bevestigd|Hypothese|Timing toetsen|Risico","kind":"fact|hot|question","title":"concrete stelling","text":"exact twee zinnen: feit/hypothese + commerciële betekenis","sourceUrl":"...","sourceTitle":"...","sourceDate":"YYYY-MM-DD of onbekend"}],
   "fleet":[{"pool":"voertuiggroep","use":"missie","fit":"te toetsen Toyota-fit","certainty":"Bevestigd|Hypothese|Onbekend|Geen fit"}],
   "questions":["exact zes vragen"],
   "unknowns":["minstens vier"],

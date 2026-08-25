@@ -3,104 +3,378 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="light">
   <meta name="robots" content="noindex,nofollow">
-  <meta name="description" content="Toty Fleet Signal: fleetprospectkaarten, live research, gespreksanalyse, workflowadvies en volledige Excel-export.">
+  <meta name="description" content="Toty Fleet Signal: rustige B2B-prospectkaart met belreden, signalen, callvragen, vlootbeeld en controleerbare bronnen.">
+  <meta name="color-scheme" content="light">
   <link rel="icon" href="data:,">
   <title>Toyota Fleet Signal — Prospecting pre-demo</title>
   <style>
     :root{
-      --ink:#171717;--muted:#6c6c6c;--faint:#f4f4f2;--line:#d7d7d2;--paper:#fff;
-      --red:#e50019;--red-dark:#b70014;--green:#137a43;--amber:#9b6200;--blue:#1559a6;
-      --side:340px;--top:58px;--pad:24px;--radius:3px;
+      --ink:#151515;--muted:#686864;--subtle:#8b8b86;--canvas:#f2f2ef;--paper:#fff;--soft:#f7f7f5;--line:#deded9;
+      --red:#e50019;--red-dark:#bd0015;--amber:#8a5b00;--amber-soft:#fff7e6;--green:#176b40;--green-soft:#eef7f1;
+      --side:288px;--top:56px;--content:1120px;
     }
     *{box-sizing:border-box}
-    html{background:#ececea}
-    body{margin:0;color:var(--ink);background:#ececea;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.38}
-    button,input,select,textarea{font:inherit}
+    [hidden]{display:none!important}
+    html{background:var(--canvas);scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);background:var(--canvas);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:13px;line-height:1.48;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font:inherit;color:inherit}
     button,a,select{touch-action:manipulation}
     button{cursor:pointer}
-    :focus-visible{outline:3px solid rgba(229,0,25,.27);outline-offset:2px}
-    .topbar{height:var(--top);position:sticky;top:0;z-index:20;background:#0d0d0d;color:#fff;display:flex;align-items:center;gap:18px;padding:0 22px;border-bottom:3px solid var(--red)}
-    .brand{font-size:14px;font-weight:900;letter-spacing:.06em;white-space:nowrap}.brand b{color:#fff}.brand i{color:#ff4050;font-style:normal}
-    .event{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#a7a7a7;border-left:1px solid #3a3a3a;padding-left:18px}
-    .top-meta{margin-left:auto;font-size:12px;color:#bdbdbd;display:flex;gap:12px;align-items:center}.live-dot{display:inline-block;width:7px;height:7px;background:#55b878;border-radius:50%;margin-right:6px}.live-link{padding:6px 8px;color:#fff;border:1px solid #777;font-size:9px;font-weight:800;text-decoration:none;text-transform:uppercase;white-space:nowrap}.live-link:hover{border-color:#fff}.top-export{min-height:34px;padding:7px 10px;color:#fff;background:transparent;border:1px solid #666;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.top-export:hover{border-color:#fff}
-    .shell{min-height:calc(100vh - var(--top));display:grid;grid-template-columns:var(--side) minmax(0,1fr);max-width:1640px;margin:auto;background:var(--paper);box-shadow:0 0 0 1px #ddd}
-    .sidebar{border-right:1px solid var(--line);background:#f7f7f5;min-height:calc(100vh - var(--top));position:sticky;top:var(--top);height:calc(100vh - var(--top));overflow:auto}
-    .side-section{padding:20px;border-bottom:1px solid var(--line)}
-    .eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.14em;font-weight:800;color:var(--muted);margin-bottom:10px}
-    h1,h2,h3,p{margin-top:0}.new-title{font-size:23px;line-height:1.04;font-weight:400;letter-spacing:-.03em;margin-bottom:8px}.helper{font-size:12px;color:var(--muted);margin-bottom:16px}
-    label{display:block;font-size:11px;font-weight:700;margin:10px 0 5px;color:#454545}
-    input,select,textarea{width:100%;border:1px solid #aaa;background:#fff;border-radius:0;padding:10px 11px;color:var(--ink)}
-    input::placeholder,textarea::placeholder{color:#9a9a9a}input:placeholder-shown{background:#f3f3f1;color:#777}
-    textarea{resize:vertical;min-height:76px}
-    .row{display:grid;grid-template-columns:1.2fr .8fr;gap:8px}
-    .primary{border:0;background:var(--red);color:#fff;font-weight:800;padding:12px 14px;min-height:44px;width:100%;margin-top:14px}.primary:hover{background:var(--red-dark)}
-    .secondary{border:1px solid #8c8c8c;background:#fff;color:#222;padding:9px 12px;font-weight:700;min-height:40px}.secondary:hover{border-color:#111;background:#f8f8f8}
-    .search-wrap{position:relative}.search-wrap span{position:absolute;left:11px;top:9px;color:#777}.search-wrap input{padding-left:31px}
-    .filters{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.filter{white-space:nowrap;border:1px solid var(--line);background:#fff;padding:6px 8px;font-size:11px}.filter.active{background:#171717;color:white;border-color:#171717}
-    .prospect-list{padding:10px}.prospect-card{width:100%;text-align:left;border:1px solid transparent;border-bottom-color:#ddd;background:transparent;padding:13px 11px;display:block}.prospect-card:hover{background:#fff}.prospect-card.active{background:#fff;border-color:#aaa}.prospect-card.blocked{background:#f6f1f1;border-color:#dfb8bb}.prospect-card.blocked.active{background:#fff7f7;border-color:#c96b72}.pc-top{display:flex;justify-content:space-between;gap:8px}.pc-top>span:first-child{display:block;min-width:0}.pc-name{display:block;font-size:14px;font-weight:800}.pc-vat{display:block;font-size:10px;color:#777;margin-top:2px}.pc-flags{display:flex;flex:0 0 auto;align-items:flex-end;gap:4px;flex-direction:column}.pc-stage{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--blue)}.pc-dnc{padding:2px 5px;color:#a80012;border:1px solid #c96b72;background:#fff7f7;font-size:8px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}.pc-reason{font-size:12px;color:#555;margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.pc-next{font-size:10px;color:#777;margin-top:8px}.prospect-card.blocked .pc-next{color:#a80012;font-weight:800}.empty{padding:30px 16px;text-align:center;color:#777;font-size:12px}
-    main{min-width:0;background:white}.main-head{padding:22px var(--pad) 16px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:18px}.identity{min-width:0}.identity h1{font-size:31px;line-height:1.05;font-weight:400;letter-spacing:-.04em;margin-bottom:8px}.id-meta{display:flex;flex-wrap:wrap;gap:7px 14px;font-size:12px;color:#5d5d5d}.verified{color:var(--green);font-weight:800}.main-actions{margin-left:auto;display:flex;align-items:end;gap:8px;flex-wrap:wrap;justify-content:flex-end}.field-compact{width:150px}.field-compact label{margin-top:0}.print-btn{width:auto}
-    .statusline{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}.metric{padding:15px var(--pad);border-right:1px solid var(--line)}.metric:last-child{border:0}.metric-label{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.11em;font-weight:800}.metric-value{font-size:18px;margin-top:5px;line-height:1.15}.metric-sub{font-size:10px;color:#777;margin-top:4px}
-    .report{padding:22px var(--pad) 48px}.call-strip{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,.6fr);background:#151515;color:white;margin-bottom:18px}.call-main{padding:23px}.call-main .eyebrow{color:#ff7180}.call-main h2{font-size:26px;font-weight:400;line-height:1.12;margin-bottom:10px}.call-main p{color:#d2d2d2;max-width:850px;margin:0}.call-side{border-left:1px solid #444;padding:23px}.call-side strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.11em;color:#aaa}.call-side .quote{font-size:14px;margin:10px 0 13px}.copy{background:transparent;color:white;border:1px solid #777;padding:8px 10px;font-weight:700}.model-note{margin-top:10px;color:#999;font-size:9px;line-height:1.35}
-    .grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:18px;align-items:start}.stack{display:grid;gap:18px}
-    .panel{border:1px solid var(--line);background:#fff}.panel-head{padding:13px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.panel-head h2{font-size:14px;margin:0}.panel-head small{font-size:10px;color:#777}.panel-body{padding:15px}
-    .signal{display:grid;grid-template-columns:90px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid #e5e5e1}.signal:first-child{padding-top:0}.signal:last-child{padding-bottom:0;border:0}.sig-tag{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.sig-tag.hot{color:var(--red)}.sig-tag.fact{color:var(--green)}.sig-tag.question{color:var(--amber)}.signal h3{font-size:15px;margin:0 0 4px}.signal p{font-size:12px;color:#5c5c5c;margin:0}.source-inline{font-size:10px;margin-top:6px!important}.source-inline a{color:#333}
-    .fleet-table{width:100%;border-collapse:collapse;font-size:12px}.fleet-table th{text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#777;border-bottom:1px solid #aaa;padding:8px 6px}.fleet-table td{padding:10px 6px;border-bottom:1px solid #e4e4e0;vertical-align:top}.fleet-table tr:last-child td{border:0}.fleet-table strong{font-size:13px}.hypo{display:inline-block;color:var(--amber);font-size:9px;font-weight:800;text-transform:uppercase;margin-top:4px}
-    .questions{counter-reset:q;list-style:none;padding:0;margin:0}.questions li{counter-increment:q;display:grid;grid-template-columns:25px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid #e7e7e3;font-size:13px}.questions li:last-child{border:0}.questions li:before{content:counter(q,decimal-leading-zero);font-size:10px;color:var(--red);font-weight:900;padding-top:2px}
-    .unknown{padding:9px 0;border-bottom:1px solid #e4e4df;font-size:12px;display:flex;gap:8px}.unknown:last-child{border:0}.unknown b{color:var(--amber)}
-    .source{display:grid;grid-template-columns:18px 1fr auto;gap:9px;padding:10px 0;border-bottom:1px solid #e4e4df;align-items:start}.source:last-child{border:0}.source-num{font:700 10px ui-monospace,SFMono-Regular,monospace;color:#777}.source a{font-size:12px;font-weight:700;color:#222;text-decoration:none}.source a:hover{text-decoration:underline}.source small{display:block;color:#777;font-size:10px;margin-top:2px}.source-type{font-size:9px;text-transform:uppercase;font-weight:800;color:var(--green)}
-    .cost-top{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cost-result{background:#f2f2ef;border:1px solid #d4d4cf;margin-top:12px;padding:14px}.cost-result strong{font-size:24px;font-weight:400;letter-spacing:-.04em}.cost-split{display:flex;gap:14px;margin-top:5px;color:#666;font-size:10px}.formula{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;color:#555;margin-top:10px;overflow-wrap:anywhere}.cost-note{font-size:10px;color:#777;margin-top:10px}
-    .note-row{display:flex;gap:7px}.note-row input{flex:1}.note-row button{width:auto;margin:0;padding:8px 10px}.timeline{margin-top:12px}.event-row{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid #e7e7e3}.event-row time{font-size:9px;color:#777}.event-row div{font-size:12px}.event-row:last-child{border:0}.dnc-row{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700}.dnc-row input{width:auto}.dnc-warning{color:var(--red);font-size:11px;margin-top:7px}.conversation-actions{display:flex;gap:8px;align-items:center;margin-top:9px}.conversation-actions button{width:auto;margin:0}.conversation-status{font-size:10px;color:#777}.advice-box{margin-top:14px;padding:13px;background:#f3f3f1;border:1px solid #ccc}.advice-box h3{font-size:13px;margin:0 0 6px}.advice-box p{font-size:11px;margin:0 0 8px;color:#555}.advice-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0}.advice-item{padding:8px;background:#fff;border:1px solid #ddd}.advice-item b{display:block;font-size:9px;text-transform:uppercase;color:#777}.advice-item span{font-size:12px}.advice-list{margin:7px 0 10px;padding-left:18px;font-size:11px}.advice-box button{width:auto}
-    .demo-badge{display:inline-block;background:#fff0b8;color:#6d4c00;border:1px solid #d7b650;padding:3px 6px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
-    .limited{border:1px solid #c89d48;background:#fff9e9;padding:14px;margin-bottom:18px;font-size:12px}
-    .toast{position:fixed;right:22px;bottom:22px;background:#171717;color:white;padding:12px 15px;font-size:12px;z-index:100;opacity:0;transform:translateY(10px);pointer-events:none;transition:.18s}.toast.show{opacity:1;transform:none}
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:90;display:none;place-items:center;padding:20px}.modal.open{display:grid}.progress-card{background:#fff;width:min(560px,100%);border-top:4px solid var(--red);padding:26px}.progress-card h2{font-size:24px;font-weight:400;letter-spacing:-.03em;margin-bottom:6px}.progress-card>p{font-size:12px;color:#666}.progressbar{height:8px;background:#ddd;margin:22px 0 8px;overflow:hidden}.progressbar span{display:block;height:100%;background:var(--red);width:0;transition:width .45s}.progress-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.progress-meta strong{font-size:20px;font-weight:400}.progress-meta span{font-size:11px;color:#777}.progress-hint{margin:-5px 0 13px;font-size:10px;color:#777}.steps{list-style:none;padding:0;margin:0}.steps li{padding:9px 0 9px 27px;position:relative;border-bottom:1px solid #eee;font-size:13px;color:#999}.steps li:before{content:'○';position:absolute;left:2px}.steps li.done{color:#222}.steps li.done:before{content:'✓';color:var(--green);font-weight:900}.steps li.active{color:var(--red);font-weight:800}.steps li.active:before{content:'●'}
-    .slim{font-size:10px;color:#777;margin-top:14px}.hidden{display:none!important}
-    @media(max-width:1050px){:root{--side:300px;--pad:17px}.statusline{grid-template-columns:repeat(2,1fr)}.metric:nth-child(2){border-right:0}.metric:nth-child(-n+2){border-bottom:1px solid var(--line)}.grid{grid-template-columns:1fr}.call-strip{grid-template-columns:1fr}.call-side{border-left:0;border-top:1px solid #444}}
-    @media(max-width:760px){.topbar{padding:0 13px}.event,.top-meta .cost-live{display:none}.top-export{font-size:0}.top-export:after{content:'Export Excel';font-size:9px}.shell{display:block}.sidebar{position:relative;top:0;height:auto;min-height:0;border-right:0;border-bottom:1px solid var(--line)}.filter{min-height:44px}.prospect-list{max-height:230px;overflow:auto}.main-head{display:block}.main-actions{margin:17px 0 0;justify-content:flex-start}.field-compact{width:100%}.statusline{grid-template-columns:1fr 1fr}.report{padding-bottom:30px}.identity h1{font-size:26px}.call-main h2{font-size:21px}.advice-grid{grid-template-columns:1fr}}
-    @media print{.topbar,.sidebar,.main-actions,.copy,.note-composer,.cost-controls,.toast{display:none!important}.shell{display:block;box-shadow:none}.report{padding:16px}.panel,.call-strip{break-inside:avoid}.grid{display:block}.stack{margin-bottom:16px}.source a{color:#000}.call-strip{background:#fff;color:#000;border:2px solid #111}.call-main p{color:#333}.call-side{border-color:#aaa}.call-main .eyebrow{color:#a00}}
+    a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+    :focus-visible{outline:3px solid rgba(229,0,25,.24);outline-offset:2px}
+    h1,h2,h3,p,blockquote{margin-top:0}
+    .eyebrow{margin:0 0 8px;color:var(--subtle);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+    .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+    .topbar{height:var(--top);position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:24px;padding:0 24px;color:var(--ink);background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .brand{font-size:13px;font-weight:900;letter-spacing:.08em;white-space:nowrap}
+    .top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .top-date{margin-left:4px;color:var(--muted);font-size:11px;white-space:nowrap}
+    .icon-button{width:44px;height:44px;display:grid;place-items:center;padding:0;color:var(--ink);background:transparent;border:0;font-size:19px;line-height:1}
+    .icon-button:hover{background:var(--soft)}
+    .more-wrap{position:relative}
+    .more-menu{width:224px;position:absolute;top:48px;right:0;z-index:80;padding:8px;background:#fff;border:1px solid var(--line);box-shadow:0 16px 48px rgba(0,0,0,.14)}
+    .more-menu button{width:100%;min-height:44px;padding:8px 12px;text-align:left;background:transparent;border:0;font-size:13px}
+    .more-menu button:hover{background:var(--soft)}
+    .more-menu button.danger-action{color:var(--red);font-weight:750}
+
+    .shell{min-height:calc(100vh - var(--top));display:grid;grid-template-columns:var(--side) minmax(0,1fr);max-width:1680px;margin:0 auto;background:var(--paper)}
+    .sidebar{min-height:calc(100vh - var(--top));height:calc(100vh - var(--top));position:sticky;top:var(--top);overflow:auto;background:var(--soft);border-right:1px solid var(--line)}
+    .sidebar-tools{display:grid;gap:12px;padding:16px 16px 12px}
+    .new-prospect{min-height:44px;padding:10px 16px;color:var(--ink);background:#fff;border:1px solid #9a9a95;font-size:13px;font-weight:750;text-align:left}
+    .new-prospect:hover{border-color:var(--ink)}
+    .search-wrap{position:relative}
+    .search-wrap svg{width:16px;height:16px;position:absolute;left:12px;top:14px;color:var(--muted);pointer-events:none}
+    input,select,textarea{width:100%;min-height:44px;padding:10px 12px;background:#fff;border:1px solid #aaa9a4;border-radius:0}
+    input::placeholder,textarea::placeholder{color:var(--subtle)}
+    textarea{min-height:112px;resize:vertical}
+    .search-wrap input{padding-left:36px}
+    .filter-control label,label.field-label{display:block;margin:0 0 4px;color:var(--muted);font-size:11px;font-weight:750}
+    .prospect-list{padding:0 8px 24px}
+    .prospect-card{width:100%;display:block;padding:16px 12px;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line)}
+    .prospect-card:hover{background:#fff}
+    .prospect-card.active{background:#fff;box-shadow:inset 3px 0 0 var(--ink)}
+    .pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .pc-top>span:first-child{min-width:0}
+    .pc-name{display:block;font-size:15px;font-weight:800;line-height:1.25}
+    .pc-vat{display:block;margin-top:4px;color:var(--muted);font-size:11px}
+    .pc-flags{display:flex;flex:0 0 auto;align-items:flex-end;gap:4px;flex-direction:column}
+    .pc-stage{color:var(--muted);font-size:11px;font-weight:750}
+    .pc-dnc{padding:2px 6px;color:var(--red);border:1px solid currentColor;background:#fff;font-size:11px;font-weight:800;white-space:nowrap}
+    .pc-reason{margin-top:8px;color:#50504d;font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .pc-next{display:block;margin-top:8px;color:var(--muted);font-size:11px}
+    .empty{padding:32px 16px;color:var(--muted);text-align:center}
+    .sidebar-empty{margin:0 16px 16px;padding:24px 0;border-top:1px solid var(--line)}
+    .sidebar-empty h2{margin-bottom:8px;font-size:19px;line-height:1.15}
+    .sidebar-empty p{margin:0;color:var(--muted)}
+
+    main{min-width:0;background:#fff}
+    .blocked-banner{min-height:48px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 32px;color:#fff;background:var(--red)}
+    .blocked-banner strong{font-size:13px}
+    .blocked-banner button{min-height:36px;padding:6px 12px;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.72);font-weight:750}
+    .blocked-banner button:hover{background:#fff;color:var(--red)}
+    .record-head{min-height:104px;position:sticky;top:var(--top);z-index:25;display:flex;align-items:center;gap:24px;padding:16px 32px;background:rgba(255,255,255,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+    .identity{min-width:0}
+    .identity h1{margin-bottom:8px;font-size:30px;font-weight:500;letter-spacing:-.035em;line-height:1.05;text-wrap:balance}
+    .id-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;color:var(--muted);font-size:13px}
+    .id-meta span:not(:last-child)::after{content:'·';margin-left:12px;color:#b4b4af}
+    .id-meta .verified{color:var(--green);font-weight:750}
+    .id-meta .freshness{color:var(--amber);font-weight:750}
+    .record-action{margin-left:auto;flex:0 0 auto}
+    .call-cta{min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;color:#fff;background:var(--red);border:0;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap}
+    .call-cta:hover{background:var(--red-dark)}
+    .call-cta[disabled]{cursor:not-allowed;color:#8b8b86;background:#e8e8e4}
+
+    .record{max-width:var(--content);padding:24px 32px 48px}
+    .call-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:48px;padding:32px;color:#fff;background:#141414;border:1px solid #141414}
+    .call-hero .eyebrow{color:#a9a9a4}
+    .hero-reason h2{max-width:68ch;margin:0;font-size:30px;font-weight:500;letter-spacing:-.025em;line-height:1.14;text-wrap:pretty}
+    .hero-opener{align-self:end}
+    .hero-opener blockquote{max-width:68ch;margin-bottom:16px;color:#f1f1ed;font-size:15px;line-height:1.55}
+    .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .copy-script{min-height:44px;padding:10px 16px;color:#fff;background:transparent;border:1px solid #777;font-size:13px;font-weight:750}
+    .copy-script:hover{border-color:#fff}
+    .hero-hint{color:#a9a9a4;font-size:11px}
+
+    .record-tabs{min-height:56px;display:flex;align-items:end;gap:24px;margin-top:24px;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:thin}
+    .tab-button{min-height:48px;flex:0 0 auto;padding:12px 0 10px;color:var(--muted);background:transparent;border:0;border-bottom:2px solid transparent;font-size:13px;font-weight:750}
+    .tab-button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+    .tab-panel{padding:32px 0 24px}
+    .tab-panel>h2,.content-section h2{margin-bottom:8px;font-size:19px;line-height:1.2}
+    .section-intro{max-width:68ch;margin-bottom:24px;color:var(--muted);font-size:13px}
+    .signal-list{max-width:880px}
+    .signal{padding:24px 0;border-bottom:1px solid var(--line)}
+    .signal:first-child{padding-top:0}
+    .signal-tag{display:inline-block;margin-bottom:8px;padding:3px 8px;color:var(--muted);background:var(--soft);font-size:11px;font-weight:750}
+    .signal h3{max-width:68ch;margin-bottom:8px;font-size:15px;line-height:1.35}
+    .signal p{max-width:68ch;margin-bottom:8px;color:#4f4f4b;font-size:13px}
+    .signal-source{font-size:11px}
+    .signal-context{max-width:68ch;margin-top:8px;color:var(--muted);font-size:11px}
+    .signal-context summary{cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+    .signal-context p{margin-top:8px;font-size:13px}
+    .text-button{min-height:44px;margin-top:12px;padding:8px 0;color:var(--ink);background:transparent;border:0;font-size:13px;font-weight:750;text-decoration:underline;text-underline-offset:3px}
+    .questions-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:48px}
+    .questions{counter-reset:q;list-style:none;padding:0;margin:0}
+    .questions li{counter-increment:q;display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+    .questions li::before{content:counter(q,decimal-leading-zero);padding-top:2px;color:var(--subtle);font-size:11px;font-weight:750}
+    .unknown-list{list-style:none;padding:0;margin:0}
+    .unknown-list li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
+    .unknown-check{color:var(--muted);font-size:15px}
+    .fleet-wrap{overflow-x:auto}
+    .fleet-table{width:100%;border-collapse:collapse;font-size:13px}
+    .fleet-table th{padding:0 12px 12px;text-align:left;color:var(--muted);border-bottom:1px solid var(--line);font-size:11px;font-weight:750}
+    .fleet-table td{padding:16px 12px;vertical-align:top;border-bottom:1px solid var(--line)}
+    .fleet-table th:first-child,.fleet-table td:first-child{padding-left:0}
+    .fleet-table th:last-child,.fleet-table td:last-child{padding-right:0}
+    .fleet-table strong{display:block;margin-bottom:4px;font-size:15px}
+    .certainty{display:inline-block;margin-top:8px;padding:3px 8px;color:var(--muted);background:var(--soft);font-size:11px;font-weight:750}
+    .certainty.verify{color:var(--amber);background:var(--amber-soft)}
+    .certainty.confirmed{color:var(--green);background:var(--green-soft)}
+    .sources-layout{display:grid;grid-template-columns:minmax(260px,.65fr) minmax(0,1.35fr);gap:48px}
+    .contact-lines{margin:16px 0 24px;font-size:15px}
+    .contact-lines p{margin-bottom:8px}
+    .contact-note{max-width:52ch;color:var(--muted)}
+    .source{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start}
+    .source-num{color:var(--subtle);font:750 11px ui-monospace,SFMono-Regular,Menlo,monospace}
+    .source a{font-size:13px;font-weight:750}
+    .source small{display:block;margin-top:4px;color:var(--muted);font-size:11px}
+    .source-type{color:var(--muted);font-size:11px;font-weight:750}
+
+    .workflow{margin-top:24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .workflow>summary{min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;font-size:15px;font-weight:750;list-style:none}
+    .workflow>summary::-webkit-details-marker{display:none}
+    .workflow>summary::after{content:'+';color:var(--muted);font-size:19px;font-weight:400}
+    .workflow[open]>summary::after{content:'−'}
+    .workflow-summary-meta{margin-left:auto;color:var(--muted);font-size:11px;font-weight:500}
+    .workflow-body{padding:8px 0 32px}
+    .workflow-toolbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-bottom:24px}
+    .workflow-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;padding-top:24px;border-top:1px solid var(--line)}
+    .workflow-grid h2{margin-bottom:16px;font-size:19px}
+    .conversation-actions{display:flex;align-items:center;gap:12px;margin-top:12px}
+    .conversation-status{color:var(--muted);font-size:11px}
+    .primary{min-height:44px;padding:10px 16px;color:#fff;background:var(--red);border:0;font-weight:800}
+    .primary:hover{background:var(--red-dark)}
+    .primary:disabled{cursor:not-allowed;background:#b4b4af}
+    .secondary{min-height:44px;padding:10px 16px;color:var(--ink);background:#fff;border:1px solid #999994;font-weight:750}
+    .secondary:hover{border-color:var(--ink)}
+    .note-row{display:flex;gap:8px}
+    .note-row input{flex:1}
+    .timeline{margin-top:16px}
+    .event-row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+    .event-row time{color:var(--muted);font-size:11px}
+    .advice-box{margin-top:24px;padding:24px;background:var(--soft)}
+    .advice-box h3{margin-bottom:8px;font-size:15px}
+    .advice-box p{margin-bottom:12px;color:#4f4f4b}
+    .advice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+    .advice-item{padding:12px;background:#fff}
+    .advice-item b{display:block;color:var(--muted);font-size:11px}
+    .advice-item span{font-size:13px}
+    .advice-list{margin:8px 0 16px;padding-left:16px}
+    .limited{padding:24px;color:#4f4f4b;background:var(--amber-soft);border-top:3px solid var(--amber)}
+
+    .drawer-scrim{position:fixed;inset:0;z-index:69;background:rgba(0,0,0,.32)}
+    .settings-drawer{width:min(440px,calc(100vw - 24px));height:100vh;position:fixed;top:0;right:0;z-index:70;padding:24px;overflow:auto;background:#fff;box-shadow:-16px 0 48px rgba(0,0,0,.16);transform:translateX(105%);transition:transform .18s ease}
+    .settings-drawer.open{transform:none}
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px}
+    .drawer-head h2{margin:0;font-size:19px}
+    .drawer-section{padding:24px 0;border-top:1px solid var(--line)}
+    .drawer-section h3{margin-bottom:12px;font-size:15px}
+    .drawer-section p{color:var(--muted)}
+    .drawer-status{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:750}
+    .status-dot{width:8px;height:8px;background:var(--muted);border-radius:50%}
+    .drawer-status.live .status-dot{background:var(--green)}
+    .settings-profiles{display:grid;gap:0}
+    .settings-profile{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+    .settings-profile strong{display:block;font-size:13px}
+    .settings-profile small{display:block;margin-top:4px;color:var(--muted);font-size:11px}
+    .settings-profile>span{font-size:13px;font-variant-numeric:tabular-nums}
+    .settings-note{margin:12px 0 0;font-size:11px}
+
+    .dialog-backdrop,.progress-modal{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px;background:rgba(0,0,0,.62)}
+    .dialog-card,.progress-card{width:min(560px,100%);max-height:calc(100vh - 48px);overflow:auto;padding:32px;background:#fff}
+    .dialog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+    .dialog-head h2{margin:0;font-size:19px}
+    .form-row{display:grid;grid-template-columns:1.2fr .8fr;gap:8px}
+    .form-field{margin-bottom:12px}
+    .form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:24px}
+    .progress-card{border-top:4px solid var(--red)}
+    .progress-card h2{margin-bottom:8px;font-size:19px}
+    .progress-card>p{color:var(--muted)}
+    .progressbar{height:8px;margin:24px 0 8px;overflow:hidden;background:var(--line)}
+    .progressbar span{display:block;width:0;height:100%;background:var(--red);transition:width .45s}
+    .progress-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .progress-meta strong{font-size:19px;font-weight:500}
+    .progress-meta span,.progress-hint,.slim{color:var(--muted);font-size:11px}
+    .steps{list-style:none;padding:0;margin:16px 0 0}
+    .steps li{position:relative;padding:12px 0 12px 24px;color:var(--subtle);border-bottom:1px solid var(--line)}
+    .steps li::before{content:'○';position:absolute;left:0}
+    .steps li.done{color:var(--ink)}
+    .steps li.done::before{content:'✓';color:var(--green);font-weight:900}
+    .steps li.active{color:var(--red);font-weight:800}
+    .steps li.active::before{content:'●'}
+    .toast{position:fixed;right:24px;bottom:24px;z-index:100;padding:12px 16px;color:#fff;background:var(--ink);font-size:13px;opacity:0;transform:translateY(8px);pointer-events:none;transition:.18s}
+    .toast.show{opacity:1;transform:none}
+
+    @media(max-width:980px){
+      :root{--side:264px}
+      .call-hero{grid-template-columns:1fr;gap:24px}
+      .questions-layout,.sources-layout{grid-template-columns:1fr;gap:32px}
+      .workflow-grid{grid-template-columns:1fr;gap:32px}
+    }
+    @media(max-width:720px){
+      html{scroll-behavior:auto}
+      .topbar{padding:0 12px}
+      .brand{font-size:11px}
+      .top-actions{gap:0}
+      .icon-button{width:44px}
+      .shell{display:block}
+      .sidebar{height:auto;min-height:0;position:relative;top:0;overflow:visible;border-right:0;border-bottom:1px solid var(--line)}
+      .sidebar-tools{grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+      .new-prospect,.search-wrap{grid-column:auto}
+      .filter-control{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px}
+      .filter-control label{margin:0}
+      .prospect-list{display:flex;gap:8px;padding:0 12px 12px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+      .prospect-list::-webkit-scrollbar{display:none}
+      .prospect-card{min-width:224px;padding:12px;background:#fff;border:0;scroll-snap-align:start}
+      .prospect-card.active{box-shadow:inset 0 -3px 0 var(--ink)}
+      .pc-vat{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .pc-reason,.pc-next{display:none}
+      .sidebar-empty{margin:0 12px 12px}
+      .blocked-banner{padding:8px 16px}
+      .record-head{min-height:0;position:relative;top:0;align-items:flex-start;flex-wrap:wrap;padding:16px}
+      .identity{width:100%}
+      .id-meta span:not(:last-child)::after{display:none}
+      .record-action{width:100%;margin-left:0}
+      .call-cta{width:100%}
+      .record{padding:16px 16px 32px}
+      .call-hero{padding:24px}
+      .hero-reason h2{font-size:19px;line-height:1.25}
+      .record-tabs{gap:24px;margin-top:16px}
+      .tab-panel{padding-top:24px}
+      .questions li{font-size:13px}
+      .workflow-toolbar{grid-template-columns:1fr}
+      .workflow-summary-meta{display:none}
+      .form-row{grid-template-columns:1fr}
+      .dialog-backdrop,.progress-modal{padding:12px}
+      .dialog-card,.progress-card{padding:24px;max-height:calc(100vh - 24px)}
+      .settings-drawer{width:100%;padding:24px}
+      .source{grid-template-columns:24px minmax(0,1fr)}
+      .source-type{grid-column:2}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}
+    }
+    @media print{
+      .topbar,.sidebar,.record-action,.copy-script,.record-tabs,.workflow>summary,.note-row,.conversation-actions,.drawer-scrim,.settings-drawer,.more-menu,.toast{display:none!important}
+      .shell{display:block}
+      .record-head{position:static;padding:16px 0}
+      .record{max-width:none;padding:16px 0}
+      .call-hero{color:#000;background:#fff;border:2px solid #111}
+      .call-hero .eyebrow,.hero-opener blockquote{color:#333}
+      .tab-panel[hidden],details:not([open])>*:not(summary){display:block!important}
+      .tab-panel{break-inside:avoid}
+    }
   </style>
 </head>
 <body>
   <header class="topbar">
-    <div class="brand"><i>TOYOTA</i> · FLEET SIGNAL</div>
-    <div class="event">TOTY pre-show / werkende pre-demo</div>
-    <div class="top-meta"><span class="cost-live"><span class="live-dot"></span><span id="backendStatus">Vaste demo · live backend controleren…</span></span><a class="live-link" id="liveLink" href="http://127.0.0.1:8765/" target="_blank" rel="noreferrer" hidden>Open lokale live versie</a><button class="top-export" id="exportAll" type="button">Exporteer alles naar Excel</button><span id="today"></span></div>
+    <div class="brand">TOYOTA · FLEET SIGNAL</div>
+    <div class="top-actions">
+      <button class="icon-button" id="settingsButton" type="button" aria-label="Instellingen openen" aria-controls="settingsDrawer" aria-expanded="false" title="Instellingen">⚙</button>
+      <div class="more-wrap">
+        <button class="icon-button" id="moreButton" type="button" aria-label="Meer acties" aria-controls="moreMenu" aria-expanded="false" title="Meer acties">⋯</button>
+        <div class="more-menu" id="moreMenu" role="menu" hidden>
+          <button id="toggleDnc" type="button" role="menuitem">Blokkeer outreach</button>
+          <button id="printCurrent" type="button" role="menuitem">Print / PDF</button>
+          <button id="exportAll" type="button" role="menuitem">Exporteer alles naar Excel</button>
+        </div>
+      </div>
+      <span class="top-date" id="today"></span>
+    </div>
   </header>
 
   <div class="shell">
     <aside class="sidebar">
-      <section class="side-section">
-        <div class="eyebrow">Nieuwe prospect</div>
-        <h2 class="new-title">Van bedrijfsnaam naar belreden.</h2>
-        <p class="helper">Met de live backend wordt dit rapport via OpenRouter gegenereerd. Zonder backend blijven de gecontroleerde voorbeeldkaarten beschikbaar.</p>
-        <form id="researchForm">
-          <label for="company">Bedrijfsnaam</label>
-          <input id="company" required placeholder="Bedrijfsnaam" autocomplete="off">
-          <label for="vat">Btw- / ondernemingsnummer</label>
-          <input id="vat" required placeholder="BE 0123.456.789" inputmode="numeric" autocomplete="off">
-          <div class="row">
-            <div><label for="postal">Postcode</label><input id="postal" required placeholder="1831" inputmode="numeric" maxlength="4" autocomplete="off"></div>
-            <div><label for="country">Land</label><select id="country"><option>BE</option></select></div>
-          </div>
-          <label for="depth">Rapportdiepte</label>
-          <select id="depth"><option value="lean">Minimale kost</option><option value="recommended" selected>Normaal rapport</option><option value="deep">Maximale diepte</option></select>
-          <button class="primary" type="submit">Start onderzoek</button>
-        </form>
-      </section>
-      <section class="side-section">
-        <div class="eyebrow">Prospecten</div>
-        <div class="search-wrap"><span>⌕</span><input id="search" placeholder="Naam, btw of postcode" aria-label="Prospecten zoeken"></div>
-        <div class="filters" id="filters"></div>
-      </section>
+      <div class="sidebar-tools">
+        <button class="new-prospect" id="newProspectButton" type="button">+ Nieuwe prospect</button>
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <label class="visually-hidden" for="search">Prospecten zoeken</label>
+          <input id="search" type="search" placeholder="Zoek prospect…" autocomplete="off">
+        </div>
+        <div class="filter-control">
+          <label for="stageFilter">Fase</label>
+          <select id="stageFilter" aria-label="Filter prospecten op fase"></select>
+        </div>
+      </div>
+      <div class="sidebar-empty" id="sidebarEmpty" hidden>
+        <h2>Van bedrijfsnaam naar belreden.</h2>
+        <p>Voeg een prospect toe om een gecontroleerde belreden op te bouwen.</p>
+      </div>
       <nav class="prospect-list" id="prospectList" aria-label="Prospecten"></nav>
     </aside>
 
-    <main id="main"></main>
+    <main id="main" tabindex="-1"></main>
   </div>
 
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="progressTitle">
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  <aside class="settings-drawer" id="settingsDrawer" aria-hidden="true" aria-labelledby="settingsTitle">
+    <div class="drawer-head">
+      <h2 id="settingsTitle">Instellingen</h2>
+      <button class="icon-button" id="closeSettings" type="button" aria-label="Instellingen sluiten">×</button>
+    </div>
+    <section class="drawer-section">
+      <h3>Researchstatus</h3>
+      <div class="drawer-status" id="drawerStatus"><span class="status-dot"></span><span id="backendStatus">Status controleren…</span></div>
+      <a id="liveLink" href="http://127.0.0.1:8765/" target="_blank" rel="noreferrer" hidden>Open lokale live versie ↗</a>
+      <p id="recordDisclaimer"></p>
+    </section>
+    <section class="drawer-section">
+      <h3>Researchprofielen</h3>
+      <div class="settings-profiles" id="settingsProfiles"></div>
+      <p class="settings-note">Modelkeuze, retrieval en indicatieve API-kost staan hier gegroepeerd. De OpenRouter-key blijft server-side en komt niet in browseropslag.</p>
+    </section>
+  </aside>
+
+  <div class="dialog-backdrop" id="newProspectDialog" role="dialog" aria-modal="true" aria-labelledby="newProspectTitle" hidden>
+    <section class="dialog-card">
+      <div class="dialog-head">
+        <h2 id="newProspectTitle">Nieuwe prospect</h2>
+        <button class="icon-button" id="closeNewProspect" type="button" aria-label="Dialoog sluiten">×</button>
+      </div>
+      <form id="researchForm">
+        <div class="form-field">
+          <label class="field-label" for="company">Bedrijfsnaam</label>
+          <input id="company" required placeholder="Bedrijfsnaam" autocomplete="off">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="vat">Btw- / ondernemingsnummer</label>
+          <input id="vat" required placeholder="BE 0123.456.789" inputmode="numeric" autocomplete="off">
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="field-label" for="postal">Postcode</label>
+            <input id="postal" required placeholder="1831" inputmode="numeric" maxlength="4" autocomplete="off">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="country">Land</label>
+            <select id="country"><option>BE</option></select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="depth">Rapportdiepte</label>
+          <select id="depth"><option value="lean">Minimale kost</option><option value="recommended" selected>Normaal rapport</option><option value="deep">Maximale diepte</option></select>
+        </div>
+        <div class="form-actions">
+          <button class="secondary" id="cancelNewProspect" type="button">Annuleer</button>
+          <button class="primary" type="submit">Start onderzoek</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="progress-modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="progressTitle" hidden>
     <div class="progress-card">
       <div class="eyebrow">Onderzoek loopt</div>
       <h2 id="progressTitle">Bronnen controleren, geen koffiedik kijken.</h2>
@@ -116,10 +390,10 @@
         <li>Belreden, vragen en voertuigfit opstellen</li>
         <li>Bronnen, onzekerheden en kosten verifiëren</li>
       </ol>
-      <div class="slim">Pre-demo: ±6 seconden · productie-inschatting: 2–4 minuten, afhankelijk van bronbereikbaarheid.</div>
+      <div class="slim">De verwerkingstijd varieert met het gekozen bronbereik.</div>
     </div>
   </div>
-  <div class="toast" id="toast" role="status"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const STAGES = [
@@ -140,7 +414,7 @@ const baseProspect = {
   {tag:'Koopsignaal',kind:'hot',title:'Operationele personen- en bedrijfswagens zijn relevant',text:'De eigen site beschrijft een gemengde vloot voor medewerkers, bedrijfsactiviteiten en zwaar transport. Voor Toyota zijn personenwagens en lichte bedrijfswagens de relevante hypothese; zware voertuigen vallen buiten scope.',src:5},
   {tag:'Volwassen koper',kind:'fact',title:'Ze rekenen met TCO en rijprofiel',text:'De eigen site beschrijft Total Cost of Ownership en het rijprofiel als basis voor de voertuigkeuze. Een generieke duurzaamheidspitch gaat hier dus weinig doen; actualiseer eerst hoe die afweging vandaag gebeurt.',src:5},
   {tag:'EV-ready',kind:'fact',title:'Laden op vestigingen én werven is al een thema',text:'De eigen site beschrijft vaste en mobiele laadoplossingen. De interessante vraag is dus niet óf laden relevant is, maar welke operationele ritprofielen vandaag nog buiten de oplossing vallen.',src:5},
-  {tag:'Timing toetsen',kind:'question',title:'Open met actualisering, niet met een oud getal',text:'De publieke fleetinformatie is een historisch startpunt. Gebruik aantallen intern als richting, maar laat de prospect eerst de actuele vloot, knelpunten en vervangmomenten bevestigen.',src:5}
+  {tag:'Timing toetsen',kind:'question',title:'Open met actualisering, niet met een oud getal',text:'De publieke fleetinformatie is historisch en bevestigt de huidige omvang niet. Actuele vloot, knelpunten en vervangmomenten zijn daarom de eerste kwalificatievraag.',src:5}
  ],
  fleet:[
   {pool:'Lichte bedrijfswagens',use:'Werfploegen, service, materiaal en multi-site inzet',fit:'Proace City / Proace / Proace Max; EV waar duty cycle en laden passen',certainty:'Omvang actualiseren'},
@@ -172,76 +446,100 @@ const baseProspect = {
 };
 const regionalProspects = [{"id":"canon-belgium-diegem","company":"Canon Belgium","legalName":"CANON BELGIUM","vat":"BE 0418.025.260","vatDigits":"0418025260","postal":"1831","city":"Diegem (Machelen)","stage":"quote","contactOutcome":"none","attempts":0,"doNotContact":false,"nextAction":"2026-08-28","researchedAt":"2026-08-25","confidence":"Hoog","potential":"Sterk","freshness":"Adres+BTW bevestigd; fleet te actualiseren","freshnessNote":"Offerte is uitsluitend een demosituatie; vloot, behoefte en vervangmoment moeten in werkelijkheid nog worden bevestigd.","reportType":"full","website":"https://www.canon.be/","contactUrl":"https://nl.canon.be/contact_us/","phone":"+32 2 722 04 11","email":"","reason":"Canon Belgium heeft een officiële aanwezigheid in 1831 Diegem en is typisch een organisatie met mobiele rollen (sales/service/field). Dit maakt Canon een relevante regionale prospect, maar we moeten eerst de concrete voertuigmissies, policy (ICE/HEV/PHEV/BEV) en vervangkalender bevestigen.","opener":"Ik ga ervan uit dat jullie in België een mix hebben van service-/fieldwagens en commerciële wagens, en dat de vraag naar een ‘offerte’ eigenlijk een eerste check is of een Toyota (bv. Proace City voor techniekers) in jullie mobiliteit past. Ik kan daar compleet naast zitten omdat ik jullie policy en vervangplanning niet ken. Voor welke voertuigmissie willen jullie dit concreet aftoetsen?","signals":[{"tag":"Bevestigd","kind":"fact","title":"Officiële contactadres Canon Belgium in Diegem (1831)","text":"Canon Belgium NV/SA vermeldt Berkenlaan 3, 1831 Diegem (Machelen) op de officiële contactpagina.","src":1},{"tag":"Bevestigd","kind":"fact","title":"BTW/KBO-nummer bevestigd via KBO Public Search","text":"Ondernemingsnummer/BTW BE 0418.025.260 is opgegeven via de KBO-zoekopdracht (officiële overheid).","src":3},{"tag":"Timing toetsen","kind":"question","title":"Vervangmomenten en policy (HEV/PHEV/BEV) niet gekend","text":"Geen primaire bron gevonden over vervangcycli of (elektrificatie)wagenpolicy voor België-site; dit moet live gevalideerd worden.","src":1},{"tag":"Hypothese","kind":"hot","title":"Waarschijnlijke mix van service- en commerciële wagens","text":"Gezien type organisatie (technologie/office + fieldrollen) is er vaak een combinatie van personenwagens en lichte bedrijfswagens; dit blijft te toetsen zonder fleetbron.","src":4}],"fleet":[{"pool":"Sales/management cars","use":"klantenbezoeken, regionale verplaatsingen, luchthavenregio","fit":"Corolla Touring Sports Hybrid / RAV4 (HEV/PHEV) als TCO-test; modelkeuze te toetsen aan policy en fiscaliteit","certainty":"Hypothese"},{"pool":"Service/field technicians (lichte bestelwagens)","use":"installatie/onderhoud, materiaal transport","fit":"Proace City / Proace (incl. Electric) als praktische demo (laadruimte/actieradius/laadinfrastructuur) — te toetsen","certainty":"Hypothese"},{"pool":"Poolwagens/short term pool","use":"ad-hoc verplaatsingen tussen sites/meetings","fit":"Toyota hybrid poolcar concept (bv. Corolla) — te toetsen","certainty":"Hypothese"}],"questions":["Welke voertuigmissies moeten jullie wagens vandaag vooral afdekken (service/field, sales, pool, iets anders) en hoe zien die ritten er typisch uit?","Wanneer komt vervanging of instroom van die voertuigen normaal gezien op tafel (lopende contracten, einde looptijd, nieuwe teams/locaties)?","Wat loopt vandaag het meest stroef in het dagelijkse gebruik (downtime, laadruimte, actieradius/laden, schade, comfort, parkeer-/toegangsissues)?","Welke criteria wegen bij jullie het zwaarst in TCO (leaseprijs, verbruik/energie, fiscaliteit, onderhoud/banden, CO2-policy, restwaarde) en wat is ‘must-have’ vs ‘nice-to-have’?","Hoe loopt de beslissing intern: wie bepaalt de car policy, wie kiest de leasepartner/merken, en wie moet finaal goedkeuren?","Wat is voor jullie het beste bewijs: een korte praktijktest met een paar bestuurders, een meetperiode met verbruik/energie, of een tool-/inbouwcheck met een demo-voertuig?"],"unknowns":["Huidige fleetomvang en merkenmix in België (geen primaire bron).","Leasepartner(s) en contractstructuur (operational lease vs. purchase).","Elektrificatiestrategie en laadinfrastructuur op/naast Berkenlaan 3.","Wie de beslissingsnemer is voor fleet/mobility in België.","Specifieke gebruiksprofielen (kilometers/dag, payload, parkeereisen)."],"sources":[{"n":1,"type":"Eigen site","title":"Contact Canon België ([canon.be](https://nl.canon.be/contact_us/))","url":"https://nl.canon.be/contact_us/","meta":"Adres + telefoon vermeld op officiële contactpagina; geen fleetinfo."},{"n":2,"type":"Eigen site","title":"Canon EMEA offices listing ([canon-europe.com](https://www.canon-europe.com/contact_us/canon_europe_middle_east_and_africa_offices/))","url":"https://www.canon-europe.com/contact_us/canon_europe_middle_east_and_africa_offices/","meta":"Bevestigt Canon Belgium NV/SA en adres in 1831 Diegem."},{"n":3,"type":"Overheid","title":"KBO Public Search – 0418.025.260 ([economie.fgov.be](https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer=0418025260&actionLu=Zoek))","url":"https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer=0418025260&actionLu=Zoek","meta":"Officiële bevestiging ondernemingsnummer/BTW; details moeten in gesprek gefocust worden op mobiliteit."},{"n":4,"type":"Bron","title":"Canon Belgium website ([canon.be](https://www.canon.be/))","url":"https://www.canon.be/","meta":"Bron uit live research; datum onbekend"}],"timeline":[{"date":"25 aug","text":"Demo: commerciële fase op Offerte gezet; geen echte lopende offerte."},{"date":"25 aug","text":"Demo: regionale prospectkaart via OpenRouter research en GPT-5.2 sales-copy-pass."}],"notes":[],"stageDisclaimer":"Demosituatie: Offerte · geen echte lopende offerte"},{"id":"cbre-gws-diegem","company":"CBRE GWS Belgium","legalName":"CBRE","vat":"BE 0412.578.810","vatDigits":"0412578810","postal":"1831","city":"Diegem","stage":"outreach","contactOutcome":"none","attempts":0,"doNotContact":false,"nextAction":"2026-08-28","researchedAt":"2026-08-25","confidence":"Middel","potential":"Sterk","freshness":"KBO+adres bevestigd; GWS scope te kwalificeren","freshnessNote":"Officiële CBRE kantoorbron vermeldt een Diegem-site voor CBRE GWS (Park 7, Onyx Building). Fleet/voertuigtypes zijn niet publiek bevestigd en moeten gekwalificeerd worden.","reportType":"full","website":"https://www.cbre.be/","contactUrl":"https://www.cbre.be/nl-be/onze-kantoren","phone":"+32 2 643 33 33","email":"reception.brussels@cbre.com","reason":"CBRE GWS in Diegem wijst op facility- en workplace-services in de luchthavenregio, vaak met mobiele techniekers en client-facing teams. Toyota-demo kan relevant zijn voor dienstwagens en lichte bedrijfswagens, maar we moeten eerst bevestigen of de fleet lokaal wordt beheerd of via EMEA-structuur.","opener":"Ik vermoed dat jullie vooral voertuigen nodig hebben voor interventies en sitebezoeken, waar betrouwbaarheid en inzetbaarheid zwaarder wegen dan ‘spec’. Ik ben niet zeker of die mobiliteit lokaal beslist wordt of via een bredere structuur. Welke voertuigmissie willen jullie het eerst scherp krijgen: interventievans of eerder personenwagens voor supervisors/klantbezoeken?","signals":[{"tag":"Bevestigd","kind":"fact","title":"CBRE GWS locatie in Diegem (Park 7 – Onyx Building)","text":"De officiële CBRE België kantoorpagina vermeldt 'Diegem - CBRE GWS' met adres Park 7 - Onyx Building, Hermeslaan 9, 1831 Diegem.","src":1},{"tag":"Bevestigd","kind":"fact","title":"KBO/BTW CBRE Belgium op officiële CBRE pagina","text":"Ondernemingsnummer (KBO) 0412.578.810 en BTW-identificatienummer BE0412.578.810 worden vermeld op de officiële CBRE België kantoorpagina.","src":1},{"tag":"Hypothese","kind":"hot","title":"Waarschijnlijk servicegerichte mobiliteit (facility/techniek)","text":"GWS-activiteiten impliceren vaak mobiele interventies; mogelijke behoefte aan betrouwbare LCV’s met lage operationele kost.","src":1},{"tag":"Timing toetsen","kind":"question","title":"Centraal vs lokaal fleetbeheer","text":"Niet bevestigd of voertuigen via Belgisch contract, klantcontracten (FM) of internationale raamcontracten lopen.","src":1}],"fleet":[{"pool":"Technische interventiewagens (LCV)","use":"facility onderhoud, interventies bij klanten in/naast luchthavenregio","fit":"Proace City / Proace (incl. Electric) — te toetsen aan payload, rek-inbouw, toegangszones","certainty":"Hypothese"},{"pool":"Account/ops wagens","use":"sitebezoeken, klantmeetings, supervisors","fit":"Corolla Hybrid / RAV4 Hybrid (TCO/comfort) — te toetsen","certainty":"Hypothese"},{"pool":"Pool/shift voertuigen","use":"verplaatsingen tussen sites/klanten, shiftwissels","fit":"Hybrid poolcar of compacte EV — te toetsen aan laadinfrastructuur","certainty":"Hypothese"}],"questions":["Welke voertuigmissie is bij jullie het grootst: interventies met materiaal, site-to-site, klantbezoeken, of poolwagens voor shifts?","Wanneer plannen jullie typisch vervanging of uitbreiding (contracteinde, piekprojecten, nieuwe klantensites)?","Waar zitten vandaag de grootste frustraties (beschikbaarheid, inbouw/rek, schade, onderhoudstijd, laadinfrastructuur, toegang tot zones)?","Welke TCO-parameters sturen jullie keuze het hardst (operationele kost, stilstand, servicelevel, energie/brandstof, fiscaliteit, CO2-policy)?","Wie zit er in de beslisroute (operations, procurement, EMEA, leasepartner) en waar wordt het merk/model echt vastgelegd?","Wat zou voor jullie overtuigend bewijs zijn: één sitepilot met een lichte van, een rotatie tussen teams, of een meetrapport rond kosten en stilstand?"],"unknowns":["Exacte juridische naam van de Diegem GWS-entiteit (CBRE Belgium vermeld, maar GWS-structuur lokaal te bevestigen).","Fleetomvang en huidige merkenmix (geen primaire bron).","Aanwezigheid/vereisten laadinfrastructuur op Park 7.","Wie de fleet/mobility owner is (Belgium vs EMEA).","Eventuele klant-specifieke eisen (livery, tool-inbouw, toegangspassen)."],"sources":[{"n":1,"type":"Eigen site","title":"Onze kantoren | CBRE België ([cbre.be](https://www.cbre.be/nl-be/onze-kantoren))","url":"https://www.cbre.be/nl-be/onze-kantoren","meta":"Bevestigt Diegem GWS adres en vermeldt KBO/BTW + algemene contactgegevens (Brussels HQ)."},{"n":2,"type":"Officieel","title":"KBO Public Search — CBRE","url":"https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer=0412578810&actionLu=Zoek","meta":"Actieve Belgische entiteit; Diegem-locatie apart bevestigd op eigen site"}],"timeline":[{"date":"25 aug","text":"Demo: regionale prospectkaart via OpenRouter research en GPT-5.2 sales-copy-pass."}],"notes":[]},{"id":"safran-aircraft-engine-services-brussels-steenokkerzeel","company":"Safran Aircraft Engine Services Brussels","legalName":"ONBEKEND (juridische entiteit te bevestigen via KBO/NBB of Safran-legal footer)","vat":"ONBEKEND","vatDigits":"","postal":"1820","city":"Steenokkerzeel","stage":"new","contactOutcome":"none","attempts":0,"doNotContact":false,"nextAction":"2026-08-29","researchedAt":"2026-08-25","confidence":"Middel","potential":"Te toetsen","freshness":"Locatie bevestigd; fleet/inkoopstructuur onbekend","freshnessNote":"Officiële Safran-locatiepagina bevestigt aanwezigheid in 1820 Steenokkerzeel (Vliegveld 118). Fleettypes kunnen deels airside/gespecialiseerd zijn; Toyota-fit is daarom te toetsen op de deelvloot (personenwagens/lichte vans) i.p.v. gespecialiseerde ground support equipment.","reportType":"full","website":"https://www.safran-group.com/","contactUrl":"https://www.safran-group.com/locations/belgium/safran-aircraft-engine-services-brussels-2233982","phone":"","email":"","reason":"Maintenance/engine services in de luchthavenomgeving impliceert vaak operationele voertuigen (airside logistiek, parts runs, supervisors). Een operationele praktijktest met een Toyota-personenwagen of lichte bedrijfswagen kan relevant zijn, maar we moeten eerst afbakenen welke voertuigen binnen scope vallen (airside-specificaties, toegang, veiligheid).","opener":"Bij een site als de uwe zie ik vaak een duidelijke scheiding tussen gespecialiseerde airside-voertuigen en ‘gewone’ personenwagens/lichte vans voor landside verplaatsingen en parts runs. Ik kan niet inschatten welk deel bij jullie binnen die niet-gespecialiseerde scope valt. Welke niet-gespecialiseerde voertuigmissie (personenwagen, lichte van of poolwagen) wil je vandaag verbeteren of vervangen?","signals":[{"tag":"Bevestigd","kind":"fact","title":"Safran-locatie in Steenokkerzeel (Vliegveld 118)","text":"De officiële Safran Group locatiepagina vermeldt 'Safran Aircraft Engine Services Brussels' met adres Vliegveld 118, 1820 Steenokkerzeel, België.","src":1},{"tag":"Risico","kind":"question","title":"Mogelijke airside constraints (veiligheid/toegang/specificaties)","text":"Airport/engine services kan voertuigen vereisen met specifieke uitrusting en toegangsvoorwaarden; Toyota-fit is mogelijk beperkt tot een deelvloot.","src":1},{"tag":"Timing toetsen","kind":"question","title":"Onbekend: lokale aankoop/lease vs groepsraamcontracten","text":"Niet bevestigd of voertuigen lokaal in België worden aangekocht/geleased of via internationale Safran-contracten.","src":2}],"fleet":[{"pool":"Operations/supervisie personenwagens","use":"siteverplaatsingen, vergaderingen, vendor visits","fit":"Hybrid/PHEV personenwagens (bv. Corolla/RAV4) — te toetsen aan policy en toegang zones","certainty":"Hypothese"},{"pool":"Lichte bestelwagens (niet-gespecialiseerd)","use":"onderdelen/gereedschap transport, interne logistiek landside","fit":"Proace City / Proace — te toetsen aan payload en airside vereisten","certainty":"Hypothese"},{"pool":"Airside ground support (tugs/specials)","use":"airside handling/trekken van equipment","fit":"Geen fit (Toyota personen/LCV aanbod dekt dit doorgaans niet)","certainty":"Hypothese"}],"questions":["Welke niet-gespecialiseerde voertuigen gebruiken jullie effectief (personenwagens, lichte bestelwagens, poolwagens) en waarvoor precies (landsidetransport, parts runs, supervisors)?","Wanneer verwacht je dat die voertuigen vervangen worden of dat er een nieuwe ronde komt (contracteinde, budgetmoment, operationele veranderingen)?","Wat veroorzaakt vandaag de meeste wrijving (toegang/parking, betrouwbaarheid, interne logistiek, laadruimte, beschikbaarheid in shiften, laden/actieradius)?","Op welke TCO-criteria worden jullie afgerekend (kost/maand, downtime, onderhoudsorganisatie, energie/brandstof, policy rond emissies)?","Hoe loopt de beslisroute: lokaal op de site, via Belgische aankoop, of via groeps-/raamcontracten, en wie tekent finaal?","Welk bewijs werkt hier: een korte praktijktest met een pool, een fit-check op laadruimte/payload, of een beperkt pilotcontract met duidelijke KPI’s?"],"unknowns":["Belgische juridische entiteit + BTW/KBO voor deze site.","Fleetomvang en verdeling airside vs landside.","Leasepartner(s) en onderhoudsstructuur (in-house vs externe garage).","Laadinfrastructuur en elektrische policy op de site.","Wie operationeel eigenaar is (maintenance, facilities, procurement)."],"sources":[{"n":1,"type":"Eigen site","title":"Safran Aircraft Engine Services Brussels – location ([safran-group.com](https://www.safran-group.com/locations/belgium/safran-aircraft-engine-services-brussels-2233982))","url":"https://www.safran-group.com/locations/belgium/safran-aircraft-engine-services-brussels-2233982","meta":"Bevestigt locatie/adres in 1820 Steenokkerzeel; geen fleetdata."},{"n":2,"type":"Bron","title":"Safran Group corporate website ([safran-group.com](https://www.safran-group.com/))","url":"https://www.safran-group.com/","meta":"Bron uit live research; datum onbekend"}],"timeline":[{"date":"25 aug","text":"Demo: regionale prospectkaart via OpenRouter research en GPT-5.2 sales-copy-pass."}],"notes":[]},{"id":"dhl-aviation-steenokkerzeel","company":"DHL Aviation / DHL-operatie Steenokkerzeel","legalName":"ONBEKEND (DHL juridische entiteit en scope voor Steenokkerzeel te bevestigen)","vat":"ONBEKEND","vatDigits":"","postal":"1820","city":"Steenokkerzeel","stage":"outreach","contactOutcome":"none","attempts":0,"doNotContact":false,"nextAction":"2026-08-28","researchedAt":"2026-08-25","confidence":"Middel","potential":"Te toetsen","freshness":"Operatie-signaal via officiële vacatures; entiteit/fleet scope onbekend","freshnessNote":"De officiële DHL career search toont Steenokkerzeel als locatie in hun zoekresultaten (operationele activiteit). Zonder primaire bron blijft het onduidelijk welke voertuigen (airside/landsid e) binnen Toyota-scope vallen.","reportType":"full","website":"https://www.dhl.com/be-en/home.html","contactUrl":"https://careers.dhl.com/global/en/search-results?keywords=&p=ChIJCbckc_rdw0cRiYiQd3sGaYU&location=Steenokkerzeel,%20Belgium","phone":"","email":"","reason":"Actieve DHL-operatie in Steenokkerzeel kan een mix hebben van operationele voertuigen (supervisie, security, landside shuttles) en mogelijk lichte bedrijfswagens. Toyota-fit is plausibel voor personenwagens/LCV, maar vermoedelijk niet voor zwaar/gespecialiseerd ground support equipment; eerst scope en beslisroute bevestigen.","opener":"In aviation-omgevingen is veel materieel te gespecialiseerd, maar er is meestal ook een ‘gewone’ laag van personenwagens en lichte vans voor support en supervisors. Ik weet niet of dat bij jullie lokaal beheerd wordt of via groep/contracten, en of er genoeg volume is om te testen. Welke niet-gespecialiseerde missie wil je bekijken: pool-/supervisiewagens of een lichte support-van?","signals":[{"tag":"Bevestigd","kind":"fact","title":"Steenokkerzeel verschijnt als locatie in officiële DHL career search","text":"De DHL carrièrezoekpagina toont zoekresultaten met locatie 'Steenokkerzeel, Belgium' (indicatie van operationele aanwezigheid).","src":1},{"tag":"Bevestigd","kind":"fact","title":"DHL corporate België (startpunt voor contactrouting)","text":"DHL België corporate site kan de contactrouting bevestigen (business units/klantenservice), maar is geen fleetbron op zich.","src":2},{"tag":"Risico","kind":"question","title":"Mogelijk veel gespecialiseerde airport/GSE assets","text":"Cargo/aviation operaties gebruiken vaak tugs/tractoren/specials (niet Toyota-scope); demo moet focussen op personenwagens/LCV indien aanwezig.","src":2},{"tag":"Timing toetsen","kind":"question","title":"Onbekend: lease- en inkoopstructuur (DHL group vs lokale entiteit)","text":"Niet bevestigd of de voertuigen via DHL group contracten, Belgische entiteit of subcontractors lopen.","src":2}],"fleet":[{"pool":"Operations/supervisie personenwagens","use":"shiftleiding, siteverplaatsingen, klant/airport meetings","fit":"Corolla Hybrid / RAV4 Hybrid — te toetsen aan policy en beschikbaarheid 24/7","certainty":"Hypothese"},{"pool":"Landside support vans","use":"klein materiaal, onderhoud, IT/facility support","fit":"Proace City / Proace (incl. Electric) — te toetsen","certainty":"Hypothese"},{"pool":"Ground Support Equipment (tugs/tractors)","use":"airside cargo handling","fit":"Geen fit (buiten Toyota personen/LCV scope)","certainty":"Hypothese"}],"questions":["Welke niet-gespecialiseerde voertuigen zitten er bij jullie in de mix (personenwagens, lichte vans, poolwagens) en waarvoor worden die ingezet op een doorsneedag?","Wanneer staat vervanging of hercontractering van die voertuigen op de planning (einde lease, wijziging policy, operationele groei)?","Wat zijn de grootste pijnpunten vandaag (24/7 beschikbaarheid, schade, onderhoudscycli, toegang/parking, laden/actieradius, chauffeurswissels)?","Welke TCO-/policy-criteria zijn doorslaggevend (kost per km, downtime, servicelevels, energie/brandstof, CO2, veiligheidseisen)?","Hoe verloopt de beslisroute: site, België, of group procurement, en wie beïnvloedt merk/model effectief?","Wat is voor jullie de beste praktijktest: een korte pilot in één shift, een rotatie tussen teams, of een ‘meetbare’ proef met kosten en inzetbaarheid?"],"unknowns":["Belgische juridische entiteit + BTW/KBO gekoppeld aan de Steenokkerzeel-operatie.","Fleetomvang en verdeling personenwagens vs LCV vs GSE.","Leasepartner(s), onderhoudsnetwerk en bandencircuits.","EV/HEV policy en laadinfrastructuur op/naast site.","Wie de beslissingsnemers zijn en hoe aanbesteding loopt."],"sources":[{"n":1,"type":"Eigen site","title":"DHL careers – search results Steenokkerzeel ([careers.dhl.com](https://careers.dhl.com/global/en/search-results?keywords=&p=ChIJCbckc_rdw0cRiYiQd3sGaYU&location=Steenokkerzeel,%20Belgium))","url":"https://careers.dhl.com/global/en/search-results?keywords=&p=ChIJCbckc_rdw0cRiYiQd3sGaYU&location=Steenokkerzeel,%20Belgium","meta":"Officiële vacaturezoeking; locatie-signaal, geen fleetdetails."},{"n":2,"type":"Eigen site","title":"DHL België corporate site ([dhl.com](https://www.dhl.com/be-en/home.html))","url":"https://www.dhl.com/be-en/home.html","meta":"Corporate startpunt; contactrouting en business context, geen harde fleetdata."}],"timeline":[{"date":"25 aug","text":"Demo: regionale prospectkaart via OpenRouter research en GPT-5.2 sales-copy-pass."}],"notes":[]},{"id":"van-der-valk-hotel-brussels-airport-diegem","company":"Van der Valk Hotel Brussels Airport","legalName":"ONBEKEND (juridische uitbater/entiteit te bevestigen via hotel-legal footer of KBO/NBB)","vat":"ONBEKEND","vatDigits":"","postal":"1831","city":"Diegem","stage":"new","contactOutcome":"none","attempts":0,"doNotContact":false,"nextAction":"2026-08-30","researchedAt":"2026-08-25","confidence":"Middel","potential":"Te toetsen","freshness":"Hotel + groepspagina bevestigd; entiteit/fleet onbekend","freshnessNote":"Officiële hotelwebsite en officiële Van der Valk Hotel Group pagina bevestigen het hotel; voertuigen kunnen beperkt zijn (shuttle/maintenance). Toyota-fit te toetsen op shuttle en service-voertuigen (niet op zwaar transport).","reportType":"full","website":"https://www.hotelbrusselsairport.com/","contactUrl":"https://www.vandervalkhotelgroup.com/en/hotels/hotel-brussels-airport","phone":"","email":"","reason":"Hotel in Diegem (airport corridor) kan nood hebben aan shuttles, servicewagens en managementcars. Een live demo is zinvol als er shuttle-/poolmobiliteit is of een komende vervanging, maar eerst bevestigen hoeveel voertuigen er zijn en of ze eigen beheer of externe shuttlepartner gebruiken.","opener":"Ik vermoed dat jullie mobiliteit vooral draait rond shuttle-ritten en een paar service-/managementwagens, waar betrouwbaarheid en lage operationele gedoe belangrijk zijn. Ik ben niet zeker of jullie die ritten met eigen voertuigen doen of via een partner. Hoe organiseren jullie vandaag het gastenvervoer en de interne serviceverplaatsingen?","signals":[{"tag":"Bevestigd","kind":"fact","title":"Officiële hotelwebsite (Brussels Airport hotel)","text":"De officiële website van het hotel is hotelbrusselsairport.com (startpunt voor contact/locatie-informatie).","src":1},{"tag":"Bevestigd","kind":"fact","title":"Officiële groepspagina voor Hotel Brussels Airport","text":"De Van der Valk Hotel Group pagina toont het hotel als onderdeel van de groep (officiële listing).","src":2},{"tag":"Hypothese","kind":"hot","title":"Mogelijke shuttle- en onderhoudsvoertuigen","text":"Hotels nabij de luchthaven hebben vaak shuttle-ritjes en technische/service verplaatsingen; dit moet bevestigd worden.","src":2},{"tag":"Timing toetsen","kind":"question","title":"Onbekend: eigen voertuigen vs externe shuttlepartner","text":"Zonder primaire bron is het onduidelijk of het hotel zelf voertuigen bezit/leaset of vervoer uitbesteedt.","src":1}],"fleet":[{"pool":"Hotel shuttle / people mover (MPV/van)","use":"gastenvervoer hotel–airport–bedrijven","fit":"Proace Verso / alternatief binnen Toyota aanbod — te toetsen aan zitplaatsen, bagage, duty cycle, emissie-eisen","certainty":"Hypothese"},{"pool":"Facility/maintenance van","use":"onderhoud, kleine leveringen, interventies","fit":"Proace City / Proace (incl. Electric) — te toetsen aan payload en beschikbaarheid","certainty":"Hypothese"},{"pool":"Management/host cars","use":"regionale verplaatsingen, leveranciers","fit":"Hybrid personenwagen (bv. Corolla) — te toetsen","certainty":"Hypothese"}],"questions":["Welke voertuigmissies hebben jullie vandaag: shuttle/gastenvervoer, maintenance/service, management/pool, en hoe intensief zijn die ritten?","Wanneer komt vervanging of vernieuwing normaal gezien aan bod (contracteinde, seizoenspiek, slijtage, policy)?","Wat loopt vandaag het vaakst mis of kost te veel tijd/geld (beschikbaarheid, onderhoud, schade, bagage-/zitplaatsruimte, chauffeurswissels, laden)?","Welke besliscriteria/TCO sturen jullie keuze (kost per maand, betrouwbaarheid, downtime, energie/brandstof, comfort, emissie-eisen in de omgeving)?","Wie beslist er finaal over voertuigen: hotelmanagement lokaal, group, of een externe mobiliteitspartner/leasepartner?","Wat is voor jullie het beste bewijs: een praktijktest tijdens piekuren, een proefperiode met shuttle-ritten, of een check op zitplaatsen/bagage + operationele kost?"],"unknowns":["Juridische entiteit/BTW/KBO van de hoteluitbater in België.","Aantal voertuigen (shuttle/maintenance/management) en huidige merkenmix.","Of er laadinfrastructuur aanwezig is en of EV gewenst/haalbaar is.","Wie het aankoop- of leaseproces beheert (lokaal vs group).","Rittenprofiel shuttle (frequentie, km/dag, piekuren, bagagevolume)."],"sources":[{"n":1,"type":"Eigen site","title":"Van der Valk Hotel Brussels Airport – officiële website ([hotelbrusselsairport.com](https://www.hotelbrusselsairport.com/))","url":"https://www.hotelbrusselsairport.com/","meta":"Officiële hotelbron; contact/locatie/faciliteiten, geen fleetdata bevestigd."},{"n":2,"type":"Eigen site","title":"Van der Valk Hotel Group – Hotel Brussels Airport ([vandervalkhotelgroup.com](https://www.vandervalkhotelgroup.com/en/hotels/hotel-brussels-airport))","url":"https://www.vandervalkhotelgroup.com/en/hotels/hotel-brussels-airport","meta":"Officiële groepslisting; bevestigt hotel binnen groep, geen fleetdata."}],"timeline":[{"date":"25 aug","text":"Demo: regionale prospectkaart via OpenRouter research en GPT-5.2 sales-copy-pass."}],"notes":[]}];
 const COSTS={
- lean:{label:'Minimale kost',tokens:.01613,search:.014,total:.03013,formula:'GPT-5 Mini research · GPT-5.2 korte sales-copy-pass'},
- recommended:{label:'Normaal rapport',tokens:.02836,search:.021,total:.04936,formula:'GPT-5.2 research + websearch · aparte GPT-5.2 sales-copy-pass'},
- deep:{label:'Maximale diepte',tokens:.05058,search:.06,total:.11058,formula:'Claude Sonnet 4.6 deep research · GPT-5.2 sales-copy met stale-data-guard'}
+ lean:{label:'Minimale kost',model:'GPT-5 Mini → GPT-5.2',tokens:.01613,search:.014,total:.03013,formula:'Compacte research en korte sales-copy-pass'},
+ recommended:{label:'Normaal rapport',model:'GPT-5.2',tokens:.02836,search:.021,total:.04936,formula:'Diepere research met aparte sales-copy-pass'},
+ deep:{label:'Maximale diepte',model:'Claude Sonnet 4.6 → GPT-5.2',tokens:.05058,search:.06,total:.11058,formula:'Breed bronbereik met aparte sales-copy-pass'}
 };
 let prospects = JSON.parse(localStorage.getItem('toty-prospects-v5')||'null') || [structuredClone(baseProspect),...structuredClone(regionalProspects)];
-let selectedId = localStorage.getItem('toty-selected-v5') || prospects[0].id;
+let selectedId = localStorage.getItem('toty-selected-v5') || prospects[0]?.id || '';
 let filter='all';
 let backendAvailable=false;
+let activeTab='signals';
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function safeExternalUrl(value){const raw=String(value||'').trim();if(!raw)return'#';try{const u=new URL(raw,location.href);return ['http:','https:'].includes(u.protocol)?esc(u.href):'#'}catch{return'#'}}
+function phoneHref(value){const clean=String(value||'').replace(/[^+\d]/g,'');return clean?'tel:'+clean:''}
+function mailHref(value){const clean=String(value||'').trim();return clean?'mailto:'+encodeURIComponent(clean):''}
 function save(){localStorage.setItem('toty-prospects-v5',JSON.stringify(prospects));localStorage.setItem('toty-selected-v5',selectedId)}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+function conciseSignal(text){
+ const value=String(text||'').trim();if(!value)return{summary:'',more:''};let sentences=[];
+ try{sentences=[...new Intl.Segmenter('nl',{granularity:'sentence'}).segment(value)].map(x=>x.segment.trim()).filter(Boolean)}catch{sentences=value.split(/(?<=[.!?])\s+/).filter(Boolean)}
+ return sentences.length<=2?{summary:value,more:''}:{summary:sentences.slice(0,2).join(' '),more:sentences.slice(2).join(' ')};
+}
+function certaintyClass(value){const text=String(value||'');if(/bevestigd/i.test(text))return'confirmed';if(/actualiseren|verifiëren|te toetsen|onbekend|verouderd/i.test(text))return'verify';return''}
+function renderSettings(p){
+ $('#settingsProfiles').innerHTML=Object.values(COSTS).map(v=>`<div class="settings-profile"><div><strong>${esc(v.label)}</strong><small>${esc(v.model)} · ${esc(v.formula)}</small></div><span>$${v.total.toFixed(3).replace('.',',')}</span></div>`).join('');
+ const context=p?.stageDisclaimer||(p?.apiMeta?`Live kaart · ${p.apiMeta.researchModel||'researchmodel'} · werkelijke kost $${Number(p.apiMeta.cost||0).toFixed(3)}`:p?.reportType==='limited'?'Beperkte kaart · broncontrole nodig':'Gecontroleerde voorbeeldkaart met openbare bronnen');
+ $('#recordDisclaimer').textContent=context;
+ const status=$('#drawerStatus');status.classList.toggle('live',backendAvailable);
+ $('#backendStatus').textContent=backendAvailable?'Live research verbonden':'Gecontroleerde voorbeeldmodus';
+ $('#liveLink').hidden=backendAvailable;
+}
+function updateMoreMenu(p){
+ const button=$('#toggleDnc');button.disabled=!p;button.textContent=p?.doNotContact?'Deblokkeer outreach':'Blokkeer outreach';button.classList.toggle('danger-action',Boolean(p&&!p.doNotContact));
+}
+function setOutreachBlocked(p,blocked){
+ if(!p||p.doNotContact===blocked)return;p.doNotContact=blocked;p.timeline=p.timeline||[];p.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:blocked?'Niet-benaderenblokkering geactiveerd.':'Niet-benaderenblokkering opgeheven.'});save();renderList();renderMain();toast(blocked?'Outreach geblokkeerd':'Blokkering opgeheven');
+}
 function renderFilters(){
- const root=$('#filters'); root.innerHTML=STAGES.map(([id,label])=>`<button class="filter ${filter===id?'active':''}" data-filter="${id}">${label}</button>`).join('');
- root.querySelectorAll('button').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;renderFilters();renderList()});
+ const root=$('#stageFilter');root.innerHTML=STAGES.map(([id,label])=>`<option value="${id}">${label}</option>`).join('');root.value=filter;root.onchange=()=>{filter=root.value;renderList()};
 }
 function renderList(){
  const q=$('#search').value.toLowerCase().trim().replace(/[.\s-]/g,'');
  const rows=prospects.filter(p=>(filter==='all'||p.stage===filter)&&(!q||[p.company,p.legalName,p.vat,p.vatDigits,p.postal,p.city,stageLabel(p.stage),outcomeLabel(p.contactOutcome||'none'),p.doNotContact?'niet benaderen outreach geblokkeerd':''].join(' ').toLowerCase().replace(/[.\s-]/g,'').includes(q)));
- $('#prospectList').innerHTML=rows.length?rows.map(p=>`<button class="prospect-card ${p.id===selectedId?'active':''} ${p.doNotContact?'blocked':''}" data-id="${esc(p.id)}"><span class="pc-top"><span><span class="pc-name">${esc(p.company)}</span><span class="pc-vat">${esc(p.vat)} · ${esc(p.postal)} ${esc(p.city||'')}</span></span><span class="pc-flags"><span class="pc-stage">${stageLabel(p.stage)}</span>${p.doNotContact?'<span class="pc-dnc">Niet benaderen</span>':''}</span></span><span class="pc-reason">${esc(p.reason)}</span><span class="pc-next">${p.doNotContact?'Outreach geblokkeerd':esc(outcomeLabel(p.contactOutcome||'none'))+' · '+(p.nextAction?'actie '+esc(p.nextAction):'geen volgende actie')}</span></button>`).join(''):'<div class="empty">Geen prospecten in deze weergave.</div>';
- document.querySelectorAll('.prospect-card').forEach(b=>b.onclick=()=>{selectedId=b.dataset.id;save();renderList();renderMain();if(innerWidth<=760)document.querySelector('main').scrollIntoView({behavior:'smooth',block:'start'})});
+ $('#prospectList').innerHTML=rows.length?rows.map(p=>`<button class="prospect-card ${p.id===selectedId?'active':''}" data-id="${esc(p.id)}"><span class="pc-top"><span><span class="pc-name">${esc(p.company)}</span><span class="pc-vat">${esc(p.vat)} · ${esc(p.postal)} ${esc(p.city||'')}</span></span><span class="pc-flags"><span class="pc-stage">${esc(stageLabel(p.stage))}</span>${p.doNotContact?'<span class="pc-dnc">Niet benaderen</span>':''}</span></span><span class="pc-reason">${esc(p.reason)}</span><span class="pc-next">${esc(outcomeLabel(p.contactOutcome||'none'))} · ${p.nextAction?'actie '+esc(p.nextAction):'geen volgende actie'}</span></button>`).join(''):'<div class="empty">Geen prospecten in deze weergave.</div>';
+ document.querySelectorAll('.prospect-card').forEach(b=>b.onclick=()=>{selectedId=b.dataset.id;save();renderList();renderMain()});
 }
 function renderConversationAdvice(p){
  const a=p.conversationAdvice;if(!a)return'';const stage=a.stageAdvice||{},contact=a.contactOutcomeAdvice||{},next=a.nextActionAdvice||{},questions=(a.openQuestions||[]).slice(0,4);
- return `<div class="advice-box"><h3>Advies na gesprek</h3><p>${esc(a.summary||'Gesprek verwerkt.')}</p><div class="advice-grid"><div class="advice-item"><b>Fase</b><span>${esc(stageLabel(stage.suggested||p.stage))}</span></div><div class="advice-item"><b>Contactuitkomst</b><span>${esc(outcomeLabel(contact.suggested||p.contactOutcome||'none'))}</span></div><div class="advice-item"><b>Volgende actie</b><span>${esc(next.type||p.nextStep||'Te bepalen')}</span></div><div class="advice-item"><b>Datum</b><span>${esc(next.date||p.nextAction||'Te plannen')}</span></div></div>${stage.rationale?`<p><strong>Waarom:</strong> ${esc(stage.rationale)}</p>`:''}${questions.length?`<strong style="font-size:10px">Nog te bespreken</strong><ul class="advice-list">${questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ul>`:''}<button class="secondary" id="applyAdvice">Pas workflowadvies toe</button></div>`;
+ return `<div class="advice-box"><h3>Advies na gesprek</h3><p>${esc(a.summary||'Gesprek verwerkt.')}</p><div class="advice-grid"><div class="advice-item"><b>Fase</b><span>${esc(stageLabel(stage.suggested||p.stage))}</span></div><div class="advice-item"><b>Contactuitkomst</b><span>${esc(outcomeLabel(contact.suggested||p.contactOutcome||'none'))}</span></div><div class="advice-item"><b>Volgende actie</b><span>${esc(next.type||p.nextStep||'Te bepalen')}</span></div><div class="advice-item"><b>Datum</b><span>${esc(next.date||p.nextAction||'Te plannen')}</span></div></div>${stage.rationale?`<p><strong>Waarom:</strong> ${esc(stage.rationale)}</p>`:''}${questions.length?`<strong>Nog te bespreken</strong><ul class="advice-list">${questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ul>`:''}<button class="secondary" id="applyAdvice">Pas workflowadvies toe</button></div>`;
+}
+function renderSignal(p,s,extra=false){
+ const copy=conciseSignal(s.text),source=(p.sources||[]).find(x=>x.n===s.src),href=safeExternalUrl(source?.url);
+ return `<article class="signal ${extra?'signal-extra':''}" ${extra?'hidden':''}><span class="signal-tag">${esc(s.tag||'Signaal')}</span><h3>${esc(s.title)}</h3><p>${esc(copy.summary)}</p>${copy.more?`<details class="signal-context"><summary>Meer context</summary><p>${esc(copy.more)}</p></details>`:''}${source?`<a class="signal-source" href="${href}" target="_blank" rel="noreferrer">Bron [${esc(s.src)}] ↗</a>`:''}</article>`;
+}
+function bindTabs(){
+ const buttons=[...document.querySelectorAll('.tab-button')],panels=[...document.querySelectorAll('.tab-panel')];if(!buttons.length)return;
+ const activate=id=>{if(!buttons.some(b=>b.dataset.tab===id))id='signals';activeTab=id;buttons.forEach(b=>{const on=b.dataset.tab===id;b.setAttribute('aria-selected',String(on));b.tabIndex=on?0:-1});panels.forEach(p=>p.hidden=p.dataset.panel!==id)};
+ buttons.forEach(b=>b.onclick=()=>activate(b.dataset.tab));activate(activeTab);
+ const show=$('#showAllSignals');if(show)show.onclick=()=>{const expanded=show.getAttribute('aria-expanded')==='true';document.querySelectorAll('.signal-extra').forEach(x=>x.hidden=expanded);show.setAttribute('aria-expanded',String(!expanded));show.textContent=expanded?show.dataset.closed:'Toon minder'};
+ if($('#openContact'))$('#openContact').onclick=()=>{activate('sources');$('#panel-sources').focus()};
 }
 function renderMain(){
- const p=prospects.find(x=>x.id===selectedId)||prospects[0]; if(!p)return;
- if(p.reportType!=='full'){renderLimited(p);return}
+ let p=prospects.find(x=>x.id===selectedId)||prospects[0];
+ if(!p){selectedId='';$('#sidebarEmpty').hidden=false;$('#main').innerHTML='<div class="record"><section class="limited"><h1>Geen prospect geselecteerd</h1><p>Kies een prospect of voeg er één toe.</p><button class="primary" id="emptyNewProspect" type="button">+ Nieuwe prospect</button></section></div>';$('#emptyNewProspect').onclick=openNewProspectDialog;renderSettings(null);updateMoreMenu(null);return}
+ if(selectedId!==p.id){selectedId=p.id;save()}$('#sidebarEmpty').hidden=true;if(p.reportType!=='full'){renderLimited(p);return}
+ const featuredSignals=(p.signals||[]).slice(0, 3),extraSignals=(p.signals||[]).slice(3),website=safeExternalUrl(p.website),contactUrl=safeExternalUrl(p.contactUrl||p.website),tel=phoneHref(p.phone),mail=mailHref(p.email),nextStep=p.nextStep||'15 min. kwalificatie';
+ const callAction=p.doNotContact?`<button class="call-cta" type="button" disabled>Bel nu · ${esc(nextStep)}</button>`:tel?`<a class="call-cta" href="${esc(tel)}">Bel nu · ${esc(nextStep)} <span aria-hidden="true">›</span></a>`:`<button class="call-cta" id="openContact" type="button">Open contact · ${esc(nextStep)} <span aria-hidden="true">›</span></button>`;
  $('#main').innerHTML=`
-  <header class="main-head"><div class="identity"><span class="demo-badge">${esc(p.stageDisclaimer||'Voorbeeld met echte openbare bronnen')}</span><h1>${esc(p.company)}</h1><div class="id-meta"><span class="verified">${p.vatDigits?'✓ Juridische identiteit bevestigd':'△ Juridische identiteit te verifiëren'}</span><span>${esc(p.legalName)}</span><span>${esc(p.vat)}</span><span>${esc(p.postal)} ${esc(p.city)}</span><a href="${p.website}" target="_blank" rel="noreferrer">werkelijke website ↗</a></div></div>
-  <div class="main-actions"><div class="field-compact"><label>Commerciële fase</label><select id="stageSelect">${STAGES.slice(1).map(([id,l])=>`<option value="${id}" ${p.stage===id?'selected':''}>${l}</option>`).join('')}</select></div><div class="field-compact"><label>Laatste contactuitkomst</label><select id="outcomeSelect">${OUTCOMES.map(([id,l])=>`<option value="${id}" ${(p.contactOutcome||'none')===id?'selected':''}>${l}</option>`).join('')}</select></div><div class="field-compact"><label>Volgende actie</label><input id="nextAction" type="date" value="${esc(p.nextAction)}"></div><button class="secondary print-btn" id="print">Print / PDF</button></div></header>
-  <section class="statusline"><div class="metric"><div class="metric-label">Fleetpotentieel</div><div class="metric-value">${esc(p.potential)}</div><div class="metric-sub">${esc(p.potentialNote||'Hypothese op missie en gebruik')}</div></div><div class="metric"><div class="metric-label">Bronzekerheid</div><div class="metric-value">${esc(p.confidence)}</div><div class="metric-sub">${esc(p.confidenceNote||(p.vatDigits?'KBO + eigen/officiële bronnen':'Eigen site; KBO nog te verifiëren'))}</div></div><div class="metric"><div class="metric-label">Beste volgende stap</div><div class="metric-value">${esc(p.nextStep||'15 min. kwalificatie')}</div><div class="metric-sub">${esc(p.nextStepNote||'Geen generieke productpitch')}</div></div><div class="metric"><div class="metric-label">Dataversheid</div><div class="metric-value">${esc(p.freshness||'Actuele check nodig')}</div><div class="metric-sub">${esc(p.freshnessNote||'Brondata eerst actualiseren')}</div></div></section>
-  <div class="report">
-   <section class="call-strip"><div class="call-main"><div class="eyebrow">Waarom nu bellen</div><h2>${esc(p.reason)}</h2><p>Publieke signalen voeden een hypothese; ze zijn geen actuele waarheid. De opener vermijdt oude cijfers en stuurt op voertuigmissie, frictie en timing.</p></div><div class="call-side"><strong>Open zo</strong><div class="quote">“${esc(p.opener)}”</div><button class="copy" id="copyScript">Kopieer belscript</button><div class="model-note">Belscript & vragen: GPT-5.2 quality pass · stale-data-guard</div></div></section>
-   <div class="grid"><div class="stack">
-    <section class="panel"><div class="panel-head"><h2>De commerciële parels</h2><small>feit → betekenis → vraag</small></div><div class="panel-body">${p.signals.map(s=>`<article class="signal"><div class="sig-tag ${s.kind}">${esc(s.tag)}</div><div><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p><p class="source-inline"><a href="${p.sources.find(x=>x.n===s.src)?.url||'#'}" target="_blank" rel="noreferrer">Bron [${s.src}] ↗</a></p></div></article>`).join('')}</div></section>
-    <section class="panel"><div class="panel-head"><h2>Van fleetfeit naar Toyota-hypothese</h2><small>geen aanbod zonder kwalificatie</small></div><div class="panel-body"><table class="fleet-table"><thead><tr><th>Publieke vlootpool</th><th>Waarschijnlijk gebruik</th><th>Te toetsen Toyota-fit</th></tr></thead><tbody>${p.fleet.map(f=>`<tr><td><strong>${esc(f.pool)}</strong></td><td>${esc(f.use)}</td><td>${esc(f.fit)}<br><span class="hypo">${esc(f.certainty)}</span></td></tr>`).join('')}</tbody></table></div></section>
-    <section class="panel"><div class="panel-head"><h2>Zes vragen die een verkoper vooruithelpen</h2><small>kwalificatie vóór offerte</small></div><div class="panel-body"><ol class="questions">${p.questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ol></div></section>
-    <section class="panel"><div class="panel-head"><h2>Bronnenboek</h2><small>openbaar, controleerbaar, gedateerd</small></div><div class="panel-body">${p.sources.map(s=>`<div class="source"><span class="source-num">${s.n}</span><span><a href="${s.url}" target="_blank" rel="noreferrer">${esc(s.title)} ↗</a><small>${esc(s.meta)}</small></span><span class="source-type">${esc(s.type)}</span></div>`).join('')}</div></section>
-   </div><div class="stack">
-    <section class="panel"><div class="panel-head"><h2>Wat nog onbekend is</h2><small>niet invullen met AI</small></div><div class="panel-body">${p.unknowns.map(u=>`<div class="unknown"><b>?</b><span>${esc(u)}</span></div>`).join('')}</div></section>
-    <section class="panel"><div class="panel-head"><h2>Publiek contactpunt</h2><small>geen privégegevens</small></div><div class="panel-body">${p.phone?`<p style="margin-bottom:6px"><strong>${esc(p.phone)}</strong></p>`:''}${p.email?`<p style="margin-bottom:12px"><a href="mailto:${esc(p.email)}">${esc(p.email)}</a></p>`:`<p style="margin-bottom:12px"><a href="${esc(p.contactUrl||p.website)}" target="_blank" rel="noreferrer">Officiële contactpagina ↗</a></p>`}<p class="helper" style="margin:0">De beslisser is niet betrouwbaar geïdentificeerd op de toegestane bronnen. Vraag via het groepscontact naar fleet/mobility/procurement; verzin geen naam.</p><label class="dnc-row"><input id="doNotContact" type="checkbox" ${p.doNotContact?'checked':''}> Niet benaderen</label>${p.doNotContact?'<div class="dnc-warning">Outreach geblokkeerd voor deze prospect.</div>':''}</div></section>
-    <section class="panel"><div class="panel-head"><h2>Live research-configuratie</h2><small>OpenRouter · key blijft server-side</small></div><div class="panel-body"><div class="cost-controls"><label>Rapportdiepte</label><select id="costScenario">${Object.entries(COSTS).map(([k,v])=>`<option value="${k}" ${k==='recommended'?'selected':''}>${v.label}</option>`).join('')}</select></div><div class="cost-result"><div class="metric-label">Indicatieve API-kost per rapport</div><strong id="costTotal">$0,049</strong><div class="cost-split"><span id="tokenCost">Modeltokens $0,02836</span><span id="searchCost">Retrieval $0,021</span></div><div class="formula" id="costFormula"></div></div><div class="cost-note">De geselecteerde rapportdiepte in het invoerformulier bepaalt model, bronbereik en outputlengte. De OpenRouter-key komt nooit in deze HTML of browseropslag.</div></div></section>
-    <section class="panel"><div class="panel-head"><h2>Gesprek verwerken</h2><small>actualiseert kaart + adviseert vervolg</small></div><div class="panel-body"><label for="conversationInput" style="margin-top:0">Gespreksnotities</label><textarea id="conversationInput" placeholder="Plak hier wat de prospect bevestigde: voertuigen, gebruik, pijnpunten, timing, beslissers en afgesproken vervolg…"></textarea><div class="conversation-actions"><button class="primary" id="analyzeConversation" type="button">Verwerk gesprek</button><span class="conversation-status" id="conversationStatus">Live backend vereist voor analyse</span></div>${renderConversationAdvice(p)}</div></section>
-    <section class="panel"><div class="panel-head"><h2>Activiteit & notities</h2><small>opgeslagen in deze browser</small></div><div class="panel-body note-composer"><div class="note-row"><input id="noteInput" placeholder="Korte gespreksnotitie"><button class="secondary" id="addNote">Bewaar</button></div><div class="timeline">${[...(p.notes||[]),...p.timeline].map(e=>`<div class="event-row"><time>${esc(e.date)}</time><div>${esc(e.text)}</div></div>`).join('')}</div></div></section>
-   </div></div>
-  </div>`;
- bindMain(p); updateCost();
+  ${p.doNotContact?'<div class="blocked-banner" role="alert"><strong>Outreach geblokkeerd</strong><button id="unblockOutreach" type="button">Deblokkeren</button></div>':''}
+  <header class="record-head"><div class="identity"><h1>${esc(p.company)}</h1><div class="id-meta"><span class="verified">${p.vatDigits?'✓ Bevestigd':'△ Te verifiëren'}</span><span>${esc(p.vat)}</span><span>${esc(p.postal)} ${esc(p.city||'')}</span>${website!=='#'?`<span><a href="${website}" target="_blank" rel="noreferrer">website ↗</a></span>`:''}<span>fleetpotentieel ${esc(String(p.potential||'te toetsen').toLowerCase())}</span><span>bronnen ${esc(String(p.confidence||'middel').toLowerCase())}</span><span class="freshness">${esc(p.freshness||'Actualiseren')}</span></div></div><div class="record-action">${callAction}</div></header>
+  <article class="record">
+    <section class="call-hero"><div class="hero-reason"><div class="eyebrow">Waarom nu bellen</div><h2>${esc(p.reason)}</h2></div><div class="hero-opener"><div class="eyebrow">Open zo</div><blockquote>“${esc(p.opener)}”</blockquote><div class="hero-actions"><button class="copy-script" id="copyScript" type="button">Kopieer opener</button><span class="hero-hint">Eerste zin voor de call</span></div></div></section>
+    <nav class="record-tabs" role="tablist" aria-label="Prospectdetails"><button class="tab-button" data-tab="signals" role="tab" aria-selected="true" aria-controls="panel-signals">Signalen</button><button class="tab-button" data-tab="questions" role="tab" aria-selected="false" aria-controls="panel-questions">Vraag op de call</button><button class="tab-button" data-tab="fleet" role="tab" aria-selected="false" aria-controls="panel-fleet">Vlootbeeld</button><button class="tab-button" data-tab="sources" role="tab" aria-selected="false" aria-controls="panel-sources">Bronnen & contact</button></nav>
+    <section class="tab-panel" id="panel-signals" data-panel="signals" role="tabpanel"><h2>Drie signalen voor dit gesprek</h2><div class="signal-list">${featuredSignals.map(s=>renderSignal(p,s)).join('')}${extraSignals.map(s=>renderSignal(p,s,true)).join('')}</div>${extraSignals.length?`<button class="text-button" id="showAllSignals" data-closed="Toon alle ${p.signals.length} signalen" aria-expanded="false" type="button">Toon alle ${p.signals.length} signalen</button>`:''}</section>
+    <section class="tab-panel" id="panel-questions" data-panel="questions" role="tabpanel" tabindex="-1" hidden><div class="questions-layout"><section class="content-section"><h2>Vragen voor de call</h2><p class="section-intro">Kwalificeer missie, timing, frictie en beslisroute.</p><ol class="questions">${(p.questions||[]).map(q=>`<li>${esc(q)}</li>`).join('')}</ol></section><section class="content-section"><h2>Vraag dit op de call</h2><p class="section-intro">Publieke research kon deze punten niet betrouwbaar bevestigen.</p><ul class="unknown-list">${(p.unknowns||[]).map(u=>`<li><span class="unknown-check" aria-hidden="true">□</span><span>${esc(u)}</span></li>`).join('')}</ul></section></div></section>
+    <section class="tab-panel" id="panel-fleet" data-panel="fleet" role="tabpanel" tabindex="-1" hidden><h2>Vlootbeeld en te toetsen Toyota-fit</h2><p class="section-intro">Voertuigmissie eerst; modelkeuze pas na kwalificatie.</p><div class="fleet-wrap"><table class="fleet-table"><thead><tr><th>Vlootpool</th><th>Waarschijnlijk gebruik</th><th>Te toetsen fit</th></tr></thead><tbody>${(p.fleet||[]).map(f=>`<tr><td><strong>${esc(f.pool)}</strong></td><td>${esc(f.use)}</td><td>${esc(f.fit)}<br><span class="certainty ${certaintyClass(f.certainty)}">${esc(f.certainty)}</span></td></tr>`).join('')}</tbody></table></div></section>
+    <section class="tab-panel" id="panel-sources" data-panel="sources" role="tabpanel" tabindex="-1" hidden><div class="sources-layout"><section class="content-section"><h2>Publiek contactpunt</h2><p><strong>Juridische naam</strong><br>${esc(p.legalName||'Te verifiëren')}</p><div class="contact-lines">${p.phone?`<p><a href="${esc(tel)}">${esc(p.phone)}</a></p>`:''}${p.email?`<p><a href="${esc(mail)}">${esc(p.email)}</a></p>`:contactUrl!=='#'?`<p><a href="${contactUrl}" target="_blank" rel="noreferrer">Officiële contactpagina ↗</a></p>`:'<p>Geen publiek contactpunt bevestigd.</p>'}</div><p class="contact-note">De beslisser is niet betrouwbaar geïdentificeerd in de toegestane bronnen. Vraag via het publieke contact naar fleet, mobility of procurement.</p></section><section class="content-section"><h2>Bronnen</h2><div>${(p.sources||[]).map(s=>`<div class="source"><span class="source-num">${esc(s.n)}</span><span><a href="${safeExternalUrl(s.url)}" target="_blank" rel="noreferrer">${esc(s.title)} ↗</a><small>${esc(s.meta)}</small></span><span class="source-type">${esc(s.type)}</span></div>`).join('')}</div></section></div></section>
+    <details class="workflow"><summary>Workflow & notities <span class="workflow-summary-meta">${esc(stageLabel(p.stage))} · ${esc(outcomeLabel(p.contactOutcome||'none'))}${p.nextAction?' · '+esc(p.nextAction):''}</span></summary><div class="workflow-body"><div class="workflow-toolbar"><div><label class="field-label" for="stageSelect">Commerciële fase</label><select id="stageSelect">${STAGES.slice(1).map(([id,l])=>`<option value="${id}" ${p.stage===id?'selected':''}>${l}</option>`).join('')}</select></div><div><label class="field-label" for="outcomeSelect">Laatste contactuitkomst</label><select id="outcomeSelect">${OUTCOMES.map(([id,l])=>`<option value="${id}" ${(p.contactOutcome||'none')===id?'selected':''}>${l}</option>`).join('')}</select></div><div><label class="field-label" for="nextAction">Volgende actie</label><input id="nextAction" type="date" value="${esc(p.nextAction||'')}"></div></div><div class="workflow-grid"><section><h2>Gesprek verwerken</h2><label class="field-label" for="conversationInput">Gespreksnotities</label><textarea id="conversationInput" placeholder="Wat bevestigde de prospect over voertuigen, gebruik, pijnpunten, timing, beslissers en vervolg?"></textarea><div class="conversation-actions"><button class="primary" id="analyzeConversation" type="button">Verwerk gesprek</button><span class="conversation-status" id="conversationStatus"></span></div>${renderConversationAdvice(p)}</section><section><h2>Activiteit & notities</h2><div class="note-row"><input id="noteInput" placeholder="Korte gespreksnotitie" aria-label="Korte gespreksnotitie"><button class="secondary" id="addNote" type="button">Bewaar</button></div><div class="timeline">${[...(p.notes||[]),...(p.timeline||[])].map(e=>`<div class="event-row"><time>${esc(e.date)}</time><div>${esc(e.text)}</div></div>`).join('')}</div></section></div></div></details>
+  </article>`;
+ bindMain(p);bindTabs();renderSettings(p);updateMoreMenu(p);
 }
 function renderLimited(p){
  const kbo='https://kbopub.economie.fgov.be/kbopub/zoeknummerform.html?nummer='+encodeURIComponent(p.vatDigits)+'&actionLu=Zoek';
- $('#main').innerHTML=`<header class="main-head"><div class="identity"><span class="demo-badge">Broncontrole nodig</span><h1>${esc(p.company)}</h1><div class="id-meta"><span>${esc(p.vat)}</span><span>${esc(p.postal)}</span></div></div><div class="main-actions"><div class="field-compact"><label>Commerciële fase</label><select id="stageSelect">${STAGES.slice(1).map(([id,l])=>`<option value="${id}" ${p.stage===id?'selected':''}>${l}</option>`).join('')}</select></div><div class="field-compact"><label>Contactuitkomst</label><select id="outcomeSelect">${OUTCOMES.map(([id,l])=>`<option value="${id}" ${(p.contactOutcome||'none')===id?'selected':''}>${l}</option>`).join('')}</select></div><div class="field-compact"><label>Volgende actie</label><input id="nextAction" type="date" value="${esc(p.nextAction||'')}"></div></div></header><div class="report"><div class="limited"><strong>Bewust beperkte demo-uitkomst.</strong><br>Voor deze invoer is geen voorbereide, gecontroleerde dataset aanwezig. De kaart bewaart alleen wat jij invoerde en koppelt naar de KBO-zoekopdracht; ze verzint geen vloot, omzet, contactpersoon of nieuws. In productie vullen toegelaten KBO-data, NBB, de gevalideerde bedrijfswebsite, tenders en betrouwbare pers dit rapport.</div><section class="panel"><div class="panel-head"><h2>Veilige volgende stap</h2></div><div class="panel-body"><p>1. Controleer de juridische entiteit en postcode in KBO.<br>2. Bevestig het officiële domein.<br>3. Herstart daarna de researchpipeline.</p><a class="secondary" style="display:inline-block;text-decoration:none" href="${kbo}" target="_blank" rel="noreferrer">Open KBO Public Search ↗</a></div></section></div>`;
- bindMain(p);
+ $('#main').innerHTML=`${p.doNotContact?'<div class="blocked-banner" role="alert"><strong>Outreach geblokkeerd</strong><button id="unblockOutreach" type="button">Deblokkeren</button></div>':''}<header class="record-head"><div class="identity"><h1>${esc(p.company)}</h1><div class="id-meta"><span>△ Broncontrole nodig</span><span>${esc(p.vat)}</span><span>${esc(p.postal)}</span></div></div><div class="record-action"><a class="call-cta" href="${safeExternalUrl(kbo)}" target="_blank" rel="noreferrer">Open KBO-controle ›</a></div></header><article class="record"><section class="call-hero"><div class="hero-reason"><div class="eyebrow">Veilige volgende stap</div><h2>${esc(p.reason||'Broncontrole nodig')}</h2></div><div class="hero-opener"><blockquote>Controleer eerst de juridische entiteit en het officiële domein. Herstart daarna de research.</blockquote></div></section><div class="tab-panel"><div class="limited"><strong>Bewust beperkte uitkomst.</strong><p>Er is geen gecontroleerde dataset voor deze invoer. De kaart bewaart alleen de ingevoerde identiteit en verzint geen vloot, omzet, contactpersoon of nieuws.</p></div></div><details class="workflow"><summary>Workflow <span class="workflow-summary-meta">${esc(stageLabel(p.stage))} · ${esc(outcomeLabel(p.contactOutcome||'none'))}</span></summary><div class="workflow-body"><div class="workflow-toolbar"><div><label class="field-label" for="stageSelect">Commerciële fase</label><select id="stageSelect">${STAGES.slice(1).map(([id,l])=>`<option value="${id}" ${p.stage===id?'selected':''}>${l}</option>`).join('')}</select></div><div><label class="field-label" for="outcomeSelect">Contactuitkomst</label><select id="outcomeSelect">${OUTCOMES.map(([id,l])=>`<option value="${id}" ${(p.contactOutcome||'none')===id?'selected':''}>${l}</option>`).join('')}</select></div><div><label class="field-label" for="nextAction">Volgende actie</label><input id="nextAction" type="date" value="${esc(p.nextAction||'')}"></div></div></div></details></article>`;
+ bindMain(p);renderSettings(p);updateMoreMenu(p);
 }
 function bindMain(p){
- $('#stageSelect').onchange=e=>{p.stage=e.target.value;p.timeline=p.timeline||[];p.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Fase gewijzigd naar '+stageLabel(p.stage)+'.'});save();renderList();renderMain();toast('Fase bijgewerkt')};
+ if($('#stageSelect'))$('#stageSelect').onchange=e=>{p.stage=e.target.value;p.timeline=p.timeline||[];p.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Fase gewijzigd naar '+stageLabel(p.stage)+'.'});save();renderList();renderMain();toast('Fase bijgewerkt')};
  if($('#outcomeSelect'))$('#outcomeSelect').onchange=e=>{p.contactOutcome=e.target.value;if(p.contactOutcome==='no_answer'||p.contactOutcome==='callback')p.attempts=(p.attempts||0)+1;p.timeline=p.timeline||[];p.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Contactuitkomst: '+outcomeLabel(p.contactOutcome)+'.'});save();renderList();renderMain();toast('Contactuitkomst bijgewerkt')};
- $('#nextAction').onchange=e=>{p.nextAction=e.target.value;save();renderList();toast('Volgende actie opgeslagen')};
- if($('#print'))$('#print').onclick=()=>window.print();
- if($('#copyScript'))$('#copyScript').onclick=async()=>{if(p.doNotContact){toast('Outreach is geblokkeerd voor deze prospect');return}try{await navigator.clipboard.writeText(p.opener);toast('Belscript gekopieerd')}catch{toast('Kopiëren niet toegestaan in deze browser')}};
- if($('#addNote'))$('#addNote').onclick=()=>{const i=$('#noteInput');const v=i.value.trim();if(!v)return;p.notes=p.notes||[];p.notes.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:v});save();renderMain();toast('Notitie bewaard')};
- if($('#doNotContact'))$('#doNotContact').onchange=e=>{p.doNotContact=e.target.checked;p.timeline=p.timeline||[];p.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:p.doNotContact?'Niet-benaderenblokkering geactiveerd.':'Niet-benaderenblokkering opgeheven.'});save();renderList();renderMain();toast(p.doNotContact?'Outreach geblokkeerd':'Blokkering opgeheven')};
- if($('#conversationStatus'))$('#conversationStatus').textContent=backendAvailable?'GPT-5.2 analyseert server-side':'Live backend vereist voor analyse';
+ if($('#nextAction'))$('#nextAction').onchange=e=>{p.nextAction=e.target.value;save();renderList();toast('Volgende actie opgeslagen')};
+ if($('#copyScript'))$('#copyScript').onclick=async()=>{if(p.doNotContact){toast('Outreach is geblokkeerd voor deze prospect');return}try{await navigator.clipboard.writeText(p.opener);toast('Opener gekopieerd')}catch{toast('Kopiëren niet toegestaan in deze browser')}};
+ if($('#addNote'))$('#addNote').onclick=()=>{const i=$('#noteInput'),v=i.value.trim();if(!v)return;p.notes=p.notes||[];p.notes.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:v});save();renderMain();toast('Notitie bewaard')};
+ if($('#unblockOutreach'))$('#unblockOutreach').onclick=()=>setOutreachBlocked(p,false);
+ if($('#conversationStatus'))$('#conversationStatus').textContent=backendAvailable?'Analyse beschikbaar':'Analyse vereist live research';
  if($('#analyzeConversation'))$('#analyzeConversation').onclick=()=>analyzeConversation(p);
  if($('#applyAdvice'))$('#applyAdvice').onclick=()=>applyConversationAdvice(p);
- if($('#costScenario'))$('#costScenario').onchange=updateCost;
-}
-function updateCost(){
- if(!$('#costScenario'))return; const s=COSTS[$('#costScenario').value];
- $('#costTotal').textContent='$'+s.total.toFixed(3).replace('.',','); $('#tokenCost').textContent='Modeltokens $'+s.tokens.toFixed(5).replace('.',','); $('#searchCost').textContent='Retrieval $'+s.search.toFixed(3).replace('.',','); $('#costFormula').textContent=s.formula;
 }
 function metricValue(metrics,key,fallback){return metrics&&metrics[key]&&metrics[key].value?metrics[key].value:fallback}
 function metricNote(metrics,key,fallback){return metrics&&metrics[key]&&metrics[key].note?metrics[key].note:fallback}
@@ -265,11 +563,17 @@ function validVat(v){const d=normalizeVat(v);if(d.length!==10)return false;const
 async function checkBackend(){
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),1800);
  try{const r=await fetch('api/health',{cache:'no-store',signal:controller.signal});const j=await r.json();backendAvailable=!!(r.ok&&j.live)}catch{backendAvailable=false}finally{clearTimeout(timer)}
- const s=$('#backendStatus'),link=$('#liveLink');if(s)s.textContent=backendAvailable?'Live OpenRouter-backend verbonden':'Vaste demo · open de lokale live versie';if(link)link.hidden=backendAvailable;return backendAvailable;
+ renderSettings(prospects.find(x=>x.id===selectedId)||prospects[0]);if($('#conversationStatus'))$('#conversationStatus').textContent=backendAvailable?'Analyse beschikbaar':'Analyse vereist live research';return backendAvailable;
 }
+function openSettings(){closeMoreMenu();renderSettings(prospects.find(x=>x.id===selectedId)||prospects[0]);$('#drawerScrim').hidden=false;$('#settingsDrawer').classList.add('open');$('#settingsDrawer').setAttribute('aria-hidden','false');$('#settingsButton').setAttribute('aria-expanded','true');$('#closeSettings').focus()}
+function closeSettings(){$('#drawerScrim').hidden=true;$('#settingsDrawer').classList.remove('open');$('#settingsDrawer').setAttribute('aria-hidden','true');$('#settingsButton').setAttribute('aria-expanded','false')}
+function openNewProspectDialog(){closeSettings();closeMoreMenu();$('#newProspectDialog').hidden=false;requestAnimationFrame(()=>$('#company').focus())}
+function closeNewProspectDialog(){$('#newProspectDialog').hidden=true}
+function closeMoreMenu(){const menu=$('#moreMenu');menu.hidden=true;$('#moreButton').setAttribute('aria-expanded','false')}
+function toggleMoreMenu(){const menu=$('#moreMenu'),willOpen=menu.hidden;menu.hidden=!willOpen;$('#moreButton').setAttribute('aria-expanded',String(willOpen))}
 function openProgress(company,digits){
  const modal=$('#modal'),steps=[...document.querySelectorAll('#steps li')],bar=$('#bar'),pct=$('#progressPct'),elapsed=$('#progressElapsed'),hint=$('#progressHint');
- $('#progressCompany').textContent=company+' · BE '+digits.slice(0,4)+'.'+digits.slice(4,7)+'.'+digits.slice(7);modal.classList.add('open');steps.forEach(x=>x.className='');bar.style.width='0';pct.textContent='0%';elapsed.textContent='Verstreken 0:00';return{modal,steps,bar,pct,elapsed,hint,startedAt:Date.now()};
+ $('#progressCompany').textContent=company+' · BE '+digits.slice(0,4)+'.'+digits.slice(4,7)+'.'+digits.slice(7);modal.hidden=false;steps.forEach(x=>x.className='');bar.style.width='0';pct.textContent='0%';elapsed.textContent='Verstreken 0:00';return{modal,steps,bar,pct,elapsed,hint,startedAt:Date.now()};
 }
 function elapsedLabel(ms){const sec=Math.floor(ms/1000),min=Math.floor(sec/60);return min+':'+String(sec%60).padStart(2,'0')}
 function setProgress(ui,n,percent){const value=Math.max(0,Math.min(100,Math.round(percent)));ui.steps.forEach((x,i)=>x.className=i<n?'done':i===n?'active':'');ui.bar.style.width=value+'%';ui.pct.textContent=value+'%';ui.elapsed.textContent='Verstreken '+elapsedLabel(Date.now()-ui.startedAt)}
@@ -284,23 +588,40 @@ async function runLiveResearch(company,vat,postal,digits,depth){
  try{
   const r=await fetch('api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({company,vat,postal,depth})});
   const j=await r.json();if(!r.ok)throw new Error(j.error||'Live research mislukt');
-  clearInterval(animator);completeProgress(ui);setTimeout(()=>{ui.modal.classList.remove('open');ingestLiveCard(j.card)},350);
- }catch(err){clearInterval(animator);ui.modal.classList.remove('open');toast('Live research mislukt: '+err.message)}
+  clearInterval(animator);completeProgress(ui);setTimeout(()=>{ui.modal.hidden=true;ingestLiveCard(j.card)},350);
+ }catch(err){clearInterval(animator);ui.modal.hidden=true;toast('Live research mislukt: '+err.message)}
 }
 async function runResearch(e){
  e.preventDefault();const company=$('#company').value.trim(),vat=$('#vat').value.trim(),postal=$('#postal').value.trim(),digits=normalizeVat(vat),depth=$('#depth').value;
  if(!company||!postal||!validVat(vat)){toast('Controleer bedrijfsnaam, Belgische postcode en btw-nummer');return}
- if(!backendAvailable)await checkBackend();
+ closeNewProspectDialog();if(!backendAvailable)await checkBackend();
  if(backendAvailable){runLiveResearch(company,vat,postal,digits,depth);return}
- const ui=openProgress(company,digits);ui.hint.textContent='Vaste demo: gecontroleerde kaart wordt geopend zonder live API-call.';let n=0;const tick=()=>{setProgress(ui,Math.min(n,ui.steps.length-1),n/ui.steps.length*100);if(n<ui.steps.length){n++;setTimeout(tick,720)}else{completeProgress(ui);setTimeout(()=>finishResearch(company,digits,postal),450)}};tick();
+ const ui=openProgress(company,digits);ui.hint.textContent='Gecontroleerde voorbeeldkaart wordt geopend zonder live API-call.';let n=0;const tick=()=>{setProgress(ui,Math.min(n,ui.steps.length-1),n/ui.steps.length*100);if(n<ui.steps.length){n++;setTimeout(tick,720)}else{completeProgress(ui);setTimeout(()=>finishResearch(company,digits,postal),450)}};tick();
 }
 function finishResearch(company,digits,postal){
- $('#modal').classList.remove('open');const lower=company.toLowerCase();const existing=prospects.find(p=>(p.vatDigits&&p.vatDigits===digits)||p.company.toLowerCase()===lower||p.company.toLowerCase().includes(lower));
- if(existing){existing.timeline=existing.timeline||[];existing.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Beschikbare demokaart geopend; bronnen niet live vernieuwd.'});selectedId=existing.id;toast('Beschikbare demokaart geopend')}
- else{const id='prospect-'+digits;let p=prospects.find(x=>x.id===id);if(!p){p={id,company,legalName:company,vat:'BE '+digits.slice(0,4)+'.'+digits.slice(4,7)+'.'+digits.slice(7),vatDigits:digits,postal,city:'',stage:'new',contactOutcome:'none',attempts:0,doNotContact:false,nextAction:'',reportType:'limited',reason:'Broncontrole nodig; nog geen geverifieerde commerciële signalen.',timeline:[{date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Vaste demo zonder live backend; geen gecontroleerde dataset gevonden.'}],notes:[]};prospects.unshift(p)}selectedId=id;toast('Veilige beperkte kaart aangemaakt')}
+ $('#modal').hidden=true;const lower=company.toLowerCase();const existing=prospects.find(p=>(p.vatDigits&&p.vatDigits===digits)||p.company.toLowerCase()===lower||p.company.toLowerCase().includes(lower));
+ if(existing){existing.timeline=existing.timeline||[];existing.timeline.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Beschikbare voorbeeldkaart geopend; bronnen niet live vernieuwd.'});selectedId=existing.id;toast('Beschikbare voorbeeldkaart geopend')}
+ else{const id='prospect-'+digits;let p=prospects.find(x=>x.id===id);if(!p){p={id,company,legalName:company,vat:'BE '+digits.slice(0,4)+'.'+digits.slice(4,7)+'.'+digits.slice(7),vatDigits:digits,postal,city:'',stage:'new',contactOutcome:'none',attempts:0,doNotContact:false,nextAction:'',reportType:'limited',reason:'Broncontrole nodig; nog geen geverifieerde commerciële signalen.',timeline:[{date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:'Geen gecontroleerde dataset gevonden; alleen ingevoerde identiteit bewaard.'}],notes:[]};prospects.unshift(p)}selectedId=id;toast('Veilige beperkte kaart aangemaakt')}
  save();renderFilters();renderList();renderMain();
 }
-$('#researchForm').addEventListener('submit',runResearch);$('#search').addEventListener('input',renderList);$('#depth').addEventListener('change',e=>{if($('#costScenario')){$('#costScenario').value=e.target.value;updateCost()}});$('#exportAll').addEventListener('click',exportAllToExcel);$('#today').textContent=new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short',year:'numeric'});renderFilters();renderList();renderMain();checkBackend();
+$('#researchForm').addEventListener('submit',runResearch);
+$('#search').addEventListener('input',renderList);
+$('#newProspectButton').addEventListener('click',openNewProspectDialog);
+$('#closeNewProspect').addEventListener('click',closeNewProspectDialog);
+$('#cancelNewProspect').addEventListener('click',closeNewProspectDialog);
+$('#newProspectDialog').addEventListener('click',e=>{if(e.target===$('#newProspectDialog'))closeNewProspectDialog()});
+$('#settingsButton').addEventListener('click',openSettings);
+$('#closeSettings').addEventListener('click',closeSettings);
+$('#drawerScrim').addEventListener('click',closeSettings);
+$('#moreButton').addEventListener('click',e=>{e.stopPropagation();toggleMoreMenu()});
+$('#moreMenu').addEventListener('click',e=>e.stopPropagation());
+$('#toggleDnc').addEventListener('click',()=>{const p=prospects.find(x=>x.id===selectedId)||prospects[0];if(p)setOutreachBlocked(p,!p.doNotContact);closeMoreMenu()});
+$('#printCurrent').addEventListener('click',()=>{closeMoreMenu();window.print()});
+$('#exportAll').addEventListener('click',()=>{closeMoreMenu();exportAllToExcel()});
+document.addEventListener('click',closeMoreMenu);
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;closeMoreMenu();closeSettings();closeNewProspectDialog()});
+$('#today').textContent=new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short',year:'numeric'});
+renderFilters();renderList();renderMain();checkBackend();
 </script>
 </body>
 </html>
