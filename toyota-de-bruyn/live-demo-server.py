@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_STATIC = ROOT / "app"
-MAX_BODY = 32_768
+MAX_BODY = 131_072
 
 DEPTHS = {
     "lean": {
@@ -260,7 +260,7 @@ def app_card(raw_card: dict, digits: str, depth: str, research_raw: dict, polish
         "postal": raw_card.get("postal", ""),
         "city": raw_card.get("city", ""),
         "stage": "new", "contactOutcome": "none", "attempts": 0, "doNotContact": False, "nextAction": "",
-        "researchedAt": date.today().isoformat(), "confidence": raw_card.get("confidence", "Middel"), "potential": raw_card.get("potential", "Te toetsen"),
+        "researchedAt": date.today().isoformat(), "confidence": raw_card.get("confidence", "Middel"), "confidenceNote": "Live bronnen + NBB/KBO-controle", "potential": raw_card.get("potential", "Te toetsen"), "potentialNote": "Hypothese op missie en gebruik", "nextStep": "15 min. kwalificatie", "nextStepNote": "Valideer missie, timing en beslisroute",
         "freshness": raw_card.get("freshness", "Live gecontroleerd"), "freshnessNote": raw_card.get("freshnessNote", "Bronnen tijdens live research opgehaald"),
         "reportType": "full", "website": raw_card.get("website", ""), "contactUrl": raw_card.get("contactUrl") or raw_card.get("website", ""),
         "phone": raw_card.get("phone", ""), "email": raw_card.get("email", ""), "reason": raw_card.get("reason", ""), "opener": raw_card.get("opener", ""),
@@ -295,6 +295,58 @@ Geef exact dit kaartformaat:
     return {"card": app_card(card, digits, depth, raw1, raw2), "live": True}
 
 
+def analyze_conversation(card: dict, notes: str) -> dict:
+    context = {
+        "today": date.today().isoformat(),
+        "card": {k: card.get(k) for k in (
+            "company", "legalName", "vat", "stage", "contactOutcome", "doNotContact",
+            "potential", "potentialNote", "confidence", "confidenceNote", "nextStep",
+            "nextStepNote", "freshness", "freshnessNote", "reason", "unknowns",
+        )},
+        "conversation_notes": notes,
+    }
+    system = """Je analyseert gespreksnotities van een Belgische Toyota-fleetverkoper en actualiseert één prospectkaart.
+
+Regels:
+- Gespreksnotities zijn de meest recente bron, maar alleen expliciete uitspraken zijn bevestigd. Verzin geen aantallen, timing, beslissers of voertuigbehoefte.
+- Een afwezig detail blijft onbekend. Verlaag desnoods bronzekerheid.
+- Update de vier managementkaarten kort en operationeel.
+- Adviseer fase/contactuitkomst/volgende actie, maar de UI laat de gebruiker dit advies expliciet toepassen.
+- 'qualified' vereist bevestigde behoefte, timing en beslisroute. 'quote' vereist een concrete oplossings-/offertevraag. 'decision' vereist dat een voorstel besproken wordt.
+- Respecteer doNotContact; adviseer nooit outreach als dat actief is.
+- Dataversheid mag stijgen wanneer het gesprek oude publieke informatie actualiseert.
+- Antwoord alleen als geldig JSON-object, zonder markdown.
+
+Schema:
+{
+ "summary":"max 3 zinnen",
+ "metrics":{
+  "fleetPotential":{"value":"Sterk|Te toetsen|Beperkt","note":"max 80 tekens"},
+  "sourceConfidence":{"value":"Hoog|Middel|Laag","note":"max 80 tekens"},
+  "nextStep":{"value":"max 35 tekens","note":"max 80 tekens"},
+  "freshness":{"value":"max 30 tekens","note":"max 80 tekens"}
+ },
+ "stageAdvice":{"suggested":"new|outreach|contact|qualified|visit|quote|decision|nurture|won|lost","rationale":"..."},
+ "contactOutcomeAdvice":{"suggested":"none|no_answer|reached|callback","rationale":"..."},
+ "nextActionAdvice":{"type":"bellen|e-mail|bezoek|onderzoek|proefrit|TCO/offerte|intern overleg","date":"YYYY-MM-DD of leeg","note":"..."},
+ "confirmedFacts":["..."],
+ "openQuestions":["..."],
+ "risks":["..."]
+}"""
+    payload = {
+        "model": "openai/gpt-5.2",
+        "messages": [
+            {"role": "system", "content": system},
+            {"role": "user", "content": json.dumps(context, ensure_ascii=False)},
+        ],
+        "response_format": {"type": "json_object"},
+        "temperature": 0.2,
+        "max_tokens": 3500,
+    }
+    analysis, raw = openrouter(payload)
+    return {"analysis": analysis, "meta": {"model": raw.get("model"), "cost": (raw.get("usage") or {}).get("cost")}}
+
+
 class Handler(SimpleHTTPRequestHandler):
     server_version = "TotyFleetSignal/1.0"
 
@@ -325,7 +377,7 @@ class Handler(SimpleHTTPRequestHandler):
         super().do_GET()
 
     def do_POST(self) -> None:
-        if self.path != "/api/research":
+        if self.path not in ("/api/research", "/api/conversation"):
             self.json_response(404, {"error": "Not found"})
             return
         try:
@@ -333,6 +385,13 @@ class Handler(SimpleHTTPRequestHandler):
             if length <= 0 or length > MAX_BODY:
                 raise ValueError("Invalid request size")
             data = json.loads(self.rfile.read(length).decode("utf-8"))
+            if self.path == "/api/conversation":
+                card = data.get("card")
+                notes = str(data.get("notes", "")).strip()[:12_000]
+                if not isinstance(card, dict) or len(notes) < 10:
+                    raise ValueError("Voeg een geldige kaart en concrete gespreksnotities toe")
+                self.json_response(200, analyze_conversation(card, notes))
+                return
             company = str(data.get("company", "")).strip()[:160]
             vat = str(data.get("vat", "")).strip()[:32]
             postal = str(data.get("postal", "")).strip()[:10]

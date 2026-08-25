@@ -53,6 +53,28 @@ Alle drie eindigen met een aparte GPT-5.2-pass voor de belopening en zes vragen.
 6. Herschrijft opener en vragen met GPT-5.2.
 7. Filtert directories, datamakelaars, fora en sociale bronnen opnieuw in code.
 
+## Gesprekken verwerken
+
+Plak na een call de feitelijke gespreksnotities in **Gesprek verwerken**. GPT-5.2:
+
+- actualiseert Fleetpotentieel, Bronzekerheid, Beste volgende stap en Dataversheid;
+- maakt een korte samenvatting;
+- onderscheidt bevestigde feiten, open vragen en risico’s;
+- adviseert commerciële fase, contactuitkomst en volgende actiedatum;
+- wijzigt de workflow pas nadat de verkoper op **Pas workflowadvies toe** klikt;
+- respecteert altijd de blokkering **Niet benaderen**.
+
+## Excel-export
+
+**Exporteer alles naar Excel** maakt één Excel-compatibele `.xls`-werkmap met aparte tabbladen voor:
+
+- prospects met alle velden, inclusief geneste JSON;
+- bronnen;
+- signalen;
+- voertuigfits;
+- vragen en onbekenden;
+- activiteiten en gespreksnotities.
+
 ## Fallback
 
 Als `/api/health` niet live is, blijft de applicatie bruikbaar met zes vaste voorbeelden:
