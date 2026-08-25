@@ -2,6 +2,5 @@
 
 Public CoAchieving proposal pages:
 
-- [Bibliotheek](https://kurosato.github.io/)
 - [Korte uitleg](https://kurosato.github.io/korte-uitleg.html)
 - [Detailuitleg](https://kurosato.github.io/detail-uitleg.html)
