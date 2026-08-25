@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Voorstel samenwerking</title>
+  <style>
+:root {
+  --accent: #d71920;
+  --accent-dark: #a50f15;
+  --ink: #202124;
+  --muted: #666b72;
+  --line: #e2e4e8;
+  --soft: #f5f6f8;
+  --paper: #ffffff;
+  --canvas: #eef0f3;
+  --quote: #fff4f4;
+  --max: 1180px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--canvas);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.68;
+  text-rendering: optimizeLegibility;
+}
+a { color: var(--accent-dark); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+.page-shell { max-width: var(--max); margin: 32px auto; background: var(--paper); box-shadow: 0 12px 40px rgba(15, 23, 42, .10); }
+.document-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 42px 48px 36px;
+  border-top: 8px solid var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow { display: block; margin-bottom: 8px; color: var(--accent); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.document-header h1 { max-width: 820px; margin: 0; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.08; letter-spacing: -.035em; }
+.print-button {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--accent-dark);
+  background: #fff;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.print-button:hover { color: #fff; background: var(--accent); }
+.document-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); align-items: start; }
+.toc {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: 36px 26px 44px 32px;
+  border-right: 1px solid var(--line);
+  background: #fbfbfc;
+  font-size: .83rem;
+  line-height: 1.38;
+}
+.toc-title { margin: 0 0 15px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.toc ol { margin: 0; padding: 0; list-style: none; }
+.toc li { margin: 0 0 9px; }
+.toc li.level-3 { margin-left: 14px; font-size: .92em; }
+.toc a { color: #454950; text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+.document-main { min-width: 0; padding: 42px 52px 58px; }
+.markdown-body > :first-child { margin-top: 0; }
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 { scroll-margin-top: 24px; position: relative; line-height: 1.2; letter-spacing: -.02em; }
+.markdown-body h2 { margin: 2.5em 0 .75em; padding-top: .45em; border-top: 1px solid var(--line); font-size: 1.72rem; }
+.markdown-body h3 { margin: 1.9em 0 .6em; font-size: 1.28rem; }
+.markdown-body h4 { margin: 1.6em 0 .5em; font-size: 1.05rem; }
+.markdown-body h2 a.heading-anchor,
+.markdown-body h3 a.heading-anchor { color: inherit; text-decoration: none; }
+.markdown-body p { margin: .85em 0; }
+.markdown-body strong { color: #101114; }
+.markdown-body blockquote {
+  margin: 1.55em 0;
+  padding: 18px 22px;
+  border-left: 5px solid var(--accent);
+  background: var(--quote);
+  color: #33363b;
+  font-size: 1.04em;
+}
+.markdown-body blockquote > :first-child { margin-top: 0; }
+.markdown-body blockquote > :last-child { margin-bottom: 0; }
+.markdown-body ul,
+.markdown-body ol { padding-left: 1.45em; }
+.markdown-body li { margin: .32em 0; }
+.markdown-body hr { margin: 2.8em 0; border: 0; border-top: 2px solid var(--line); }
+.table-wrap { width: 100%; margin: 1.35em 0 1.9em; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .9rem; line-height: 1.45; }
+th, td { padding: 11px 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th:last-child, td:last-child { border-right: 0; }
+tr:last-child td { border-bottom: 0; }
+th { color: #fff; background: #303238; font-weight: 750; }
+tbody tr:nth-child(even) { background: #fafafa; }
+code {
+  padding: .13em .36em;
+  border-radius: 5px;
+  color: #832027;
+  background: #f4eeee;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .86em;
+  overflow-wrap: anywhere;
+}
+pre { overflow-x: auto; padding: 18px; border-radius: 9px; color: #f5f5f5; background: #24262b; }
+pre code { padding: 0; color: inherit; background: transparent; }
+.markdown-body h2[id="sources"] ~ ul,
+.markdown-body h2[id="sources"] ~ ol { font-size: .86rem; line-height: 1.45; overflow-wrap: anywhere; }
+.document-footer { margin-top: 54px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+@media (max-width: 900px) {
+  body { font-size: 16px; }
+  .page-shell { margin: 0; box-shadow: none; }
+  .document-header { padding: 28px 24px 24px; }
+  .print-button { display: none; }
+  .document-grid { display: block; }
+  .toc { position: static; max-height: none; padding: 22px 24px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .toc ol { columns: 2; column-gap: 26px; }
+  .toc li { break-inside: avoid; }
+  .document-main { padding: 30px 24px 44px; }
+}
+@media (max-width: 560px) {
+  .document-header h1 { font-size: 2rem; }
+  .toc ol { columns: 1; }
+  .document-main { padding-inline: 18px; }
+  .markdown-body h2 { font-size: 1.48rem; }
+}
+@media print {
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  body { color: #111; background: #fff; font-size: 10.5pt; line-height: 1.5; }
+  .page-shell { max-width: none; margin: 0; box-shadow: none; }
+  .document-header { padding: 0 0 16mm; border-top-width: 5px; }
+  .document-header h1 { font-size: 25pt; }
+  .print-button, .toc { display: none; }
+  .document-grid { display: block; }
+  .document-main { padding: 0; }
+  .markdown-body h2 { break-after: avoid; margin-top: 1.7em; }
+  .markdown-body h3, .markdown-body h4 { break-after: avoid; }
+  blockquote, table, pre { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  a[href^="http"]::after { content: ""; }
+  .document-footer { margin-top: 10mm; }
+}
+</style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="document-header">
+      <div>
+        <span class="eyebrow">CoAchieving · Voorstel</span>
+        <h1>Voorstel samenwerking</h1>
+      </div>
+      <button class="print-button" type="button" onclick="window.print()">Print / bewaar als PDF</button>
+    </header>
+    <div class="document-grid">
+      <aside class="toc" aria-label="Inhoudsopgave">
+        <p class="toc-title">Inhoud</p>
+        <ol><li class="level-2"><a href="#toyota-de-bruyn-machelen-coachieving">Toyota De Bruyn Machelen × CoAchieving</a></li>
+<li class="level-2"><a href="#1-het-doel">1. Het doel</a></li>
+<li class="level-2"><a href="#2-wat-er-na-de-toty-brain-core-launch-staat">2. Wat er na de Toty Brain Core Launch staat</a></li>
+<li class="level-2"><a href="#3-de-commerciele-motoren">3. De commerciële motoren</a></li>
+<li class="level-3"><a href="#particulieren">Particulieren</a></li>
+<li class="level-3"><a href="#b2b-fleet-en-leasing">B2B, fleet en leasing</a></li>
+<li class="level-3"><a href="#occasions">Occasions</a></li>
+<li class="level-3"><a href="#aftersales-en-loyaliteit">Aftersales en loyaliteit</a></li>
+<li class="level-2"><a href="#4-scope-van-de-toty-brain-core-launch">4. Scope van de Toty Brain Core Launch</a></li>
+<li class="level-3"><a href="#4-1-growth-en-marketingblauwdruk">4.1 Growth- en marketingblauwdruk</a></li>
+<li class="level-3"><a href="#4-2-websitebegeleiding-en-teksten">4.2 Websitebegeleiding en teksten</a></li>
+<li class="level-3"><a href="#4-3-analytics-tracking-en-advertentiefundament">4.3 Analytics, tracking en advertentiefundament</a></li>
+<li class="level-3"><a href="#4-4-leadflow-en-opvolging">4.4 Leadflow en opvolging</a></li>
+<li class="level-3"><a href="#4-5-toty-brain-core">4.5 Toty Brain Core</a></li>
+<li class="level-3"><a href="#4-6-eerste-pilot">4.6 Eerste pilot</a></li>
+<li class="level-2"><a href="#5-aanpak-en-planning">5. Aanpak en planning</a></li>
+<li class="level-3"><a href="#fase-1-begrijpen-prioriteren-en-ontwerpen">Fase 1 — begrijpen, prioriteren en ontwerpen</a></li>
+<li class="level-3"><a href="#fase-2-marketingfundament-en-systemen-bouwen">Fase 2 — marketingfundament en systemen bouwen</a></li>
+<li class="level-3"><a href="#fase-3-lanceren-leren-en-overdragen">Fase 3 — lanceren, leren en overdragen</a></li>
+<li class="level-2"><a href="#6-begeleiding-gedurende-de-eerste-drie-maanden">6. Begeleiding gedurende de eerste drie maanden</a></li>
+<li class="level-2"><a href="#7-werkwijze-mens-blijft-eindverantwoordelijk">7. Werkwijze: mens blijft eindverantwoordelijk</a></li>
+<li class="level-2"><a href="#8-wie-doet-wat">8. Wie doet wat</a></li>
+<li class="level-3"><a href="#coachieving">CoAchieving</a></li>
+<li class="level-3"><a href="#toyota-de-bruyn-machelen">Toyota De Bruyn Machelen</a></li>
+<li class="level-3"><a href="#intern-webteam-sam">Intern webteam / Sam</a></li>
+<li class="level-2"><a href="#9-security-privacy-en-continuiteit">9. Security, privacy en continuïteit</a></li>
+<li class="level-2"><a href="#10-wat-niet-inbegrepen-is">10. Wat niet inbegrepen is</a></li>
+<li class="level-2"><a href="#11-evaluatie-en-mogelijke-groei">11. Evaluatie en mogelijke groei</a></li>
+<li class="level-3"><a href="#optionele-growth-activation-extension">Optionele Growth Activation Extension</a></li>
+<li class="level-3"><a href="#andere-mogelijke-uitbreidingen">Andere mogelijke uitbreidingen</a></li>
+<li class="level-3"><a href="#toekomstpad-toty-controlled-workspace">Toekomstpad: Toty Controlled Workspace</a></li>
+<li class="level-2"><a href="#12-investering">12. Investering</a></li>
+<li class="level-3"><a href="#toty-brain-core-launch">Toty Brain Core Launch</a></li>
+<li class="level-3"><a href="#betalingsmomenten-startproject">Betalingsmomenten startproject</a></li>
+<li class="level-3"><a href="#betalingsmomenten-optionele-verlenging">Betalingsmomenten optionele verlenging</a></li>
+<li class="level-2"><a href="#13-succes-en-evaluatie">13. Succes en evaluatie</a></li>
+<li class="level-2"><a href="#14-scope-en-changebeheer">14. Scope- en changebeheer</a></li>
+<li class="level-2"><a href="#15-volgende-stap">15. Volgende stap</a></li>
+<li class="level-3"><a href="#business-en-operatie">Business en operatie</a></li>
+<li class="level-3"><a href="#sales-en-marketing">Sales en marketing</a></li>
+<li class="level-3"><a href="#website-en-techniek">Website en techniek</a></li></ol>
+      </aside>
+      <main class="document-main">
+        <article class="markdown-body">
+<h2 id="toyota-de-bruyn-machelen-coachieving"><a class="heading-anchor" href="#toyota-de-bruyn-machelen-coachieving">Toyota De Bruyn Machelen × CoAchieving</a></h2>
+<p><strong>Versie:</strong> 0.4 — intern concept, nog niet verstuurd<br/><strong>Datum:</strong> 24 augustus 2026<br/><strong>Startproject:</strong> €15.000 excl. btw</p>
+<blockquote>
+<p><strong>Het voorstel in één zin</strong>
+We bouwen in drie maanden een zelfstandig marketingfundament waarmee Toyota De Bruyn Machelen zelf nieuwe klanten kan aantrekken, leads correct kan opvolgen en gerichter kan groeien, ondersteund door een vernieuwde website, betrouwbare meting en Toty Brain Core als gedeeld AI-kennis- en werksysteem.</p>
+</blockquote>
+<p>Na de eerste drie maanden volgt een gezamenlijk beslismoment. Alleen wanneer gebruik en resultaten daar aanleiding toe geven, kan Toyota De Bruyn kiezen voor een Growth Activation Extension voor maand vier tot en met zes.</p>
+<h2 id="1-het-doel"><a class="heading-anchor" href="#1-het-doel">1. Het doel</a></h2>
+<p>Toyota De Bruyn Machelen heeft een gevestigde naam, trouwe klanten en een sterke servicecultuur. De volgende stap is niet simpelweg meer advertenties of meer sociale media. Machelen heeft een eigen systeem nodig om:</p>
+<ul>
+<li>nieuwe particuliere klanten eerder te bereiken;</li>
+<li>B2B-, fleet- en leasingkansen doelgericht te ontwikkelen;</li>
+<li>iedere occasion als een meetbare commerciële kans te behandelen;</li>
+<li>aftersales, loyaliteit en heraankoop structureel te versterken;</li>
+<li>te weten welke marketing werkelijk leidt tot afspraken, offertes en orders;</li>
+<li>kennis, campagnes, website-inhoud en salesvoorbereiding intern sneller uit te voeren.</li>
+</ul>
+<p>CoAchieving bouwt in de eerste drie maanden een basis die zelfstandig bruikbaar is. Toyota De Bruyn hoeft geen vervolgtraject te kopen om de opgeleverde websiteblauwdruk, tracking, leadflow, kennisbank of Toty Brain Core te blijven gebruiken.</p>
+<h2 id="2-wat-er-na-de-toty-brain-core-launch-staat"><a class="heading-anchor" href="#2-wat-er-na-de-toty-brain-core-launch-staat">2. Wat er na de Toty Brain Core Launch staat</a></h2>
+<p>Aan het einde van het startproject beschikt Toyota De Bruyn Machelen over:</p>
+<ol>
+<li>een onderbouwde growth- en marketingroadmap;</li>
+<li>drie duidelijke acquisitiefunnels voor particulieren, B2B/fleet en occasions;</li>
+<li>een aftersales- en loyaliteitsaanpak die op die funnels aansluit;</li>
+<li>een websiteblauwdruk met funnelstructuur, briefings voor de kernclusters en finale copy voor de eerste prioritaire pagina’s;</li>
+<li>correct ingerichte of opgeschoonde analytics- en advertentieaccounts;</li>
+<li>een werkbare leadflow met bron, eigenaar, status en volgende actie;</li>
+<li>Toty Brain Core: een veilige, gedeelde kennis- en werkomgeving via een remote MCP-server;</li>
+<li>een eerste geteste campagne- of prospectingworkflow;</li>
+<li>documentatie, training en een menselijk goedkeuringsproces;</li>
+<li>een team dat de afgesproken basisprocessen zelfstandig kan voortzetten.</li>
+</ol>
+<h2 id="3-de-commerciele-motoren"><a class="heading-anchor" href="#3-de-commerciele-motoren">3. De commerciële motoren</a></h2>
+<h3 id="particulieren"><a class="heading-anchor" href="#particulieren">Particulieren</a></h3>
+<p>Machelen komt eerder in beeld dan het moment waarop iemand al één specifiek model vergelijkt.</p>
+<p>Mogelijke routes zijn:</p>
+<ul>
+<li>LEZ- en Euronormvragen;</li>
+<li>inruil- en mobiliteitsadvies;</li>
+<li>hybride of elektrisch per ritprofiel;</li>
+<li>betrouwbaar gezinsvervoer;</li>
+<li>proefrit, financiering en afspraak;</li>
+<li>lokale service en Toyota Relax.</li>
+</ul>
+<h3 id="b2b-fleet-en-leasing"><a class="heading-anchor" href="#b2b-fleet-en-leasing">B2B, fleet en leasing</a></h3>
+<p>De aanpak start niet met een zo groot mogelijke prospectlijst. We onderzoeken eerst welke huidige zakelijke klanten goed bij Machelen passen en zoeken daarna vergelijkbare bedrijven.</p>
+<p>De workflow omvat:</p>
+<ol>
+<li>representatieve huidige B2B-klanten analyseren;</li>
+<li>relevante lookalikes selecteren;</li>
+<li>bedrijfsinformatie en use cases onderbouwen met bronnen;</li>
+<li>een prospectkaart en concrete Toyota-redenen opstellen;</li>
+<li>Tristan en het team voorzien van belscript en opvolglogica;</li>
+<li>meetings, offertes, voertuigen en pipeline meten.</li>
+</ol>
+<p>We sturen op bruikbare gesprekken en pipeline, niet op het aantal gevonden bedrijfsnamen.</p>
+<h3 id="occasions"><a class="heading-anchor" href="#occasions">Occasions</a></h3>
+<p>Iedere wagen wordt behandeld als een afzonderlijke commerciële kans:</p>
+<ul>
+<li>de actuele voorraadfeed blijft de bron van waarheid;</li>
+<li>voertuigpagina’s krijgen een duidelijke contact-, financierings- en inruilroute;</li>
+<li>campagnes kunnen sturen op model, marge en dagen in stock;</li>
+<li>campagnes stoppen wanneer een wagen gereserveerd of verkocht is;</li>
+<li>kopers stromen na aankoop door naar service en retentie.</li>
+</ul>
+<h3 id="aftersales-en-loyaliteit"><a class="heading-anchor" href="#aftersales-en-loyaliteit">Aftersales en loyaliteit</a></h3>
+<p>Aftersales is de laag onder het geheel:</p>
+<ul>
+<li>onderhoud en seizoensmomenten;</li>
+<li>banden, keuring en herstellingen;</li>
+<li>verloren klanten terugwinnen;</li>
+<li>reviews en referrals;</li>
+<li>een volgende afspraak bij levering of werkorder;</li>
+<li>heraankoop en fleetrenewal.</li>
+</ul>
+<h2 id="4-scope-van-de-toty-brain-core-launch"><a class="heading-anchor" href="#4-scope-van-de-toty-brain-core-launch">4. Scope van de Toty Brain Core Launch</a></h2>
+<h3 id="4-1-growth-en-marketingblauwdruk"><a class="heading-anchor" href="#4-1-growth-en-marketingblauwdruk">4.1 Growth- en marketingblauwdruk</a></h3>
+<p>CoAchieving brengt doelen, doelgroepen, aanbod, capaciteit en huidige kanalen samen in één uitvoerbaar plan.</p>
+<p>Inbegrepen:</p>
+<ul>
+<li>drie afzonderlijke werksessies met business/operatie, sales/marketing en website/techniek;</li>
+<li>nulmeting van website, campagnes, leadbronnen en opvolging;</li>
+<li>funneldefinities en prioriteiten;</li>
+<li>positionering, StoryBrand en kernboodschappen;</li>
+<li>eerste 90-dagenroadmap;</li>
+<li>eigenaarschap en beslissingsrechten per werkstroom;</li>
+<li>risico’s, afhankelijkheden en manuele fallbacks.</li>
+</ul>
+<h3 id="4-2-websitebegeleiding-en-teksten"><a class="heading-anchor" href="#4-2-websitebegeleiding-en-teksten">4.2 Websitebegeleiding en teksten</a></h3>
+<p>De website wordt ontworpen en gebouwd door het interne webteam. CoAchieving zorgt dat de site commercieel, inhoudelijk en meetbaar juist wordt opgebouwd.</p>
+<p>CoAchieving levert binnen het startproject:</p>
+<ul>
+<li>informatiearchitectuur en funnelstructuur;</li>
+<li>persona’s en customer journeys;</li>
+<li>StoryBrand- en positioneringskaders;</li>
+<li>CRO- en digital-psychologyrichtlijnen;</li>
+<li>pagina- en contentbriefings voor maximaal tien overeengekomen kernclusters;</li>
+<li>finale copy voor de eerste vijf prioritaire kernclusters;</li>
+<li>SEO-, local SEO- en GEO-vereisten;</li>
+<li>formulier-, call-to-action- en leadroutinglogica;</li>
+<li>datalayer-, tracking- en consentvereisten;</li>
+<li>QA op de eerste geïmplementeerde inhoud, funnel, tracking en conversieroutes.</li>
+</ul>
+<p>De beoogde kernclusters zijn:</p>
+<ol>
+<li>home Machelen;</li>
+<li>nieuwe wagens en modelkeuze;</li>
+<li>particulier advies;</li>
+<li>fleet en B2B;</li>
+<li>occasions en voertuigdetail;</li>
+<li>onderhoud en herstelling;</li>
+<li>carrosserie, banden en keuring;</li>
+<li>LEZ en inruil;</li>
+<li>proefrit en afspraak;</li>
+<li>over Machelen, team en servicebewijs.</li>
+</ol>
+<p>De eerste vijf clusters worden tijdens de blueprint gezamenlijk geprioriteerd. Finale copy voor de resterende clusters kan deel worden van de Growth Activation Extension. Nieuwe clusters, bijkomende talen of fundamentele wijzigingen na goedkeuring van de sitemap worden als afzonderlijke uitbreiding beoordeeld.</p>
+<h3 id="4-3-analytics-tracking-en-advertentiefundament"><a class="heading-anchor" href="#4-3-analytics-tracking-en-advertentiefundament">4.3 Analytics, tracking en advertentiefundament</a></h3>
+<p>Inbegrepen voor de afgesproken primaire accounts:</p>
+<ul>
+<li>GA4 controleren en correct configureren;</li>
+<li>Google Tag Manager controleren en opschonen;</li>
+<li>Search Console correct koppelen;</li>
+<li>Google Ads-accountstructuur, conversies en basisinstellingen controleren of opzetten;</li>
+<li>Meta Pixel/CAPI-vereisten en campagnebasis controleren waar toegang beschikbaar is;</li>
+<li>consent- en remarketingvereisten vastleggen;</li>
+<li>UTM- en campagnenaamgeving standaardiseren;</li>
+<li>calltracking en offline conversion-behoeften bepalen;</li>
+<li>een eerste begrijpelijke rapportagestructuur opzetten;</li>
+<li>meten van bron en campagne tot afspraak, offerte en order voorbereiden.</li>
+</ul>
+<p>Het startproject omvat het marketing- en meetfundament en de eerste overeengekomen pilot. Dagelijks campagnebeheer, structurele mediaplanning, uitgebreide kanaalautomation en onbeperkte nieuwe campagnes vallen niet automatisch binnen de scope.</p>
+<h3 id="4-4-leadflow-en-opvolging"><a class="heading-anchor" href="#4-4-leadflow-en-opvolging">4.4 Leadflow en opvolging</a></h3>
+<p>We richten een werkbare overgangsflow in, zodat leads niet verdwijnen in mailboxen of losse notities.</p>
+<p>De minimale leadstructuur bevat:</p>
+<ul>
+<li>unieke Lead ID;</li>
+<li>datum, bron en campagne;</li>
+<li>funnel;</li>
+<li>model of stock-ID;</li>
+<li>naam of bedrijf;</li>
+<li>eigenaar;</li>
+<li>status;</li>
+<li>volgende actie en datum;</li>
+<li>afspraak, show, offerte en order;</li>
+<li>lost reason;</li>
+<li>toestemming of communicatiegrondslag;</li>
+<li>laatste update.</li>
+</ul>
+<p>Een gestructureerde Sheet kan tijdelijk volstaan. Tijdens het startproject bepalen we op basis van werkelijk gebruik welke CRM-oplossing later passend is. Qdrant en Toty vervangen geen CRM.</p>
+<h3 id="4-5-toty-brain-core"><a class="heading-anchor" href="#4-5-toty-brain-core">4.5 Toty Brain Core</a></h3>
+<p>Toty Brain Core is het gedeelde AI-brein van Toyota De Bruyn Machelen. Medewerkers gebruiken hun vertrouwde AI-client om kennis te raadplegen, output te bewaren en werkzaamheden voor te bereiden.</p>
+<p>De eerste productieversie omvat:</p>
+<ul>
+<li>één beveiligde remote MCP-server onder de Toty-identiteit;</li>
+<li>initiële aansluiting voor maximaal vier benoemde gebruikers;</li>
+<li>configuratie en test in één gekozen referentieclient: Claude of ChatGPT;</li>
+<li>een afgeschermde Toyota De Bruyn-kennisruimte;</li>
+<li>hybride kenniszoekfunctie met bronverwijzingen;</li>
+<li>een artefactenregister voor goedgekeurde, herbruikbare output;</li>
+<li>B2B-prospectonderzoek met bronnen en datum;</li>
+<li>prospectkaarten en exporteerbare salesdocumenten;</li>
+<li>gebruikers- en tooltoegang volgens minimale rechten;</li>
+<li>logging, back-up- en herstelafspraken;</li>
+<li>documentatie voor technisch beheer en gebruik.</li>
+</ul>
+<p>Voorbeelden van vragen:</p>
+<ul>
+<li>“Welke campagne kunnen we rond LEZ en inruil bouwen?”</li>
+<li>“Maak een briefing voor deze landingspagina.”</li>
+<li>“Onderzoek dit fleetbedrijf en bereid Tristans gesprek voor.”</li>
+<li>“Maak een belscript op basis van onze B2B-propositie.”</li>
+<li>“Schrijf drie socialvarianten en een Brevo-mail.”</li>
+<li>“Bewaar dit goedgekeurde campagneplan als artefact.”</li>
+<li>“Welke argumenten gebruiken we voor service en uptime?”</li>
+</ul>
+<p>Toty publiceert of verstuurt in deze fase niets autonoom. Advertenties, e-mails, externe communicatie en mutaties blijven onder menselijke controle.</p>
+<h3 id="4-6-eerste-pilot"><a class="heading-anchor" href="#4-6-eerste-pilot">4.6 Eerste pilot</a></h3>
+<p>Binnen het startproject wordt één structurele pilot volledig begeleid. De definitieve keuze volgt uit de nulmeting en de beschikbare data.</p>
+<p>Mogelijke pilots:</p>
+<ul>
+<li>LEZ en inruil;</li>
+<li>B2B-lookalikeprospecting;</li>
+<li>aged-stock- of occasioncampagne;</li>
+<li>aftersales- of verloren-klantenactivatie.</li>
+</ul>
+<p>De pilot omvat strategie, doelgroep, boodschap, meetplan, nodige content, leadopvolging en evaluatie. Mediabudget en externe productiekosten blijven apart.</p>
+<h2 id="5-aanpak-en-planning"><a class="heading-anchor" href="#5-aanpak-en-planning">5. Aanpak en planning</a></h2>
+<p>Het startproject loopt over drie maanden. De fases overlappen bewust: website, tracking, kennis, campagnes en adoptie beïnvloeden elkaar.</p>
+<p>De urenbanden hieronder zijn planningsindicaties voor de verwachte intensiteit per fase. Ze zijn geen voorafbetaalde urenbundel, geen timesheetcontract en worden niet opgeteld tot een commercieel urentotaal. De vaste projectprijs is gekoppeld aan de beschreven scope, deliverables, kwaliteit en verantwoordelijkheid.</p>
+<h3 id="fase-1-begrijpen-prioriteren-en-ontwerpen"><a class="heading-anchor" href="#fase-1-begrijpen-prioriteren-en-ontwerpen">Fase 1 — begrijpen, prioriteren en ontwerpen</a></h3>
+<p><strong>Timing:</strong> maand 1<br/><strong>Indicatieve specialistische inzet:</strong> 20–30 uur</p>
+<ul>
+<li>drie gerichte werksessies;</li>
+<li>toegangsmatrix en assetinventaris;</li>
+<li>nulmeting;</li>
+<li>funnels en prioriteiten;</li>
+<li>website- en meetblauwdruk;</li>
+<li>architectuur- en securitykeuzes;</li>
+<li>eerste 90-dagenplanning.</li>
+</ul>
+<h3 id="fase-2-marketingfundament-en-systemen-bouwen"><a class="heading-anchor" href="#fase-2-marketingfundament-en-systemen-bouwen">Fase 2 — marketingfundament en systemen bouwen</a></h3>
+<p><strong>Timing:</strong> maand 1 tot en met 2<br/><strong>Indicatieve specialistische inzet:</strong> 45–60 uur</p>
+<ul>
+<li>analytics- en advertentieaccounts op orde brengen;</li>
+<li>tracking-, datalayer- en consentplan;</li>
+<li>websitebriefings en eerste prioritaire teksten;</li>
+<li>leadregister en opvolgafspraken;</li>
+<li>Toty Brain Core bouwen, vullen en testen;</li>
+<li>artefact- en prospectworkflow;</li>
+<li>eerste training en interne testcases.</li>
+</ul>
+<h3 id="fase-3-lanceren-leren-en-overdragen"><a class="heading-anchor" href="#fase-3-lanceren-leren-en-overdragen">Fase 3 — lanceren, leren en overdragen</a></h3>
+<p><strong>Timing:</strong> maand 2 tot en met 3<br/><strong>Indicatieve specialistische inzet:</strong> 25–40 uur</p>
+<ul>
+<li>gekozen pilot uitvoeren;</li>
+<li>eerste website-, campagne- en leadflow-QA;</li>
+<li>gebruikers begeleiden in echte werksituaties;</li>
+<li>fouten en correcties classificeren;</li>
+<li>documentatie en fallbackprocedures aanscherpen;</li>
+<li>resultaten evalueren;</li>
+<li>basisownership bij Toyota De Bruyn leggen;</li>
+<li>gezamenlijk beslismoment over een mogelijke verlenging.</li>
+</ul>
+<h2 id="6-begeleiding-gedurende-de-eerste-drie-maanden"><a class="heading-anchor" href="#6-begeleiding-gedurende-de-eerste-drie-maanden">6. Begeleiding gedurende de eerste drie maanden</a></h2>
+<p>De projectprijs omvat vanaf de kick-off tot en met maand drie maximaal acht uur begeleidingscapaciteit per maand.</p>
+<p>Het standaardritme:</p>
+<ul>
+<li>één gezamenlijke halve werkdag per maand, bij voorkeur op locatie;</li>
+<li>drie virtuele opvolgmomenten per maand van doorgaans ongeveer één uur;</li>
+<li>wanneer nodig kan één virtuele sessie langer duren, zolang de maandcapaciteit van acht uur gerespecteerd blijft;</li>
+<li>voorbereiding, korte recap en prioriteiten voor de volgende periode;</li>
+<li>begeleiding bij gebruik, review, campagnes, tracking en probleemoplossing.</li>
+</ul>
+<p>De maandcapaciteit is bedoeld om voortgang en adoptie te bewaken. Ze is geen vrij inzetbare of onbeperkt overdraagbare urenbank. Extra uitvoering buiten de afgesproken scope of capaciteit gebeurt alleen na voorafgaand akkoord.</p>
+<h2 id="7-werkwijze-mens-blijft-eindverantwoordelijk"><a class="heading-anchor" href="#7-werkwijze-mens-blijft-eindverantwoordelijk">7. Werkwijze: mens blijft eindverantwoordelijk</a></h2>
+<p>De medewerkers verschuiven van alles manueel produceren naar context geven, controleren en goedkeuren.</p>
+<p>De vaste werklus:</p>
+<ol>
+<li>medewerker geeft context, bronmateriaal, doelgroep, aanbod en gewenste actie;</li>
+<li>Toty of CoAchieving maakt een gestructureerd voorstel;</li>
+<li>een medewerker controleert feiten, merk, toestemming en call-to-action;</li>
+<li>alleen goedgekeurde output wordt gepubliceerd, verzonden of bewaard;</li>
+<li>terugkerende fouten worden in de juiste bron, workflow of instructie gecorrigeerd;</li>
+<li>hetzelfde scenario wordt opnieuw getest.</li>
+</ol>
+<p>Feedback wordt niet automatisch als nieuwe waarheid opgeslagen. Alleen geverifieerde informatie komt in de duurzame kennisbank.</p>
+<h2 id="8-wie-doet-wat"><a class="heading-anchor" href="#8-wie-doet-wat">8. Wie doet wat</a></h2>
+<h3 id="coachieving"><a class="heading-anchor" href="#coachieving">CoAchieving</a></h3>
+<p>CoAchieving staat in voor:</p>
+<ul>
+<li>growthstrategie, prioriteiten en roadmap;</li>
+<li>analytics-, advertentie- en trackingfundament;</li>
+<li>websitearchitectuur, eerste prioritaire copy en conversiekaders;</li>
+<li>leadflow en opvolglogica;</li>
+<li>Toty Brain Core en de afgesproken tools;</li>
+<li>kennisstructuur en initiële inhoud;</li>
+<li>eerste campagne- of prospectingpilot;</li>
+<li>training, adoptie en kwaliteitscontrole;</li>
+<li>documentatie, monitoring en overdracht binnen de startperiode;</li>
+<li>transparant scope- en changebeheer.</li>
+</ul>
+<h3 id="toyota-de-bruyn-machelen"><a class="heading-anchor" href="#toyota-de-bruyn-machelen">Toyota De Bruyn Machelen</a></h3>
+<p>Toyota De Bruyn zorgt voor:</p>
+<ul>
+<li>één interne beslisser en één operationele eigenaar;</li>
+<li>tijdige toegang tot accounts, data en bestaande materialen;</li>
+<li>beschikbaarheid van Christel, Miguel, Tristan en relevante medewerkers;</li>
+<li>input over klanten, aanbod, voorraad, sales en service;</li>
+<li>goedkeuring van teksten, campagnes en externe communicatie;</li>
+<li>snelle salesopvolging van binnenkomende leads;</li>
+<li>beschikbaarheid van het interne webteam;</li>
+<li>keuze en betaling van media, hosting, modelprovider en externe software.</li>
+</ul>
+<h3 id="intern-webteam-sam"><a class="heading-anchor" href="#intern-webteam-sam">Intern webteam / Sam</a></h3>
+<p>Het technische team staat in voor:</p>
+<ul>
+<li>UX/UI en development;</li>
+<li>CMS, hosting en releases;</li>
+<li>formulieren, feed en technische koppelingen;</li>
+<li>productie-infrastructuur en regulier technisch beheer waar afgesproken;</li>
+<li>fixes in de websitecode;</li>
+<li>implementatie van de door CoAchieving aangeleverde meet- en funnelvereisten.</li>
+</ul>
+<h2 id="9-security-privacy-en-continuiteit"><a class="heading-anchor" href="#9-security-privacy-en-continuiteit">9. Security, privacy en continuïteit</a></h2>
+<p>De eerste versie blijft bewust afgebakend.</p>
+<ul>
+<li>geen publieke toegang tot ruwe databases;</li>
+<li>individuele of herleidbare gebruikerstoegang;</li>
+<li>minimale tools en rechten;</li>
+<li>secrets buiten prompts, documenten en kennisbank;</li>
+<li>persoonsgegevens alleen verwerken wanneer dat nodig en toegestaan is;</li>
+<li>prospectonderzoek standaard op publiek beschikbare bedrijfsinformatie;</li>
+<li>menselijke goedkeuring voor alle externe acties;</li>
+<li>logging en back-up van kennis en artefacten;</li>
+<li>gedocumenteerde manuele fallback voor kernprocessen;</li>
+<li>externe model-, advertentie- en SaaS-platformen blijven buiten de uptimeverantwoordelijkheid van CoAchieving.</li>
+</ul>
+<p>De productieomgeving draait bij voorkeur in infrastructuur die Toyota De Bruyn of het technische team beheert. Wanneer CoAchieving hosting of operationeel platformbeheer opneemt, wordt daarvoor een afzonderlijke beheerovereenkomst opgesteld.</p>
+<h2 id="10-wat-niet-inbegrepen-is"><a class="heading-anchor" href="#10-wat-niet-inbegrepen-is">10. Wat niet inbegrepen is</a></h2>
+<p>Niet inbegrepen, tenzij later expliciet toegevoegd:</p>
+<ul>
+<li>UX/UI-ontwerp en technische bouw van de website;</li>
+<li>websitehosting en dagelijks websiteonderhoud;</li>
+<li>finale copy voor meer dan de eerste vijf prioritaire kernclusters;</li>
+<li>advertentiebudget;</li>
+<li>dagelijkse of onbeperkte campagneoptimalisatie;</li>
+<li>onbeperkte contentproductie of communitymanagement;</li>
+<li>fotografie, video, design, drukwerk en giveaways;</li>
+<li>CRM-licentie, volledige CRM-migratie of maatwerk-CRM;</li>
+<li>model- en API-verbruik;</li>
+<li>hosting, domein, database- en SaaS-kosten;</li>
+<li>betaalde prospectdata of persoonsgegevensverrijking;</li>
+<li>juridische, privacy- of DPA-begeleiding door een jurist;</li>
+<li>bijkomende talen of nieuwe paginaclusters buiten de goedgekeurde scope;</li>
+<li>onbeperkte maatwerkintegraties;</li>
+<li>volledig autonome advertenties, outreach of publicatie;</li>
+<li>support na maand drie zonder nieuwe afspraak.</li>
+</ul>
+<h2 id="11-evaluatie-en-mogelijke-groei"><a class="heading-anchor" href="#11-evaluatie-en-mogelijke-groei">11. Evaluatie en mogelijke groei</a></h2>
+<p>Aan het einde van maand drie evalueren we:</p>
+<ul>
+<li>gebruikt het team Toty Brain Core werkelijk;</li>
+<li>welke workflows besparen aantoonbaar tijd;</li>
+<li>zijn analytics en leadopvolging betrouwbaar genoeg;</li>
+<li>welke websiteonderdelen zijn klaar of nog geblokkeerd;</li>
+<li>wat leert de eerste pilot over doelgroep, boodschap en opvolging;</li>
+<li>waar ligt de volgende commerciële hefboom;</li>
+<li>hoeveel begeleiding heeft het team nog nodig.</li>
+</ul>
+<p>Toyota De Bruyn beslist daarna zelf om te stoppen, gericht uit te breiden of de Growth Activation Extension te starten.</p>
+<h3 id="optionele-growth-activation-extension"><a class="heading-anchor" href="#optionele-growth-activation-extension">Optionele Growth Activation Extension</a></h3>
+<p><strong>Periode:</strong> maand 4 tot en met 6<br/><strong>Investering:</strong> €4.500 excl. 21% btw</p>
+<p>De verlenging wordt alleen gestart na expliciet akkoord.</p>
+<p>Ze omvat altijd:</p>
+<ul>
+<li>maximaal acht uur begeleiding per maand gedurende drie bijkomende maanden;</li>
+<li>finale copy voor de resterende goedgekeurde kernclusters;</li>
+<li>verfijning van Toty Brain Core op basis van werkelijk gebruik;</li>
+<li>definitieve evaluatie en roadmap na maand zes.</li>
+</ul>
+<p>Op basis van de evaluatie kiezen Toyota De Bruyn en CoAchieving daarnaast één primair activatiespoor:</p>
+<ol>
+<li>een tweede campagne- of prospectingpilot;</li>
+<li>verdere optimalisatie van Google Ads, Meta of Brevo, met uitgebreidere rapportage en salesattributie;</li>
+<li>uitbreiding van de prospect-, artefact- of contentworkflow binnen Toty.</li>
+</ol>
+<p>Een beperkte combinatie is mogelijk wanneer de gekozen onderdelen binnen de afgesproken planning en capaciteit passen. Bijkomende pilots, volledige kanaalautomation of meerdere nieuwe workflows worden afzonderlijk begroot.</p>
+<p>Wanneer Toyota De Bruyn beide delen uitvoert, bedraagt de volledige zesmaandse groeiroute €19.500 excl. 21% btw. Het startproject staat zelfstandig en verplicht niet tot deze verlenging.</p>
+<h3 id="andere-mogelijke-uitbreidingen"><a class="heading-anchor" href="#andere-mogelijke-uitbreidingen">Andere mogelijke uitbreidingen</a></h3>
+<p>Mogelijke vervolgstappen buiten deze verlenging:</p>
+<ul>
+<li>doorlopend Google Ads-, Meta- en campagnebeheer;</li>
+<li>CRM-selectie, migratie en automation;</li>
+<li>dynamische occasion- en stockcampagnes;</li>
+<li>offline conversion imports en uitgebreidere salesattributie;</li>
+<li>extra B2B-databronnen en prospectflows;</li>
+<li>structurele contentproductie, fotografie of video;</li>
+<li>bijkomende websites, talen of vestigingen;</li>
+<li>geautomatiseerde rapportage en alerts;</li>
+<li>hosting of operationeel platformbeheer door CoAchieving;</li>
+<li>Toty Controlled Workspace.</li>
+</ul>
+<h3 id="toekomstpad-toty-controlled-workspace"><a class="heading-anchor" href="#toekomstpad-toty-controlled-workspace">Toekomstpad: Toty Controlled Workspace</a></h3>
+<p>Toty Brain Core gebruikt in eerste instantie de bestaande AI-clients van de gebruikers. Dat is de eenvoudigste en minst onderhoudsintensieve route.</p>
+<p>Een eigen, centraal beheerde Toty Controlled Workspace wordt alleen voorgesteld wanneer het gebruik daar een duidelijke reden voor geeft, bijvoorbeeld:</p>
+<ul>
+<li>één centrale interface is voor het team aantoonbaar eenvoudiger;</li>
+<li>taken moeten tussen gespecialiseerde workflows worden gerouteerd;</li>
+<li>gebruikers hebben verschillende tool- of datatoegangen nodig;</li>
+<li>geplande of langdurige agenttaken leveren concrete tijdswinst;</li>
+<li>centraal gebruiks-, kosten- en kwaliteitsbeheer wordt noodzakelijk.</li>
+</ul>
+<p>De Controlled Workspace is geen verborgen onderdeel van het startproject of de Growth Activation Extension. Het blijft een afzonderlijk mogelijk vervolgproject na bewezen behoefte.</p>
+<h2 id="12-investering"><a class="heading-anchor" href="#12-investering">12. Investering</a></h2>
+<p>Alle bedragen in dit voorstel zijn exclusief 21% btw.</p>
+<h3 id="toty-brain-core-launch"><a class="heading-anchor" href="#toty-brain-core-launch">Toty Brain Core Launch</a></h3>
+<p><strong>€15.000 excl. 21% btw</strong></p>
+<p>De vaste projectprijs omvat de volledige beschreven startscope, de bouw en ingebruikname van Toty Brain Core en de begeleiding tot en met maand drie.</p>
+<p>De prijs is gebaseerd op het geheel van deliverables, specialistische kennis, technische en inhoudelijke verantwoordelijkheid, voorbereiding, kwaliteitscontrole, documentatie, support en overdracht. De vermelde urenbanden dienen uitsluitend voor planning en capaciteitsbewaking.</p>
+<h3 id="betalingsmomenten-startproject"><a class="heading-anchor" href="#betalingsmomenten-startproject">Betalingsmomenten startproject</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Moment</th>
+<th align="right">Percentage</th>
+<th align="right">Bedrag excl. btw</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bij start en reservatie van de projectperiode</td>
+<td align="right">40%</td>
+<td align="right">€6.000</td>
+</tr>
+<tr>
+<td>Na blueprint, nulmeting en definitieve scope</td>
+<td align="right">30%</td>
+<td align="right">€4.500</td>
+</tr>
+<tr>
+<td>Na oplevering van Toty Brain Core, marketingfundament en eerste pilot</td>
+<td align="right">30%</td>
+<td align="right">€4.500</td>
+</tr>
+</tbody></table></div>
+<h3 id="betalingsmomenten-optionele-verlenging"><a class="heading-anchor" href="#betalingsmomenten-optionele-verlenging">Betalingsmomenten optionele verlenging</a></h3>
+<p>Wanneer Toyota De Bruyn na de evaluatie voor de Growth Activation Extension kiest:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Moment</th>
+<th align="right">Percentage</th>
+<th align="right">Bedrag excl. btw</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bij bevestiging van de verlenging</td>
+<td align="right">50%</td>
+<td align="right">€2.250</td>
+</tr>
+<tr>
+<td>Na afronding van maand zes en overdracht</td>
+<td align="right">50%</td>
+<td align="right">€2.250</td>
+</tr>
+</tbody></table></div>
+<p>Externe kosten worden bij voorkeur rechtstreeks door Toyota De Bruyn gecontracteerd en betaald. Kosten die CoAchieving uitzonderlijk voorschiet, vereisen voorafgaand schriftelijk akkoord.</p>
+<h2 id="13-succes-en-evaluatie"><a class="heading-anchor" href="#13-succes-en-evaluatie">13. Succes en evaluatie</a></h2>
+<p>We beoordelen het startproject niet op het aantal geproduceerde teksten of gevonden bedrijven. De evaluatie kijkt naar:</p>
+<ul>
+<li>betrouwbaarheid van tracking en brondata;</li>
+<li>aantal en kwaliteit van leads uit de eerste pilot;</li>
+<li>snelheid en volledigheid van opvolging;</li>
+<li>afspraken, shows, offertes en orders waar al meetbaar;</li>
+<li>kwaliteit en bruikbaarheid van B2B-prospectkaarten;</li>
+<li>duidelijke website- en contactroutes;</li>
+<li>acceptatie- en correctieratio van Toty-output;</li>
+<li>aantoonbare tijdswinst;</li>
+<li>mate waarin medewerkers de basisworkflows zelfstandig uitvoeren.</li>
+</ul>
+<p>Er worden vóór de pilot baselines en meetafspraken vastgelegd. Er worden geen vaste lead- of omzetgaranties gegeven zolang aanbod, mediabudget, voorraad, salesopvolging en uitgangsdata niet gezamenlijk zijn gevalideerd.</p>
+<h2 id="14-scope-en-changebeheer"><a class="heading-anchor" href="#14-scope-en-changebeheer">14. Scope- en changebeheer</a></h2>
+<p>Nieuwe vragen worden ingedeeld als:</p>
+<ol>
+<li>onderdeel van de goedgekeurde scope;</li>
+<li>kleine aanpassing binnen de bestaande planning;</li>
+<li>uitbreiding of afzonderlijk deelproject.</li>
+</ol>
+<p>Bij categorie 3 maakt CoAchieving vooraf duidelijk wat de verwachte waarde, impact, afhankelijkheden, timing en investering zijn. Toyota De Bruyn beslist vervolgens om de uitbreiding te starten, uit te stellen of te schrappen.</p>
+<h2 id="15-volgende-stap"><a class="heading-anchor" href="#15-volgende-stap">15. Volgende stap</a></h2>
+<p>Na principieel akkoord plannen we drie aparte sessies:</p>
+<h3 id="business-en-operatie"><a class="heading-anchor" href="#business-en-operatie">Business en operatie</a></h3>
+<p><strong>Deelnemers:</strong> Christel en Miguel.</p>
+<p>Doel:</p>
+<ul>
+<li>doelen en prioriteiten;</li>
+<li>capaciteit en servicecultuur;</li>
+<li>governance en beslissingsrechten;</li>
+<li>gewenste resultaten na drie maanden en, indien relevant, na zes maanden.</li>
+</ul>
+<h3 id="sales-en-marketing"><a class="heading-anchor" href="#sales-en-marketing">Sales en marketing</a></h3>
+<p><strong>Deelnemers:</strong> Tristan en relevante sales-/marketingmedewerkers.</p>
+<p>Doel:</p>
+<ul>
+<li>leadbronnen en opvolging;</li>
+<li>particulieren, B2B/fleet en occasions;</li>
+<li>lost reasons en opvolg-SLA;</li>
+<li>content-, campagne- en prospectbehoeften.</li>
+</ul>
+<h3 id="website-en-techniek"><a class="heading-anchor" href="#website-en-techniek">Website en techniek</a></h3>
+<p><strong>Deelnemers:</strong> developer, UX/designer en relevante account- of infrastructuureigenaar.</p>
+<p>Doel:</p>
+<ul>
+<li>CMS, hosting en releaseproces;</li>
+<li>formulieren, stockfeed en leadrouting;</li>
+<li>tracking, consent en integraties;</li>
+<li>Toty Brain Core, hosting, gebruikers en security.</li>
+</ul>
+<p>De geconsolideerde output is de definitieve projectplanning, toegangsmatrix, eerste vijf copyprioriteiten, pagina- en funnelprioriteit, pilotkeuze en eigenaar per werkstroom.</p>
+</article>
+        <footer class="document-footer">Klantvoorstel Toyota De Bruyn Machelen · versie 0.4 · 24 augustus 2026</footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

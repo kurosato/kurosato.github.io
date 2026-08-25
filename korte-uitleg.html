@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Samenwerkingsafspraken in één oogopslag</title>
+  <style>
+:root {
+  --accent: #d71920;
+  --accent-dark: #a50f15;
+  --ink: #202124;
+  --muted: #666b72;
+  --line: #e2e4e8;
+  --soft: #f5f6f8;
+  --paper: #ffffff;
+  --canvas: #eef0f3;
+  --quote: #fff4f4;
+  --max: 1180px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--canvas);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.68;
+  text-rendering: optimizeLegibility;
+}
+a { color: var(--accent-dark); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+.page-shell { max-width: var(--max); margin: 32px auto; background: var(--paper); box-shadow: 0 12px 40px rgba(15, 23, 42, .10); }
+.document-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 42px 48px 36px;
+  border-top: 8px solid var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow { display: block; margin-bottom: 8px; color: var(--accent); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.document-header h1 { max-width: 820px; margin: 0; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.08; letter-spacing: -.035em; }
+.print-button {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--accent-dark);
+  background: #fff;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.print-button:hover { color: #fff; background: var(--accent); }
+.document-grid { display: grid; grid-template-columns: 250px minmax(0, 1fr); align-items: start; }
+.toc {
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding: 36px 26px 44px 32px;
+  border-right: 1px solid var(--line);
+  background: #fbfbfc;
+  font-size: .83rem;
+  line-height: 1.38;
+}
+.toc-title { margin: 0 0 15px; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.toc ol { margin: 0; padding: 0; list-style: none; }
+.toc li { margin: 0 0 9px; }
+.toc li.level-3 { margin-left: 14px; font-size: .92em; }
+.toc a { color: #454950; text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+.document-main { min-width: 0; padding: 42px 52px 58px; }
+.markdown-body > :first-child { margin-top: 0; }
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 { scroll-margin-top: 24px; position: relative; line-height: 1.2; letter-spacing: -.02em; }
+.markdown-body h2 { margin: 2.5em 0 .75em; padding-top: .45em; border-top: 1px solid var(--line); font-size: 1.72rem; }
+.markdown-body h3 { margin: 1.9em 0 .6em; font-size: 1.28rem; }
+.markdown-body h4 { margin: 1.6em 0 .5em; font-size: 1.05rem; }
+.markdown-body h2 a.heading-anchor,
+.markdown-body h3 a.heading-anchor { color: inherit; text-decoration: none; }
+.markdown-body p { margin: .85em 0; }
+.markdown-body strong { color: #101114; }
+.markdown-body blockquote {
+  margin: 1.55em 0;
+  padding: 18px 22px;
+  border-left: 5px solid var(--accent);
+  background: var(--quote);
+  color: #33363b;
+  font-size: 1.04em;
+}
+.markdown-body blockquote > :first-child { margin-top: 0; }
+.markdown-body blockquote > :last-child { margin-bottom: 0; }
+.markdown-body ul,
+.markdown-body ol { padding-left: 1.45em; }
+.markdown-body li { margin: .32em 0; }
+.markdown-body hr { margin: 2.8em 0; border: 0; border-top: 2px solid var(--line); }
+.table-wrap { width: 100%; margin: 1.35em 0 1.9em; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .9rem; line-height: 1.45; }
+th, td { padding: 11px 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th:last-child, td:last-child { border-right: 0; }
+tr:last-child td { border-bottom: 0; }
+th { color: #fff; background: #303238; font-weight: 750; }
+tbody tr:nth-child(even) { background: #fafafa; }
+code {
+  padding: .13em .36em;
+  border-radius: 5px;
+  color: #832027;
+  background: #f4eeee;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .86em;
+  overflow-wrap: anywhere;
+}
+pre { overflow-x: auto; padding: 18px; border-radius: 9px; color: #f5f5f5; background: #24262b; }
+pre code { padding: 0; color: inherit; background: transparent; }
+.markdown-body h2[id="sources"] ~ ul,
+.markdown-body h2[id="sources"] ~ ol { font-size: .86rem; line-height: 1.45; overflow-wrap: anywhere; }
+.document-footer { margin-top: 54px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+@media (max-width: 900px) {
+  body { font-size: 16px; }
+  .page-shell { margin: 0; box-shadow: none; }
+  .document-header { padding: 28px 24px 24px; }
+  .print-button { display: none; }
+  .document-grid { display: block; }
+  .toc { position: static; max-height: none; padding: 22px 24px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .toc ol { columns: 2; column-gap: 26px; }
+  .toc li { break-inside: avoid; }
+  .document-main { padding: 30px 24px 44px; }
+}
+@media (max-width: 560px) {
+  .document-header h1 { font-size: 2rem; }
+  .toc ol { columns: 1; }
+  .document-main { padding-inline: 18px; }
+  .markdown-body h2 { font-size: 1.48rem; }
+}
+@media print {
+  @page { size: A4; margin: 16mm 15mm 18mm; }
+  body { color: #111; background: #fff; font-size: 10.5pt; line-height: 1.5; }
+  .page-shell { max-width: none; margin: 0; box-shadow: none; }
+  .document-header { padding: 0 0 16mm; border-top-width: 5px; }
+  .document-header h1 { font-size: 25pt; }
+  .print-button, .toc { display: none; }
+  .document-grid { display: block; }
+  .document-main { padding: 0; }
+  .markdown-body h2 { break-after: avoid; margin-top: 1.7em; }
+  .markdown-body h3, .markdown-body h4 { break-after: avoid; }
+  blockquote, table, pre { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  a[href^="http"]::after { content: ""; }
+  .document-footer { margin-top: 10mm; }
+}
+</style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="document-header">
+      <div>
+        <span class="eyebrow">CoAchieving · Samenwerking</span>
+        <h1>Samenwerkingsafspraken in één oogopslag</h1>
+      </div>
+      <button class="print-button" type="button" onclick="window.print()">Print / bewaar als PDF</button>
+    </header>
+    <div class="document-grid">
+      <aside class="toc" aria-label="Inhoudsopgave">
+        <p class="toc-title">Inhoud</p>
+        <ol><li class="level-2"><a href="#toyota-de-bruyn-machelen-coachieving">Toyota De Bruyn Machelen × CoAchieving</a></li>
+<li class="level-2"><a href="#1-wat-we-samen-veranderen">1. Wat we samen veranderen</a></li>
+<li class="level-2"><a href="#2-wat-toty-brain-core-betekent">2. Wat Toty Brain Core betekent</a></li>
+<li class="level-2"><a href="#3-wie-doet-wat">3. Wie doet wat</a></li>
+<li class="level-3"><a href="#toyota-de-bruyn-machelen">Toyota De Bruyn Machelen</a></li>
+<li class="level-3"><a href="#intern-web-en-technisch-team">Intern web- en technisch team</a></li>
+<li class="level-3"><a href="#coachieving">CoAchieving</a></li>
+<li class="level-2"><a href="#4-werkafspraken">4. Werkafspraken</a></li>
+<li class="level-2"><a href="#5-samenwerkingsritme">5. Samenwerkingsritme</a></li>
+<li class="level-2"><a href="#6-eerste-90-dagen">6. Eerste 90 dagen</a></li>
+<li class="level-3"><a href="#maand-1-begrijpen-en-beslissen">Maand 1 — begrijpen en beslissen</a></li>
+<li class="level-3"><a href="#maand-2-fundament-bouwen">Maand 2 — fundament bouwen</a></li>
+<li class="level-3"><a href="#maand-3-toepassen-en-overdragen">Maand 3 — toepassen en overdragen</a></li>
+<li class="level-2"><a href="#7-beslismoment-na-maand-drie">7. Beslismoment na maand drie</a></li>
+<li class="level-2"><a href="#8-mogelijke-latere-groeipaden">8. Mogelijke latere groeipaden</a></li>
+<li class="level-2"><a href="#9-wat-we-voor-de-start-vastleggen">9. Wat we vóór de start vastleggen</a></li>
+<li class="level-2"><a href="#10-detailvoorstel">10. Detailvoorstel</a></li></ol>
+      </aside>
+      <main class="document-main">
+        <article class="markdown-body">
+<h2 id="toyota-de-bruyn-machelen-coachieving"><a class="heading-anchor" href="#toyota-de-bruyn-machelen-coachieving">Toyota De Bruyn Machelen × CoAchieving</a></h2>
+<p><strong>Versie:</strong> 0.4 — intern concept, nog niet verstuurd<br/><strong>Periode startproject:</strong> drie maanden</p>
+<blockquote>
+<p><strong>Gemeenschappelijke ambitie</strong>
+Toyota De Bruyn Machelen bouwt een eigen, meetbare groeimotor waarmee het team nieuwe klanten aantrekt, leads beter opvolgt en kennis sneller inzet. CoAchieving legt het fundament, begeleidt het eerste gebruik en draagt de werking zo snel mogelijk over aan het team.</p>
+</blockquote>
+<h2 id="1-wat-we-samen-veranderen"><a class="heading-anchor" href="#1-wat-we-samen-veranderen">1. Wat we samen veranderen</a></h2>
+<p>De samenwerking brengt vier onderdelen bij elkaar:</p>
+<ol>
+<li>een website die vertrekt van duidelijke klantvragen en meetbare conversieroutes;</li>
+<li>acquisitiefunnels voor particulieren, B2B/fleet en occasions;</li>
+<li>een aftersalesaanpak voor loyaliteit, reviews, referrals en heraankoop;</li>
+<li>Toty Brain Core als gedeelde kennis- en werkomgeving voor marketing, sales en content.</li>
+</ol>
+<p>Het doel is geen verzameling losse campagnes. Website, advertenties, leadopvolging, kennis en sales moeten als één werkbaar systeem functioneren.</p>
+<h2 id="2-wat-toty-brain-core-betekent"><a class="heading-anchor" href="#2-wat-toty-brain-core-betekent">2. Wat Toty Brain Core betekent</a></h2>
+<p>Toty Brain Core wordt gekoppeld aan één vertrouwde AI-client. Het team kan daarmee:</p>
+<ul>
+<li>klant- en marktkennis raadplegen met bronverwijzingen;</li>
+<li>campagne- en websitebriefings voorbereiden;</li>
+<li>social- en e-mailconcepten maken;</li>
+<li>B2B-prospects onderzoeken en gesprekken voorbereiden;</li>
+<li>goedgekeurde output als herbruikbaar artefact bewaren;</li>
+<li>werken vanuit één afgeschermde De Bruyn-kennisruimte.</li>
+</ul>
+<p>Toty publiceert of verstuurt niets autonoom. Mensen blijven verantwoordelijk voor feiten, merk, toestemming en externe communicatie.</p>
+<h2 id="3-wie-doet-wat"><a class="heading-anchor" href="#3-wie-doet-wat">3. Wie doet wat</a></h2>
+<h3 id="toyota-de-bruyn-machelen"><a class="heading-anchor" href="#toyota-de-bruyn-machelen">Toyota De Bruyn Machelen</a></h3>
+<p>Toyota De Bruyn:</p>
+<ul>
+<li>wijst één beslisser en één operationele eigenaar aan;</li>
+<li>geeft tijdig toegang tot accounts, data en bestaande materialen;</li>
+<li>brengt kennis over klanten, aanbod, voorraad, sales en service in;</li>
+<li>beoordeelt en keurt teksten, campagnes en externe acties goed;</li>
+<li>volgt nieuwe leads tijdig op;</li>
+<li>zorgt dat de relevante medewerkers beschikbaar zijn voor werksessies en tests.</li>
+</ul>
+<h3 id="intern-web-en-technisch-team"><a class="heading-anchor" href="#intern-web-en-technisch-team">Intern web- en technisch team</a></h3>
+<p>Het interne team:</p>
+<ul>
+<li>ontwerpt en bouwt de website;</li>
+<li>beheert CMS, hosting, releases en technische fixes;</li>
+<li>implementeert formulieren, feeds, tracking en leadrouting;</li>
+<li>beheert de productie-infrastructuur en externe accounts waar afgesproken.</li>
+</ul>
+<h3 id="coachieving"><a class="heading-anchor" href="#coachieving">CoAchieving</a></h3>
+<p>CoAchieving:</p>
+<ul>
+<li>bepaalt samen met het team de growth- en marketingprioriteiten;</li>
+<li>maakt de website-, funnel-, copy- en meetkaders;</li>
+<li>helpt analytics en advertentieaccounts correct opzetten of opschonen;</li>
+<li>richt de eerste werkbare leadflow in;</li>
+<li>bouwt en configureert Toty Brain Core;</li>
+<li>begeleidt de eerste campagne- of prospectingpilot;</li>
+<li>traint gebruikers en bewaakt kwaliteit en adoptie;</li>
+<li>documenteert de werking en draagt kennis over.</li>
+</ul>
+<p>CoAchieving wordt niet de permanente contentafdeling, websitebouwer of onbegrensde technische helpdesk.</p>
+<h2 id="4-werkafspraken"><a class="heading-anchor" href="#4-werkafspraken">4. Werkafspraken</a></h2>
+<ul>
+<li>We werken vanuit één goedgekeurde roadmap en duidelijke prioriteiten.</li>
+<li>Kritieke output wordt altijd door een mens gecontroleerd.</li>
+<li>Feedback wordt pas duurzame kennis nadat ze is geverifieerd.</li>
+<li>Ieder belangrijk proces behoudt een manuele fallback.</li>
+<li>Nieuwe vragen worden ingedeeld als bestaande scope, kleine aanpassing of uitbreiding.</li>
+<li>Een uitbreiding start pas na akkoord over doel, impact, timing en investering.</li>
+<li>Media, hosting, modelverbruik en externe software worden bij voorkeur rechtstreeks door Toyota De Bruyn gecontracteerd.</li>
+<li>De productieomgeving staat bij voorkeur onder technisch beheer van Toyota De Bruyn of Sam.</li>
+<li>CoAchieving belooft geen vaste lead- of omzetresultaten zonder gevalideerde baseline, mediabudget, voorraad en salesopvolging.</li>
+</ul>
+<h2 id="5-samenwerkingsritme"><a class="heading-anchor" href="#5-samenwerkingsritme">5. Samenwerkingsritme</a></h2>
+<p>Gedurende het startproject voorzien we per maand:</p>
+<ul>
+<li>één gezamenlijke halve werkdag, bij voorkeur op locatie;</li>
+<li>drie virtuele opvolgmomenten;</li>
+<li>maximaal acht uur begeleidingscapaciteit;</li>
+<li>een korte recap en prioriteiten voor de volgende periode.</li>
+</ul>
+<p>De maandcapaciteit ondersteunt voortgang en adoptie. Ze is geen onbeperkt overdraagbare urenbank.</p>
+<h2 id="6-eerste-90-dagen"><a class="heading-anchor" href="#6-eerste-90-dagen">6. Eerste 90 dagen</a></h2>
+<h3 id="maand-1-begrijpen-en-beslissen"><a class="heading-anchor" href="#maand-1-begrijpen-en-beslissen">Maand 1 — begrijpen en beslissen</a></h3>
+<ul>
+<li>stakeholdersessies;</li>
+<li>nulmeting;</li>
+<li>funnels en prioriteiten;</li>
+<li>website- en meetblauwdruk;</li>
+<li>toegang, eigenaarschap en eerste planning.</li>
+</ul>
+<h3 id="maand-2-fundament-bouwen"><a class="heading-anchor" href="#maand-2-fundament-bouwen">Maand 2 — fundament bouwen</a></h3>
+<ul>
+<li>analytics en advertentieaccounts op orde brengen;</li>
+<li>websitebriefings en eerste prioritaire copy;</li>
+<li>leadflow en opvolgafspraken;</li>
+<li>Toty Brain Core bouwen en vullen;</li>
+<li>eerste gebruikerstests.</li>
+</ul>
+<h3 id="maand-3-toepassen-en-overdragen"><a class="heading-anchor" href="#maand-3-toepassen-en-overdragen">Maand 3 — toepassen en overdragen</a></h3>
+<ul>
+<li>eerste campagne- of prospectingpilot;</li>
+<li>QA op website, tracking en leadflow;</li>
+<li>gebruikers begeleiden in echte werksituaties;</li>
+<li>documentatie en fallbackprocedures;</li>
+<li>resultaten en gebruik evalueren.</li>
+</ul>
+<h2 id="7-beslismoment-na-maand-drie"><a class="heading-anchor" href="#7-beslismoment-na-maand-drie">7. Beslismoment na maand drie</a></h2>
+<p>Het startproject staat zelfstandig. Toyota De Bruyn hoeft geen vervolgtraject te kopen om de opgeleverde basis te blijven gebruiken.</p>
+<p>Na maand drie beoordelen we samen:</p>
+<ul>
+<li>gebruikt het team Toty daadwerkelijk;</li>
+<li>welke workflows besparen tijd;</li>
+<li>zijn tracking en leadopvolging betrouwbaar genoeg;</li>
+<li>wat leert de eerste pilot;</li>
+<li>welke websiteonderdelen zijn nog prioritair;</li>
+<li>waar ligt de volgende commerciële hefboom;</li>
+<li>hoeveel begeleiding is nog nodig.</li>
+</ul>
+<p>Op basis daarvan kan Toyota De Bruyn:</p>
+<ol>
+<li>zelfstandig verdergaan;</li>
+<li>een gerichte losse uitbreiding kiezen;</li>
+<li>de Growth Activation Extension voor maand vier tot en met zes starten.</li>
+</ol>
+<p>Er is geen automatische verlenging.</p>
+<h2 id="8-mogelijke-latere-groeipaden"><a class="heading-anchor" href="#8-mogelijke-latere-groeipaden">8. Mogelijke latere groeipaden</a></h2>
+<p>Afhankelijk van de resultaten kunnen later onder meer volgen:</p>
+<ul>
+<li>resterende websitecopy en bijkomende funnels;</li>
+<li>een tweede campagne- of prospectingpilot;</li>
+<li>verdere Google Ads-, Meta- of Brevo-optimalisatie;</li>
+<li>CRM-selectie en automation;</li>
+<li>dynamische occasion- en stockcampagnes;</li>
+<li>uitgebreider B2B-prospectonderzoek;</li>
+<li>doorlopende campagne- en contentbegeleiding;</li>
+<li>Toty Controlled Workspace wanneer één centrale interface en aparte gebruikersrechten aantoonbaar nodig worden.</li>
+</ul>
+<h2 id="9-wat-we-voor-de-start-vastleggen"><a class="heading-anchor" href="#9-wat-we-voor-de-start-vastleggen">9. Wat we vóór de start vastleggen</a></h2>
+<p>Voor de kick-off beslissen we:</p>
+<ol>
+<li>wie intern beslist en wie operationeel opvolgt;</li>
+<li>welke vier eerste gebruikers Toty krijgen;</li>
+<li>welke AI-client als referentie wordt gebruikt;</li>
+<li>welke accounts, data en stockfeeds beschikbaar zijn;</li>
+<li>welke vijf websiteclusters eerst copy krijgen;</li>
+<li>welke funnel de eerste pilot wordt;</li>
+<li>waar Toty Brain Core technisch draait en wie dat beheert;</li>
+<li>welk media- en softwarebudget buiten het project wordt voorzien.</li>
+</ol>
+<h2 id="10-detailvoorstel"><a class="heading-anchor" href="#10-detailvoorstel">10. Detailvoorstel</a></h2>
+<p>De precieze scope, planning, investeringsafspraken, betalingsmomenten, uitsluitingen en changeprocedure staan in het volledige samenwerkingsvoorstel v0.4.</p>
+</article>
+        <footer class="document-footer">Samenwerkingsafspraken Toyota De Bruyn Machelen · versie 0.4 · 24 augustus 2026</footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
