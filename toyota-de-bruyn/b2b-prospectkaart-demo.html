@@ -254,7 +254,7 @@
       .questions-layout,.sources-layout{grid-template-columns:1fr;gap:32px}
       .workflow-grid{grid-template-columns:1fr;gap:32px}
     }
-    @media(max-width:720px){
+    @media(max-width:760px){
       html{scroll-behavior:auto}
       .topbar{padding:0 12px}
       .brand{font-size:11px}
@@ -312,11 +312,125 @@
       .tab-panel{break-inside:avoid}
     }
   </style>
+  <style id="claude-v3-design">
+    /* Claude Desktop v3 direction, mapped onto the production-safe workspace. */
+    :root{
+      --ink:#171717;--muted:#6c6c6c;--subtle:#72726e;--canvas:#ececea;--paper:#fff;--soft:#f7f7f5;--line:#e2e2dd;
+      --red:#e50019;--red-dark:#b70014;--amber:#9b6200;--amber-soft:#fdf3e0;--green:#137a43;--green-soft:#eef7f1;
+      --side:320px;--top:56px;--content:none;--pad:32px;
+    }
+    html{background:var(--canvas)}
+    body{color:var(--ink);background:var(--canvas);font-family:"Toyota Type","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.42}
+    .eyebrow{margin:0 0 10px;color:var(--muted);font-size:10px;letter-spacing:.14em}
+
+    .topbar{gap:18px;padding:0 22px;color:#fff;background:#0d0d0d;border-bottom:3px solid var(--red);backdrop-filter:none}
+    .brand{font-size:14px;letter-spacing:.06em}.brand span{color:#ff4050}
+    .event{padding-left:18px;color:#a7a7a7;border-left:1px solid #3a3a3a;font-size:10px;letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
+    .top-actions{gap:6px}.top-status{display:flex;align-items:center;margin-right:4px;color:#bdbdbd;font-size:12px;white-space:nowrap}
+    .top-status .status-dot{width:7px;height:7px;margin-right:6px;background:#777;border-radius:50%}.top-status.live .status-dot{background:#55b878}
+    .top-date{margin-left:3px;color:#bdbdbd;font-size:12px}
+    .topbar .icon-button{width:38px;height:38px;color:#cfcfcf;font-size:17px}.topbar .icon-button:hover{color:#fff;background:#252525}
+    .more-menu{color:var(--ink)}.more-menu .danger-action{color:var(--red)}
+
+    .shell{max-width:1680px;background:var(--paper);box-shadow:0 0 0 1px #ddd}
+    .sidebar{min-height:calc(100vh - var(--top));height:calc(100vh - var(--top));background:#f7f7f5;border-color:#d7d7d2}
+    .sidebar-tools{position:sticky;top:0;z-index:3;display:grid;grid-template-columns:1fr;gap:10px;padding:20px;background:#f7f7f5;border-bottom:1px solid var(--line)}
+    .new-prospect{min-height:42px;padding:9px 12px;text-align:center;background:#fff;border-color:#8c8c8c;font-size:13px;font-weight:800}
+    .new-prospect:hover{background:#f8f8f8;border-color:#111}
+    input,select,textarea{min-height:40px;padding:9px 11px;border-color:#aaa}
+    textarea{min-height:92px}
+    .search-wrap svg{left:11px;top:12px}.search-wrap input{padding-left:34px}
+    .filter-control label,.sort-control label,label.field-label{margin-bottom:5px;color:#454545;font-size:11px;font-weight:700}
+    .sort-hint{color:var(--subtle);font-size:10px}
+    .prospect-list{padding:6px 10px 42px}
+    .prospect-card{padding:13px 11px;border-left:2px solid transparent;border-bottom:1px solid var(--line)}
+    .prospect-card.active{background:#fff;box-shadow:none;border-left-color:var(--ink)}
+    .prospect-card.blocked{background:#fff7f7}
+    .pc-name{font-size:14px}.pc-vat{margin-top:2px;font-size:10px}.pc-stage{font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+    .pc-dnc{padding:1px 5px;font-size:9px;text-transform:uppercase;letter-spacing:.04em}
+    .pc-reason{margin-top:7px;color:#555;font-size:12px}.pc-next{margin-top:6px;font-size:10px}
+
+    main{background:#fff}
+    .blocked-banner{padding:6px var(--pad)}
+    .record-head{min-height:0;position:static;align-items:flex-start;gap:24px;padding:26px var(--pad) 20px;background:#fff;border-bottom:1px solid var(--line);backdrop-filter:none}
+    .record-context{display:inline-block;margin-bottom:6px;color:var(--subtle);font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+    .identity h1{margin-bottom:8px;font-size:30px;font-weight:400;line-height:1.05}
+    .identity-meta{gap:6px 14px;color:#5d5d5d;font-size:12px}.identity-meta span:not(:last-child)::after{display:none}
+    .identity-meta .verified{color:var(--green);font-weight:800}
+    .assessment-meta{gap:6px;margin-top:10px}.assessment-chip{padding:3px 8px;color:#4c4c48;background:#f4f4f2;font-size:11px}.assessment-chip.freshness{color:var(--amber);background:var(--amber-soft)}
+    .record-actions{gap:8px}.call-action-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.call-cta{width:auto;min-height:44px;align-self:flex-end;padding:13px 28px;font-size:15px}.call-next{font-size:11px}
+    .workflow-shortcut{min-height:44px;padding:11px 16px;background:var(--ink);font-size:13px}.workflow-shortcut:hover{background:#30302e}
+
+    .record{max-width:none;padding:24px var(--pad) 56px}
+    .call-hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.7fr);gap:0;padding:0;color:#fff;background:#151515;border:0}
+    .hero-reason{padding:28px}.hero-opener{align-self:stretch;padding:28px;border-left:1px solid #3a3a3a}
+    .call-hero .eyebrow{color:#a7a7a7}
+    .hero-reason h2{max-width:34em;margin:0;font-size:23px;font-weight:400;letter-spacing:0;line-height:1.3;text-wrap:pretty}
+    .hero-reason h2.long{font-size:19px;line-height:1.4}
+    .hero-opener blockquote{max-width:none;margin:12px 0 16px;color:#f0f0ee;font-size:14px;line-height:1.55}
+    .copy-script{min-height:40px;padding:9px 14px;color:#111;background:#fff;border:0;font-size:13px;font-weight:800}.copy-script:hover{color:#111;background:#e8e8e6;border:0}
+
+    .record-tabs{min-height:0;align-items:stretch;gap:28px;margin-top:8px;border-bottom:1px solid #d7d7d2}
+    .tab-button{min-height:0;padding:16px 0 12px;font-size:13px;font-weight:700}
+    .tab-panel{padding-top:8px}
+    .signal-list{max-width:none}
+    .signal{display:grid;grid-template-columns:44px minmax(0,1fr);gap:0;padding:26px 0 0}
+    .signal:first-child{padding-top:18px}.signal+.signal{margin-top:0}
+    .signal-number{padding:0;color:var(--subtle);font-size:19px;font-weight:400;line-height:1.35}
+    .signal-title-row{max-width:none;margin:0;gap:14px}.signal-title-row h3{font-size:15px;font-weight:800}.signal-tag{color:var(--subtle);font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+    .signal-body{display:block;max-width:62ch;margin:6px 0 0;color:#5c5c5c;font-size:12.5px;overflow:visible;-webkit-line-clamp:unset}
+    .signal-question{max-width:58ch;margin:12px 0 0;padding:2px 0 2px 12px;color:var(--ink);border-left:2px solid var(--ink);font-size:14px;line-height:1.5}
+    .signal-source{display:inline-block;margin-top:10px;color:#6a6a66;font-size:11px}
+    .text-button{margin-top:16px}
+
+    .fleet-wrap{overflow-x:auto}.fleet-table{margin-top:10px;font-size:12.5px}.fleet-table th{padding:8px 6px;color:var(--subtle);font-size:9px;letter-spacing:.1em;text-transform:uppercase}.fleet-table td{padding:12px 6px;color:#444}.fleet-table strong{font-size:13px}
+    .subhead{margin:18px 0 4px;font-size:16px;font-weight:800}.unknown{display:flex;gap:9px;padding:9px 0;color:#4c4c48;border-bottom:1px solid var(--line);font-size:12.5px}.unknown:last-child{border-bottom:0}.unknown i{color:var(--subtle);font-style:normal}
+    .certainty{margin-top:4px;padding:0;background:transparent;font-size:9px;text-transform:uppercase}.certainty.verify{color:var(--amber);background:transparent}.certainty.confirmed{color:var(--green);background:transparent}
+    .source{grid-template-columns:20px minmax(0,1fr) auto;gap:10px;padding:12px 0}.source-num{font-size:10px}.source a{font-size:12.5px;text-decoration:none}.source a:hover{text-decoration:underline}.source small{margin-top:2px;font-size:10.5px}.source-type{padding-top:3px;font-size:9px;text-transform:uppercase}
+
+    .call-rail{padding-top:15px}
+    .call-rail-section:first-child{padding:18px 0 8px;border-top:2px solid var(--ink)}
+    .call-rail-section+.call-rail-section{margin-top:28px;padding:18px 0 8px;border-top:2px solid var(--ink)}
+    .call-rail h2{margin-bottom:4px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .call-rail .section-intro{margin-bottom:8px;font-size:11px}
+    .call-checklist{margin:0}.call-check{grid-template-columns:18px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px}.call-checklist li:last-child .call-check{border-bottom:0}
+    .call-check input{width:15px;height:15px;min-height:15px;margin-top:2px}.call-check:has(input:checked) span{text-decoration:none}
+    .rail-contact p{margin-bottom:4px}.rail-contact-lines{margin-top:10px;font-size:13px}.rail-contact-note{margin-top:10px;font-size:11.5px}
+
+    .workflow{margin-top:56px;border-top:1px solid #d7d7d2;border-bottom:0}
+    .workflow>summary{min-height:56px;padding:8px 0;font-size:15px}.workflow-body{padding:20px 0 0}
+    .workflow-toolbar{gap:40px;padding-bottom:24px}.workflow-grid{gap:40px;padding-top:24px}.workflow-grid h2{font-size:15px}
+    .advice-box{padding:14px;background:#f4f4f2}.advice-item{padding:8px}.event-row{grid-template-columns:64px minmax(0,1fr);gap:10px;padding:8px 0}.event-row time{font-size:9px}
+
+    @media(min-width:1200px){
+      .conversation-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:56px;align-items:start;justify-content:stretch}
+      .call-rail{position:sticky;top:calc(var(--top) + 20px);margin-top:0}
+    }
+    @media(max-width:1240px) and (min-width:1200px){.conversation-layout{grid-template-columns:minmax(0,1fr) 290px;gap:36px}}
+    @media(max-width:1100px){:root{--side:290px;--pad:22px}.call-hero{grid-template-columns:1fr}.hero-opener{border-left:0;border-top:1px solid #3a3a3a}.workflow-toolbar{gap:12px}}
+    @media(max-width:760px){
+      :root{--pad:16px}.topbar{padding:0 13px}.event,.top-status,.top-date{display:none}.brand{font-size:12px}.topbar .icon-button{width:44px;height:44px}
+      .sidebar{height:auto;min-height:0;position:relative;top:0;overflow:visible;border-right:0;border-bottom:1px solid var(--line)}
+      .sidebar-tools{position:static;grid-template-columns:minmax(0,1fr);gap:8px;padding:12px}.sidebar-tools>*{min-width:0}.new-prospect,.sidebar-tools input,.sidebar-tools select{min-height:44px}.new-prospect,.search-wrap,.filter-control{grid-column:1}.sort-hint{grid-column:1}
+      input,select,textarea,.primary,.secondary,.copy-script,.blocked-banner button{min-height:44px}.call-check{min-height:44px}
+      .prospect-list{padding:0 12px 12px}.prospect-card{min-width:224px;padding:12px;border-left:0}.prospect-card.active{border-left:0;border-bottom:3px solid var(--ink)}
+      .record-head{padding:16px}.identity h1{font-size:26px}.record-actions{grid-template-columns:1fr}.call-action-wrap{width:100%;align-items:stretch}.call-cta,.workflow-shortcut{width:100%;align-self:stretch}
+      .record{padding:16px 16px 32px}.call-hero{grid-template-columns:1fr}.hero-reason,.hero-opener{padding:24px}.hero-reason h2,.hero-reason h2.long{font-size:19px;line-height:1.3}
+      .record-tabs{gap:24px;margin-top:8px}.tab-panel{padding-top:8px}.signal{grid-template-columns:28px minmax(0,1fr);gap:12px}.signal-number{font-size:19px}.signal-question{font-size:13px}
+      .workflow{margin-top:36px}.workflow-toolbar{grid-template-columns:1fr}.workflow-grid{grid-template-columns:1fr}
+    }
+    @media print{
+      .topbar,.sidebar,.record-actions,.copy-script,.record-tabs,.workflow>summary,.note-row,.conversation-actions,.drawer-scrim,.settings-drawer,.more-menu,.toast{display:none!important}
+      .record-head{position:static;padding:16px 0}.record{padding:16px 0}.call-hero{color:#000;background:#fff;border:2px solid #111}.hero-opener{border-color:#aaa}.call-hero .eyebrow{color:#a00}.hero-opener blockquote{color:#111}
+    }
+  </style>
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">TOYOTA · FLEET SIGNAL</div>
+    <div class="brand"><span>TOYOTA</span> · FLEET SIGNAL</div>
+    <div class="event">TOTY pre-show · prospectkaart</div>
     <div class="top-actions">
+      <span class="top-status" id="topStatus"><span class="status-dot"></span><span id="topBackendStatus">Status controleren…</span></span>
       <button class="icon-button" id="settingsButton" type="button" aria-label="Instellingen openen" aria-controls="settingsDrawer" aria-expanded="false" title="Instellingen">⚙</button>
       <div class="more-wrap">
         <button class="icon-button" id="moreButton" type="button" aria-label="Meer acties" aria-controls="moreMenu" aria-expanded="false" title="Meer acties">⋯</button>
@@ -343,10 +457,7 @@
           <label for="stageFilter">Fase</label>
           <select id="stageFilter" aria-label="Filter prospecten op fase"></select>
         </div>
-        <div class="sort-control">
-          <label for="sortSelect">Sorteer</label>
-          <select id="sortSelect" aria-label="Sorteer prospecten"><option value="nextAction">Volgende actie</option><option value="company">Bedrijfsnaam</option><option value="stage">Commerciële fase</option></select>
-        </div>
+        <div class="sort-hint" id="sortHint">Gesorteerd op volgende actie · zonder actie onderaan</div>
       </div>
       <div class="sidebar-empty" id="sidebarEmpty" hidden>
         <h2>Van bedrijfsnaam naar belreden.</h2>
@@ -359,7 +470,7 @@
   </div>
 
   <div class="drawer-scrim" id="drawerScrim" hidden></div>
-  <aside class="settings-drawer" id="settingsDrawer" aria-hidden="true" aria-labelledby="settingsTitle">
+  <aside class="settings-drawer" id="settingsDrawer" aria-hidden="true" aria-labelledby="settingsTitle" inert>
     <div class="drawer-head">
       <h2 id="settingsTitle">Instellingen</h2>
       <button class="icon-button" id="closeSettings" type="button" aria-label="Instellingen sluiten">×</button>
@@ -374,6 +485,13 @@
       <h3>Researchprofielen</h3>
       <div class="settings-profiles" id="settingsProfiles"></div>
       <p class="settings-note">Modelkeuze, retrieval en indicatieve API-kost staan hier gegroepeerd. De OpenRouter-key blijft server-side en komt niet in browseropslag.</p>
+    </section>
+    <section class="drawer-section">
+      <h3>Prospectlijst</h3>
+      <div class="sort-control">
+        <label for="sortSelect">Sorteer prospecten</label>
+        <select id="sortSelect" aria-label="Sorteer prospecten"><option value="nextAction">Volgende actie</option><option value="company">Bedrijfsnaam</option><option value="stage">Commerciële fase</option></select>
+      </div>
     </section>
   </aside>
 
@@ -563,10 +681,12 @@ function phoneHref(value){const clean=String(value||'').replace(/[^+\d]/g,'');re
 function mailHref(value){const clean=String(value||'').trim();return clean?'mailto:'+encodeURIComponent(clean):''}
 function plainSourceTitle(value){return String(value||'Bron').replace(/\s*\(\[([^\]]+)\]\(https?:\/\/[^)]+\)\)\s*/gi,' — $1').replace(/\s*\[([^\]]+)\]\(https?:\/\/[^)]+\)\s*/gi,' — $1').replace(/\s*—\s*—\s*/g,' — ').replace(/\s+/g,' ').trim()||'Bron'}
 function sourceDomainLabel(value,n){try{return new URL(String(value||'')).hostname.replace(/^www\./,'')||`Bron ${n}`}catch{return`Bron ${n}`}}
-function signalOneSentence(value){const text=String(value||'').trim();if(!text)return'';let parts=[];try{parts=[...new Intl.Segmenter('nl',{granularity:'sentence'}).segment(text)].map(x=>x.segment.trim()).filter(Boolean)}catch{parts=text.split(/(?<=[.!?])\s+/).filter(Boolean)}if(parts.length<2)return text;const first=parts[0].replace(/[.!?]+$/,''),second=parts[1].replace(/^([A-ZÀ-ÖØ-Ý])(?=[a-zà-öø-ÿ])/u,c=>c.toLowerCase());return first+' — '+second}
 function bridgeQuestion(p,signal,index){return signal.question||(p.questions||[])[index]||(p.questions||[])[0]||'Wat betekent dit vandaag concreet voor jullie mobiliteit?'}
 function heroHeadline(p){const value=String(p.headline||p.reason||'Waarom nu bellen').trim(),words=value.split(/\s+/);return words.length<=16?value:words.slice(0,16).join(' ')+'…'}
-function renderCallRail(p){const checked=new Set(p.callChecklist||[]),contactUrl=safeExternalUrl(p.contactUrl||p.website),tel=phoneHref(p.phone),mail=mailHref(p.email);return `<aside class="call-rail tab-panel" id="panel-questions" data-panel="questions" role="tabpanel" tabindex="-1"><section class="call-rail-section"><h2>Vraag op de call</h2><p class="section-intro">Vink af wat tijdens het gesprek bevestigd wordt.</p><ul class="call-checklist">${(p.unknowns||[]).map((item,index)=>`<li><label class="call-check"><input id="call-check-${index}" type="checkbox" data-call-key="${esc(item)}" ${checked.has(item)?'checked':''}><span>${esc(item)}</span></label></li>`).join('')}</ul></section><section class="call-rail-section rail-contact"><h2>Contact</h2><p><strong>${esc(p.legalName||p.company)}</strong></p><div class="rail-contact-lines">${p.phone?`<p><a href="${esc(tel)}">${esc(p.phone)}</a></p>`:''}${p.email?`<p><a href="${esc(mail)}">${esc(p.email)}</a></p>`:contactUrl!=='#'?`<p><a href="${contactUrl}" target="_blank" rel="noreferrer">Officiële contactpagina ↗</a></p>`:'<p>Geen publiek contactpunt bevestigd.</p>'}</div><p class="rail-contact-note">Vraag via het publieke contact naar fleet, mobility of procurement.</p></section></aside>`}
+function renderCallRail(p){
+ const checked=new Set(p.callChecklist||[]),callItems=(p.questions&&p.questions.length?p.questions:p.unknowns)||[],legacyItems=p.unknowns||[],contactUrl=safeExternalUrl(p.contactUrl||p.website),tel=phoneHref(p.phone),mail=mailHref(p.email);
+ return `<aside class="call-rail tab-panel" id="panel-questions" data-panel="questions" role="tabpanel" aria-labelledby="tab-questions" tabindex="-1"><section class="call-rail-section"><h2>Vraag op de call</h2><p class="section-intro">Vink af wat tijdens het gesprek bevestigd wordt.</p><ul class="call-checklist">${callItems.map((item,index)=>`<li><label class="call-check"><input id="call-check-${index}" type="checkbox" data-call-key="${esc(item)}" data-call-legacy="${esc(legacyItems[index]||'')}" ${checked.has(item)||checked.has(legacyItems[index])?'checked':''}><span>${esc(item)}</span></label></li>`).join('')}</ul></section><section class="call-rail-section rail-contact"><h2>Publiek contactpunt</h2><p><strong>${esc(p.legalName||p.company)}</strong></p><div class="rail-contact-lines">${p.phone?`<p><a href="${esc(tel)}">${esc(p.phone)}</a></p>`:''}${p.email?`<p><a href="${esc(mail)}">${esc(p.email)}</a></p>`:contactUrl!=='#'?`<p><a href="${contactUrl}" target="_blank" rel="noreferrer">Officiële contactpagina ↗</a></p>`:'<p>Geen publiek contactpunt bevestigd.</p>'}</div><p class="rail-contact-note">De beslisser is niet betrouwbaar geïdentificeerd. Vraag via het publieke contact naar fleet, mobility of procurement.</p></section></aside>`
+}
 function save(){localStorage.setItem('toty-prospects-v5',JSON.stringify(prospects));localStorage.setItem('toty-selected-v5',selectedId)}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
 function conciseSignal(text){
@@ -587,6 +707,8 @@ function renderSettings(p){
  $('#recordDisclaimer').textContent=context;
  const status=$('#drawerStatus');status.classList.toggle('live',backendAvailable);
  $('#backendStatus').textContent=backendAvailable?'Live research verbonden':'Gecontroleerde voorbeeldmodus';
+ const topStatus=$('#topStatus');if(topStatus)topStatus.classList.toggle('live',backendAvailable);
+ const topBackendStatus=$('#topBackendStatus');if(topBackendStatus)topBackendStatus.textContent=backendAvailable?'Live backend':'Vaste demo';
  $('#liveLink').hidden=backendAvailable;renderResearchModeNotice();
 }
 function updateMoreMenu(p){
@@ -597,15 +719,28 @@ function setOutreachBlocked(p,blocked){
 }
 function renderFilters(){
  const root=$('#stageFilter');root.innerHTML=STAGES.map(([id,label])=>`<option value="${id}">${label}</option>`).join('');root.value=filter;root.onchange=()=>{filter=root.value;renderList()};
- const sort=$('#sortSelect');sort.value=sortMode;sort.onchange=()=>{sortMode=sort.value;localStorage.setItem('toty-sort-v5',sortMode);renderList()};
+ const sort=$('#sortSelect'),hint=$('#sortHint'),updateHint=()=>{if(!hint)return;hint.textContent=sortMode==='company'?'Gesorteerd op bedrijfsnaam':sortMode==='stage'?'Gesorteerd op commerciële fase':'Gesorteerd op volgende actie · zonder actie onderaan'};
+ sort.value=sortMode;sort.onchange=()=>{sortMode=sort.value;localStorage.setItem('toty-sort-v5',sortMode);updateHint();renderList()};updateHint();
 }
 function renderList(){
  const q=$('#search').value.toLowerCase().trim().replace(/[.\s-]/g,'');
  const rows=prospects.filter(p=>(filter==='all'||p.stage===filter)&&(!q||[p.company,p.legalName,p.vat,p.vatDigits,p.postal,p.city,stageLabel(p.stage),outcomeLabel(p.contactOutcome||'none'),p.doNotContact?'niet benaderen outreach geblokkeerd':''].join(' ').toLowerCase().replace(/[.\s-]/g,'').includes(q)));
  rows.sort((a,b)=>{if(sortMode==='company')return String(a.company).localeCompare(String(b.company),'nl');if(sortMode==='stage')return STAGES.findIndex(x=>x[0]===a.stage)-STAGES.findIndex(x=>x[0]===b.stage)||String(a.company).localeCompare(String(b.company),'nl');const ad=a.nextAction||'9999-12-31',bd=b.nextAction||'9999-12-31';return ad.localeCompare(bd)||String(a.company).localeCompare(String(b.company),'nl')});
- $('#prospectList').innerHTML=rows.length?rows.map(p=>`<button class="prospect-card ${p.id===selectedId?'active':''} ${p.doNotContact?'blocked':''}" data-id="${esc(p.id)}"><span class="pc-top"><span><span class="pc-name">${esc(p.company)}</span><span class="pc-vat">${esc(p.vat)} · ${esc(p.postal)} ${esc(p.city||'')}</span></span><span class="pc-flags"><span class="pc-stage">${esc(stageLabel(p.stage))}</span>${p.doNotContact?'<span class="pc-dnc">Niet benaderen</span>':''}</span></span><span class="pc-reason">${esc(p.nextStep||'Volgende stap te bepalen')}</span><span class="pc-next">${p.doNotContact?'Outreach geblokkeerd':esc(outcomeLabel(p.contactOutcome||'none'))+' · '+(p.nextAction?'actie '+esc(p.nextAction):'geen volgende actie')}</span></button>`).join(''):'<div class="empty">Geen prospecten in deze weergave.</div>';
+ $('#prospectList').innerHTML=rows.length?rows.map(p=>`<button class="prospect-card ${p.id===selectedId?'active':''} ${p.doNotContact?'blocked':''}" data-id="${esc(p.id)}"><span class="pc-top"><span><span class="pc-name">${esc(p.company)}</span><span class="pc-vat">${esc(p.vat)} · ${esc(p.postal)} ${esc(p.city||'')}</span></span><span class="pc-flags"><span class="pc-stage">${esc(stageLabel(p.stage))}</span>${p.doNotContact?'<span class="pc-dnc">Niet benaderen</span>':''}</span></span><span class="pc-reason">${esc(p.reason||p.nextStep||'Volgende stap te bepalen')}</span><span class="pc-next">${p.doNotContact?'Outreach geblokkeerd':esc(outcomeLabel(p.contactOutcome||'none'))+' · '+(p.nextAction?'actie '+esc(p.nextAction):'geen volgende actie')}</span></button>`).join(''):'<div class="empty">Geen prospecten in deze weergave.</div>';
  document.querySelectorAll('.prospect-card').forEach(b=>b.onclick=()=>{selectedId=b.dataset.id;save();renderList();renderMain()});
- requestAnimationFrame(()=>{const list=$('#prospectList'),active=list.querySelector('.prospect-card.active');if(!active)return;if(innerWidth<=720){list.scrollLeft=Math.max(0,active.offsetLeft-12);return}const sidebar=document.querySelector('.sidebar'),tools=document.querySelector('.sidebar-tools'),a=active.getBoundingClientRect(),s=sidebar.getBoundingClientRect(),visibleTop=s.top+tools.offsetHeight+8;if(a.top<visibleTop)sidebar.scrollTop+=a.top-visibleTop;else if(a.bottom>s.bottom-8)sidebar.scrollTop+=a.bottom-s.bottom+8});
+ requestAnimationFrame(()=>{
+  const list=$('#prospectList'),active=list.querySelector('.prospect-card.active');if(!active)return;
+  if(innerWidth<=760){list.scrollLeft=Math.max(0,active.offsetLeft-12);return}
+  const sidebar=document.querySelector('.sidebar'),tools=document.querySelector('.sidebar-tools'),a=active.getBoundingClientRect(),s=sidebar.getBoundingClientRect(),visibleTop=s.top+tools.offsetHeight+8;
+  if(a.top<visibleTop){sidebar.scrollTop+=a.top-visibleTop;return}
+  if(a.bottom>s.bottom-8){
+   sidebar.scrollTop+=a.bottom-s.bottom+8;
+   requestAnimationFrame(()=>{
+    const top=sidebar.getBoundingClientRect().top+tools.offsetHeight+8,first=[...list.querySelectorAll('.prospect-card')].find(card=>card.getBoundingClientRect().bottom>top);
+    if(first&&first!==active){const f=first.getBoundingClientRect();if(f.top<top&&f.bottom>top)sidebar.scrollTop+=Math.ceil(f.bottom-top)}
+   });
+  }
+ });
 }
 function renderConversationAdvice(p){
  const a=p.conversationAdvice;if(!a)return'';const stage=a.stageAdvice||{},contact=a.contactOutcomeAdvice||{},next=a.nextActionAdvice||{},questions=(a.openQuestions||[]).slice(0,4);
@@ -613,9 +748,9 @@ function renderConversationAdvice(p){
 }
 function renderSignal(p,s,index,extra=false){
  const source=(p.sources||[]).find(x=>x.n===s.src),href=safeExternalUrl(source?.url),question=bridgeQuestion(p,s,index);
- return `<article class="signal ${extra?'signal-extra':''}" ${extra?'hidden':''}><div class="signal-number">${index+1}</div><div class="signal-content"><div class="signal-title-row"><h3>${esc(s.title)}</h3><span class="signal-tag">${esc(s.tag||'Signaal')}</span></div><p class="signal-body">${esc(signalOneSentence(s.text))}</p><blockquote class="signal-question">“${esc(question)}”</blockquote>${source?`<a class="signal-source" href="${href}" target="_blank" rel="noreferrer">${esc(sourceDomainLabel(source.url,s.src))} ↗</a>`:''}</div></article>`;
+ return `<article class="signal ${extra?'signal-extra':''}" ${extra?'hidden':''}><div class="signal-number">${index+1}</div><div class="signal-content"><div class="signal-title-row"><h3>${esc(s.title)}</h3><span class="signal-tag">${esc(s.tag||'Signaal')}</span></div><p class="signal-body">${esc(s.text)}</p><blockquote class="signal-question">“${esc(question)}”</blockquote>${source?`<a class="signal-source" href="${href}" target="_blank" rel="noreferrer">${esc(sourceDomainLabel(source.url,s.src))} ↗</a>`:''}</div></article>`;
 }
-function renderSourcesPanel(p){return `<section class="tab-panel" id="panel-sources" data-panel="sources" role="tabpanel" tabindex="-1" hidden><h2>Bronnen</h2><div class="source-list">${(p.sources||[]).map(s=>`<div class="source"><span class="source-num">${esc(s.n)}</span><span><a href="${safeExternalUrl(s.url)}" target="_blank" rel="noreferrer">${esc(plainSourceTitle(s.title))} ↗</a><small>${esc(s.meta)}</small></span><span class="source-type">${esc(s.type)}</span></div>`).join('')}</div></section>`}
+function renderSourcesPanel(p){return `<section class="tab-panel" id="panel-sources" data-panel="sources" role="tabpanel" aria-labelledby="tab-sources" tabindex="-1" hidden><h2 class="visually-hidden">Bronnen</h2><div class="source-list">${(p.sources||[]).map(s=>`<div class="source"><span class="source-num">${esc(s.n)}</span><span><a href="${safeExternalUrl(s.url)}" target="_blank" rel="noreferrer">${esc(plainSourceTitle(s.title))} ↗</a><small>${esc(s.meta)}</small></span><span class="source-type">${esc(s.type)}</span></div>`).join('')}</div></section>`}
 function renderWorkflow(p,limited=false){return `<details class="workflow workflow-emphasis" id="workflowPanel"><summary>Workflow & notities <span class="workflow-summary-meta">${esc(stageLabel(p.stage))} · ${esc(outcomeLabel(p.contactOutcome||'none'))}${p.nextAction?' · '+esc(p.nextAction):''}</span></summary><div class="workflow-body"><div class="workflow-toolbar"><div><label class="field-label" for="stageSelect">Commerciële fase</label><select id="stageSelect">${STAGES.slice(1).map(([id,l])=>`<option value="${id}" ${p.stage===id?'selected':''}>${l}</option>`).join('')}</select></div><div><label class="field-label" for="outcomeSelect">Laatste contactuitkomst</label><select id="outcomeSelect">${OUTCOMES.map(([id,l])=>`<option value="${id}" ${(p.contactOutcome||'none')===id?'selected':''}>${l}</option>`).join('')}</select></div><div><label class="field-label" for="nextAction">Volgende actie</label><input id="nextAction" type="date" value="${esc(p.nextAction||'')}"></div></div><div class="workflow-grid">${limited?'':`<section><h2>Gesprek verwerken</h2><label class="field-label" for="conversationInput">Gespreksnotities</label><textarea id="conversationInput" placeholder="Wat bevestigde de prospect over voertuigen, gebruik, pijnpunten, timing, beslissers en vervolg?"></textarea><div class="conversation-actions"><button class="primary" id="analyzeConversation" type="button">Verwerk gesprek</button><span class="conversation-status" id="conversationStatus"></span></div>${renderConversationAdvice(p)}</section>`}<section><h2>Activiteit & notities</h2><div class="note-row"><input id="noteInput" placeholder="Korte gespreksnotitie" aria-label="Korte gespreksnotitie"><button class="secondary" id="addNote" type="button">Bewaar</button></div><div class="timeline">${[...(p.notes||[]),...(p.timeline||[])].map(e=>`<div class="event-row"><time>${esc(e.date)}</time><div>${esc(e.text)}</div></div>`).join('')}</div></section></div></div></details>`}
 function bindTabs(){
  const buttons=[...document.querySelectorAll('.tab-button')],panels=[...document.querySelectorAll('.tab-panel')];if(!buttons.length)return;
@@ -628,17 +763,17 @@ function renderMain(){
  let p=prospects.find(x=>x.id===selectedId)||prospects[0];
  if(!p){selectedId='';$('#sidebarEmpty').hidden=false;$('#main').innerHTML='<div class="record"><section class="limited"><h1>Geen prospect geselecteerd</h1><p>Kies een prospect of voeg er één toe.</p><button class="primary" id="emptyNewProspect" type="button">+ Nieuwe prospect</button></section></div>';$('#emptyNewProspect').onclick=openNewProspectDialog;renderSettings(null);updateMoreMenu(null);return}
  if(selectedId!==p.id){selectedId=p.id;save()}$('#sidebarEmpty').hidden=true;if(p.reportType!=='full'){renderLimited(p);return}
- const signals=p.signals||[],signalLimit=signals.length<=5?signals.length:5,featuredSignals=signals.slice(0,signalLimit),extraSignals=signals.slice(signalLimit),website=safeExternalUrl(p.website),tel=phoneHref(p.phone),nextStep=p.nextStep||'15 min. kwalificatie',noteCount=(p.notes||[]).length,noteLabel=noteCount===1?'1 notitie':noteCount+' notities';
- const callAction=p.doNotContact?'':tel?`<div class="call-action-wrap"><a class="call-cta" href="${esc(tel)}">Bel nu</a><span class="call-next">${esc(nextStep)}</span></div>`:`<div class="call-action-wrap"><button class="call-cta" id="openContact" type="button">Bel nu</button><span class="call-next">${esc(nextStep)}</span></div>`;
+ const signals=p.signals||[],signalLimit=signals.length<=5?signals.length:5,featuredSignals=signals.slice(0,signalLimit),extraSignals=signals.slice(signalLimit),website=safeExternalUrl(p.website),tel=phoneHref(p.phone),nextStep=p.nextStep||'15 min. kwalificatie',nextStepNote=String(p.nextStepNote||'geen generieke productpitch').toLowerCase(),noteCount=(p.notes||[]).length,noteLabel=noteCount===1?'1 notitie':noteCount+' notities';
+ const callAction=p.doNotContact?'':tel?`<div class="call-action-wrap"><a class="call-cta" href="${esc(tel)}">Bel nu</a><span class="call-next">${esc(nextStep)} · ${esc(nextStepNote)}</span></div>`:`<div class="call-action-wrap"><button class="call-cta" id="openContact" type="button">Bel nu</button><span class="call-next">${esc(nextStep)} · ${esc(nextStepNote)}</span></div>`;
  $('#main').innerHTML=`
   ${p.doNotContact?'<div class="blocked-banner" role="alert"><span class="blocked-icon" aria-hidden="true">⊘</span><strong>Outreach geblokkeerd</strong><button id="unblockOutreach" type="button">Deblokkeren</button></div>':''}
-  <header class="record-head"><div class="identity"><h1>${esc(p.company)}</h1><div class="identity-meta"><span class="verified">${p.vatDigits?'✓ Bevestigd':'△ Te verifiëren'}</span><span>${esc(p.vat)}</span><span>${esc(p.postal)} ${esc(p.city||'')}</span>${website!=='#'?`<span><a href="${website}" target="_blank" rel="noreferrer">website ↗</a></span>`:''}</div><div class="assessment-meta"><span class="assessment-chip">fleetpotentieel ${esc(String(p.potential||'te toetsen').toLowerCase())}</span><span class="assessment-chip">bronnen ${esc(String(p.confidence||'middel').toLowerCase())}</span><span class="assessment-chip freshness">${esc(p.freshness||'Actualiseren')}</span></div></div><div class="record-actions">${callAction}<button class="workflow-shortcut" id="workflowShortcut" type="button" aria-controls="workflowPanel">Workflow & notities <span class="utility-count">${esc(noteLabel)}</span></button></div></header>
+  <header class="record-head"><div class="identity"><span class="record-context">${esc(p.stageDisclaimer||'Voorbeeld met echte openbare bronnen')}</span><h1>${esc(p.company)}</h1><div class="identity-meta"><span class="verified">${p.vatDigits?'✓ Bevestigd':'△ Te verifiëren'}</span><span>${esc(p.vat)}</span><span>${esc(p.postal)} ${esc(p.city||'')}</span>${website!=='#'?`<span><a href="${website}" target="_blank" rel="noreferrer">website ↗</a></span>`:''}</div><div class="assessment-meta"><span class="assessment-chip">Fleetpotentieel: ${esc(p.potential||'Te toetsen')}</span><span class="assessment-chip">Bronzekerheid: ${esc(p.confidence||'Middel')}</span><span class="assessment-chip freshness">${esc(p.freshness||'Actualiseren')}</span></div></div><div class="record-actions">${callAction}<button class="workflow-shortcut" id="workflowShortcut" type="button" aria-controls="workflowPanel">Workflow & notities <span class="utility-count">${esc(noteLabel)}</span></button></div></header>
   <article class="record">
-    <section class="call-hero"><div class="hero-reason"><div class="eyebrow">Waarom nu bellen</div><h2>${esc(heroHeadline(p))}</h2></div><div class="hero-opener"><div class="eyebrow">Open zo</div><blockquote>“${esc(p.opener)}”</blockquote><div class="hero-actions"><button class="copy-script" id="copyScript" type="button">Kopieer opener</button></div></div></section>
+    <section class="call-hero"><div class="hero-reason"><div class="eyebrow">Waarom nu bellen</div><h2 class="${String(p.reason||p.headline||'').length>230?'long':''}">${esc(p.reason||p.headline||'Waarom nu bellen')}</h2></div><div class="hero-opener"><div class="eyebrow">Open zo</div><blockquote>“${esc(p.opener)}”</blockquote><div class="hero-actions"><button class="copy-script" id="copyScript" type="button">Kopieer opener</button></div></div></section>
     <div class="conversation-layout"><div class="conversation-main">
-      <nav class="record-tabs" role="tablist" aria-label="Prospectdetails"><button class="tab-button" data-tab="signals" role="tab" aria-selected="true" aria-controls="panel-signals">Signalen</button><button class="tab-button questions-tab-button" data-tab="questions" role="tab" aria-selected="false" aria-controls="panel-questions">Vraag op de call</button><button class="tab-button" data-tab="fleet" role="tab" aria-selected="false" aria-controls="panel-fleet">Vlootbeeld</button><button class="tab-button" data-tab="sources" role="tab" aria-selected="false" aria-controls="panel-sources">Bronnen</button></nav>
-      <section class="tab-panel" id="panel-signals" data-panel="signals" role="tabpanel"><h2>Signalen voor dit gesprek</h2><div class="signal-list">${featuredSignals.map((s,i)=>renderSignal(p,s,i)).join('')}${extraSignals.map((s,i)=>renderSignal(p,s,signalLimit+i,true)).join('')}</div>${extraSignals.length?`<button class="text-button" id="showAllSignals" data-closed="Toon alle ${signals.length} signalen" aria-expanded="false" type="button">Toon alle ${signals.length} signalen</button>`:''}</section>
-      <section class="tab-panel" id="panel-fleet" data-panel="fleet" role="tabpanel" tabindex="-1" hidden><h2>Vlootbeeld en te toetsen Toyota-fit</h2><p class="section-intro">Voertuigmissie eerst; modelkeuze pas na kwalificatie.</p><div class="fleet-wrap"><table class="fleet-table"><thead><tr><th>Vlootpool</th><th>Waarschijnlijk gebruik</th><th>Te toetsen fit</th></tr></thead><tbody>${(p.fleet||[]).map(f=>`<tr><td><strong>${esc(f.pool)}</strong></td><td>${esc(f.use)}</td><td>${esc(f.fit)}<br><span class="certainty ${certaintyClass(f.certainty)}">${esc(f.certainty)}</span></td></tr>`).join('')}</tbody></table></div></section>
+      <nav class="record-tabs" role="tablist" aria-label="Prospectdetails"><button class="tab-button" id="tab-signals" data-tab="signals" role="tab" aria-selected="true" aria-controls="panel-signals">Signalen</button><button class="tab-button questions-tab-button" id="tab-questions" data-tab="questions" role="tab" aria-selected="false" aria-controls="panel-questions">Vraag op de call</button><button class="tab-button" id="tab-fleet" data-tab="fleet" role="tab" aria-selected="false" aria-controls="panel-fleet">Vlootbeeld</button><button class="tab-button" id="tab-sources" data-tab="sources" role="tab" aria-selected="false" aria-controls="panel-sources">Bronnen</button></nav>
+      <section class="tab-panel" id="panel-signals" data-panel="signals" role="tabpanel" aria-labelledby="tab-signals"><h2 class="visually-hidden">Signalen</h2><div class="signal-list">${featuredSignals.map((s,i)=>renderSignal(p,s,i)).join('')}${extraSignals.map((s,i)=>renderSignal(p,s,signalLimit+i,true)).join('')}</div>${extraSignals.length?`<button class="text-button" id="showAllSignals" data-closed="Toon alle ${signals.length} signalen" aria-expanded="false" type="button">Toon alle ${signals.length} signalen</button>`:''}</section>
+      <section class="tab-panel" id="panel-fleet" data-panel="fleet" role="tabpanel" aria-labelledby="tab-fleet" tabindex="-1" hidden><h2 class="visually-hidden">Vlootbeeld</h2><div class="fleet-wrap"><table class="fleet-table"><thead><tr><th>Publieke vlootpool</th><th>Waarschijnlijk gebruik</th><th>Te toetsen Toyota-fit</th></tr></thead><tbody>${(p.fleet||[]).map(f=>`<tr><td><strong>${esc(f.pool)}</strong></td><td>${esc(f.use)}</td><td>${esc(f.fit)}<br><span class="certainty ${certaintyClass(f.certainty)}">${esc(f.certainty)}</span></td></tr>`).join('')}</tbody></table></div><h3 class="subhead">Nog te bevestigen</h3>${(p.unknowns||[]).map(u=>`<div class="unknown"><i>·</i><span>${esc(u)}</span></div>`).join('')}</section>
       ${renderSourcesPanel(p)}
       ${renderWorkflow(p)}
     </div>${renderCallRail(p)}</div>
@@ -658,7 +793,7 @@ function bindMain(p){
  if($('#copyScript'))$('#copyScript').onclick=async()=>{if(p.doNotContact){toast('Outreach is geblokkeerd voor deze prospect');return}try{await navigator.clipboard.writeText(p.opener);toast('Opener gekopieerd')}catch{toast('Kopiëren niet toegestaan in deze browser')}};
  if($('#addNote'))$('#addNote').onclick=()=>{const i=$('#noteInput'),v=i.value.trim();if(!v)return;p.notes=p.notes||[];p.notes.unshift({date:new Date().toLocaleDateString('nl-BE',{day:'2-digit',month:'short'}),text:v});save();renderMain();const panel=$('#workflowPanel');if(panel)panel.open=true;toast('Notitie bewaard')};
  if($('#unblockOutreach'))$('#unblockOutreach').onclick=()=>setOutreachBlocked(p,false);
- document.querySelectorAll('[data-call-key]').forEach(input=>input.onchange=()=>{const values=new Set(p.callChecklist||[]),key=input.dataset.callKey;input.checked?values.add(key):values.delete(key);p.callChecklist=[...values];save()});
+ document.querySelectorAll('[data-call-key]').forEach(input=>input.onchange=()=>{const values=new Set(p.callChecklist||[]),key=input.dataset.callKey,legacy=input.dataset.callLegacy;if(legacy)values.delete(legacy);input.checked?values.add(key):values.delete(key);p.callChecklist=[...values];save()});
  if($('#conversationStatus'))$('#conversationStatus').textContent=backendAvailable?'Analyse beschikbaar':'Analyse vereist live research';
  if($('#analyzeConversation'))$('#analyzeConversation').onclick=()=>analyzeConversation(p);
  if($('#applyAdvice'))$('#applyAdvice').onclick=()=>applyConversationAdvice(p);
@@ -695,8 +830,8 @@ async function checkBackend(){
  try{const r=await fetch('api/health',{cache:'no-store',signal:controller.signal});const j=await r.json();backendAvailable=!!(r.ok&&j.live)}catch{backendAvailable=false}finally{clearTimeout(timer)}
  renderSettings(prospects.find(x=>x.id===selectedId)||prospects[0]);if($('#conversationStatus'))$('#conversationStatus').textContent=backendAvailable?'Analyse beschikbaar':'Analyse vereist live research';return backendAvailable;
 }
-function openSettings(){closeMoreMenu();renderSettings(prospects.find(x=>x.id===selectedId)||prospects[0]);$('#drawerScrim').hidden=false;$('#settingsDrawer').classList.add('open');$('#settingsDrawer').setAttribute('aria-hidden','false');$('#settingsButton').setAttribute('aria-expanded','true');$('#closeSettings').focus()}
-function closeSettings(){$('#drawerScrim').hidden=true;$('#settingsDrawer').classList.remove('open');$('#settingsDrawer').setAttribute('aria-hidden','true');$('#settingsButton').setAttribute('aria-expanded','false')}
+function openSettings(){closeMoreMenu();renderSettings(prospects.find(x=>x.id===selectedId)||prospects[0]);const drawer=$('#settingsDrawer');drawer.removeAttribute('inert');$('#drawerScrim').hidden=false;drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');$('#settingsButton').setAttribute('aria-expanded','true');$('#closeSettings').focus()}
+function closeSettings(){const drawer=$('#settingsDrawer'),restoreFocus=drawer.contains(document.activeElement);$('#drawerScrim').hidden=true;drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');drawer.setAttribute('inert','');$('#settingsButton').setAttribute('aria-expanded','false');if(restoreFocus)$('#settingsButton').focus()}
 function openNewProspectDialog(){closeSettings();closeMoreMenu();renderResearchModeNotice();$('#newProspectDialog').hidden=false;requestAnimationFrame(()=>$('#company').focus())}
 function closeNewProspectDialog(){$('#newProspectDialog').hidden=true}
 function closeMoreMenu(){const menu=$('#moreMenu');menu.hidden=true;$('#moreButton').setAttribute('aria-expanded','false')}
