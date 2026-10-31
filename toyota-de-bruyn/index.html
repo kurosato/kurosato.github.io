@@ -159,7 +159,9 @@
       min-height: 128px;
       padding: 21px 23px;
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: auto minmax(0,1fr) auto;
+      min-width: 0;
+      overflow-wrap: anywhere;
       align-items: start;
       gap: 17px;
       text-decoration: none;
