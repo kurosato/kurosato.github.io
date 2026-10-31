@@ -1,64 +1,41 @@
-# Toyota De Bruyn Machelen · functionele wireframes R2
+# Toyota De Bruyn Machelen · functionele wireframes
 
-## Openen op je Mac
+## Begin hier
 
-1. Pak de volledige ZIP uit.
-2. Dubbelklik op **START.html**. Gebruik een recente browser met JavaScript.
-3. Laat de map **assets** naast de HTML-bestanden staan.
+- Online: https://kurosato.github.io/toyota-de-bruyn/wireframes/
+- Offline: pak de hele ZIP uit en open **index.html** of **START.html**. Laat assets naast de HTML-bestanden staan.
 
-Geen installatie, server, account of internet nodig voor de demoflows. Alleen bewust aangeklikte externe links (Toyota, bestaande dealersite, Google Maps) hebben internet nodig. Bellen en mailen openen je eigen app.
+Geen installatie of account nodig. De pagina's en demoflows werken zonder internet. Bewust aangeklikte externe links naar Toyota of de dealersite vragen wel internet.
 
-## Online overzicht
+## Wat is uitgewerkt
 
-- https://kurosato.github.io/toyota-de-bruyn/wireframes/
-- https://kurosato.github.io/toyota-de-bruyn/wireframes/menu-voor-tim.html
+**14 websitepagina's, Nederlands:** homepage, zes menuroutes, zes modelvoorbeelden en één tweedehandsdetail. Daarnaast zijn er een centrale index, een menuoverzicht voor Tim en een overdracht met bronnen en foutscenario's.
 
-## Inhoud
+- **Nieuwe wagens:** eigen modeloverzicht en modelpagina's, proefrit en advies met modelcontext.
+- **Tweedehands:** filters op model en totaalprijs, detail en terugkeer met selectie.
+- **Bestelwagens:** herozoekkeuze, overzicht en modelpagina's voor Proace City, Proace en Proace Max.
+- **Onderhoud & herstellingen:** dienstkeuze en aanvraag, los van een aankooproute.
+- **Promoties:** uitleg en informatieaanvraag. Geen onbevestigde korting of actiekaart.
+- **Zakelijk & fleet:** kleine ondernemer als held, concrete problemen, De Bruyn als gids, stappenplan en fleetgesprek. De wagenparkcheck en downloadbare checklist vragen geen contactgegevens.
 
-- **index.html**: centrale review-ingang en ZIP-download.
-- **menu-voor-tim.html**: sitemap, status, doel/CTA en open ontwerpwerk per route.
-- **START.html**: homepage, herozoeker, resultaten, modelpanelen en directe proefrit-/werkplaatsaanvragen.
-- **tweedehands.html**: één uitgewerkt tweedehandsdetail met afzonderlijke aanvraagintenties.
-- **overdracht.html**: compacte overdracht voor Tim, redactionele afwijkingen, bronnen en klikbare tests voor lege/fout/onzekere toestanden.
-- **assets/dealer.js**: contactgegevens en beperkte lijst echte modelnamen.
-- **assets/fixture.js**: één afzonderlijke synthetische testwagen; nooit als echte voorraad gebruiken.
-- **assets/app.js** en **assets/style.css**: alle benodigde werking en sobere wireframestijl.
+De homepage houdt de drie zoekkeuzes met meeveranderende modelvelden en resultaten. Er is een beperkte modelselectie, geen volledige Toyota-catalogus.
 
-## Wat je kunt testen
+## Review
 
-Nieuwe modellen en bestelwagens bekijken zonder contactgegevens; tweedehands filteren op model/totaalprijs; detail openen en terugkeren met dezelfde selectie; informatie, bezichtiging of proefrit aanvragen; één contactkanaal kiezen; validatie en invoerbehoud na fouten; werkplaatsaanvraag zonder modelkeuze. De testscenario’s staan op de overdrachtspagina.
+**menu-voor-tim.html** bevat paginadoelen, CTA's en StoryBrand-opbouw. **overdracht.html** bevat de bronbasis, veranderingen, grenzen en klikbare demo-/foutscenario's.
 
-## Toevoeging: bestelwagens
+Vancayzeele is de belangrijkste structuurreferentie voor de uitbreiding. Eigen-site-informatie van De Bruyn en de bestaande R2-bronnen vormen de inhoudelijke basis. Geen reviewcijfers, voorraad, promotieprijzen of fleetclaims van een andere garage overgenomen.
 
-Bestelwagens staat naast Nieuwe wagens en Tweedehands in de hero. De modelkeuze, knop, resultaten en proefritaanvraag passen mee aan. De drie bestelwagenmodellen zijn Proace City, Proace en Proace Max. Modeloriëntatie is geen voorraadbelofte; er is geen prijsfilter voor bestelwagens. Menu, index en download bevatten dezelfde uitbreiding. Tim behoudt de vormgeving.
-
-## Controle van de bestelwagenuitbreiding
-
-De uitbreiding is in Chrome gecontroleerd op 1440, 390 en 320 pixels: alle drie bestelwagenmodellen, wisselen tussen zoekkeuzes, modeloverdracht naar het formulier, demo-uitkomst, directe routes, toetsenbordbediening en overloop. Ook de bestaande nieuwe-wagen-, tweedehands- en werkplaatsroutes zijn opnieuw gecontroleerd. De vormgeving is ongewijzigd.
-
-## Eerdere controle van de R2-basis
-
-Het pakket is lokaal in een echte Google Chrome-browser via Playwright gecontroleerd op 1440, 390 en 320 CSS-pixels. Dezelfde volledige controleronde is ook op de uitgepakte ZIP uitgevoerd met HTTP(S)-verzoeken geblokkeerd.
-
-- 235 geslaagde functionele/technische controles per volledige ronde, waaronder 54 overloopmetingen.
-- Zoeken, filters, reset, selectiebehoud, model-/wagencontext, alle drie aanvraagintenties, werkplaatsdienst, validatie, fout- en ontvangstsimulaties gecontroleerd.
-- Toetsenbord: Tab, Shift+Tab, radiokeuze met pijltjestoets, Escape, focusbehoud/-terugkeer; sluitknop en klikken buiten een venster.
-- Geen horizontale overloop, JavaScript-/consolefouten of HTTP(S)-netwerkverzoeken tijdens de tests.
-- Lokale links en ankers gecontroleerd. Desktop- en mobiele screenshots daadwerkelijk bekeken.
-- Browser-terugknop, wissen bij verversen, veilige weergave van ingevoerde tekst en ongewijzigd licht thema bij donkere OS-voorkeur aanvullend gecontroleerd.
-
-Dit is browseremulatie op de bouwmachine, geen fysieke M5-, iPhone- of Safari-test, volledige toegankelijkheidsaudit of gemeten conversie-effect.
-
-## Inhoudelijke beoordeling en open punten
-
-Wagenoriëntatie, lokale De Bruyn-identiteit en passende vervolgstappen zijn herkenbaar. Modellen en voorraad zijn expliciet verschillend. De keuze voor onderhoud vereist geen aankooproute. Op 320 px vraagt de laatste directe heroactie enig scrollen; er is geen afgekapt of horizontaal weggedrukt element.
-
-De aantrekkingskracht van echte wagens kan met neutrale beeldvakken en beperkte modelinhoud nog niet worden beoordeeld. Echte fotografie, modelverhaal, voertuighistoriek en voorwaarden blijven invulwerk met goedgekeurde bronnen. De technische controles zijn geen inhoudelijke acceptatie door bezoekers of opdrachtgever.
-
-Tim behoudt compositie, beelden, typografie, kleuren, componenten en definitieve responsive vormgeving. R2 is een werkvoorstel, geen goedgekeurde slogan of publicatiecopy. De zes hoofdroutes blijven zichtbaar; niet uitgewerkte vervolgroutes krijgen een scopepaneel.
+Tim bepaalt de definitieve vormgeving, fotografie, typografie, componenten en responsive uitwerking. Dit blijft een inhoudsvoorstel en klikbaar reviewprototype.
 
 ## Demonstratiegrens
 
-**Geen echte voorraad, leads, afspraak of voertuigreservatie.** Elke formulieruitkomst vermeldt **Demo: niet verzonden**. Formulieren versturen niets en bewaren contactgegevens niet duurzaam. Alleen tijdelijk documentgeheugen ondersteunt foutcorrectie en heropenen van hetzelfde venster. Gebruik testgegevens. De privacytekst beschrijft alleen deze demo, niet een verzonnen productiebeleid.
+Eén synthetische tweedehandswagen, geen echte voorraad. Geen echte aanvraag, boeking of reservatie. Elk formulier vermeldt **Demo: niet verzonden**. Gebruik testgegevens. Invoer blijft alleen in het geheugen van het geopende document, niet in cookies of browseropslag. Verversen en navigeren zijn geen opslagbelofte.
 
-Op verzoek staat deze reviewversie op GitHub Pages. Dit is niet de live dealersite. Er is niets aan Tim verstuurd. Oude V1–V3 zijn niet meer de actieve reviewversie.
+Geen belastingberekening, besparingsgarantie, gegarandeerde levertijd of fleet-SLA. Business+-werkwijze en operationele mogelijkheden moeten voor productie door De Bruyn worden bevestigd. Echte modelleninformatie, goedgekeurde beelden, voorraad, actuele promoties, aanvraagafhandeling en de Franse versie blijven productiewerk.
+
+## Controle
+
+Gecontroleerd in Google Chrome op 1440, 390 en 320 CSS-pixels: paginalinks en hoofdnavigatie, filters en terugkeer, model- en dienstcontext, fleetvoorbereiding, checklistdownload, formulieruitkomsten, validatie, invoerbehoud, toetsenbordfocus en horizontale overloop. De oude homepage-/tweedehandsflows zijn meegenomen in de regressiecontrole.
+
+Dit is geen fysieke M5-, iPhone- of Safari-test, volledige toegankelijkheidsaudit of gemeten conversie-effect. Neutrale beeldvakken bewijzen niet hoe overtuigend de definitieve fotografie zal zijn.
