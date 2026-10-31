@@ -4,7 +4,7 @@
 
 1. Pak de volledige ZIP uit.
 2. Dubbelklik op **START.html**. Gebruik een recente browser met JavaScript.
-3. Laat de map **assets** naast de drie HTML-bestanden staan.
+3. Laat de map **assets** naast de HTML-bestanden staan.
 
 Geen installatie, server, account of internet nodig voor de demoflows. Alleen bewust aangeklikte externe links (Toyota, bestaande dealersite, Google Maps) hebben internet nodig. Bellen en mailen openen je eigen app.
 
@@ -26,9 +26,17 @@ Geen installatie, server, account of internet nodig voor de demoflows. Alleen be
 
 ## Wat je kunt testen
 
-Nieuwe modellen bekijken zonder contactgegevens; tweedehands filteren op model/totaalprijs; detail openen en terugkeren met dezelfde selectie; informatie, bezichtiging of proefrit aanvragen; één contactkanaal kiezen; validatie en invoerbehoud na fouten; werkplaatsaanvraag zonder modelkeuze. De testscenario’s staan op de overdrachtspagina.
+Nieuwe modellen en bestelwagens bekijken zonder contactgegevens; tweedehands filteren op model/totaalprijs; detail openen en terugkeren met dezelfde selectie; informatie, bezichtiging of proefrit aanvragen; één contactkanaal kiezen; validatie en invoerbehoud na fouten; werkplaatsaanvraag zonder modelkeuze. De testscenario’s staan op de overdrachtspagina.
 
-## Uitgevoerde controle
+## Toevoeging: bestelwagens
+
+Bestelwagens staat naast Nieuwe wagens en Tweedehands in de hero. De modelkeuze, knop, resultaten en proefritaanvraag passen mee aan. De drie bestelwagenmodellen zijn Proace City, Proace en Proace Max. Modeloriëntatie is geen voorraadbelofte; er is geen prijsfilter voor bestelwagens. Menu, index en download bevatten dezelfde uitbreiding. Tim behoudt de vormgeving.
+
+## Controle van de bestelwagenuitbreiding
+
+De uitbreiding is in Chrome gecontroleerd op 1440, 390 en 320 pixels: alle drie bestelwagenmodellen, wisselen tussen zoekkeuzes, modeloverdracht naar het formulier, demo-uitkomst, directe routes, toetsenbordbediening en overloop. Ook de bestaande nieuwe-wagen-, tweedehands- en werkplaatsroutes zijn opnieuw gecontroleerd. De vormgeving is ongewijzigd.
+
+## Eerdere controle van de R2-basis
 
 Het pakket is lokaal in een echte Google Chrome-browser via Playwright gecontroleerd op 1440, 390 en 320 CSS-pixels. Dezelfde volledige controleronde is ook op de uitgepakte ZIP uitgevoerd met HTTP(S)-verzoeken geblokkeerd.
 
