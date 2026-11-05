@@ -1,0 +1,1 @@
+'use strict';document.querySelector('[data-clean-toggle]')?.addEventListener('click',function(){const clean=document.body.classList.toggle('clean-copy');this.setAttribute('aria-pressed',String(clean));this.textContent=clean?'Markeringen tonen':'Lees zonder markeringen';});

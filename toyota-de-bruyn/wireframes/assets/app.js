@@ -25,7 +25,7 @@ const menu=$('.menu-toggle');menu?.addEventListener('click',()=>{const on=menu.g
 function closeMenu(){menu?.setAttribute('aria-expanded','false');$('#mainnav')?.classList.remove('open');}
 $$('#mainnav a,#mainnav button').forEach(n=>n.addEventListener('click',closeMenu));
 $$('[data-dealer-contact]').forEach(n=>{n.innerHTML=`<div><address><strong>${esc(d.name)}</strong><br>${esc(d.street)}<br>${esc(d.city)}<br><a href="tel:${d.tel}">${esc(d.phone)}</a><br><a href="mailto:${d.email}">${esc(d.email)}</a></address><div class="actions"><a class="button" href="https://www.google.com/maps/dir/?api=1&destination=Kerklaan%2056%2C%201830%20Machelen%2C%20Belgium" target="_blank" rel="noopener noreferrer">Plan je route (Google Maps)</a><a class="button" href="tel:${d.tel}">Bel De Bruyn</a></div></div><div><h3>Showroom</h3><p>${esc(d.showroom)}</p><h3>Werkplaats</h3><p>${esc(d.workshop)}</p><p class="small">Normale openingsuren. <a href="${d.source}" target="_blank" rel="noopener noreferrer">Controleer de uren op de bestaande site</a>.</p></div>`;});
-function modelCard(m){return `<article class="model-card"><div class="image-slot"><strong>Beeldvak: Toyota ${esc(m.name)}</strong><span>Goedgekeurd modelbeeld nog te kiezen</span></div><h3>Toyota ${esc(m.name)}</h3><p>${esc(m.description)}</p>${document.body.dataset.page==='catalog'?`<a class="button" href="model-${m.id}.html">Ontdek de ${esc(m.name)}</a>`:`<button type="button" data-model="${m.id}">Ontdek de ${esc(m.name)}</button>`}</article>`;}
+function modelCard(m){const photos={'yaris-cross':'yaris','c-hr-plus':'hero',rav4:'rav4','proace':'proace','proace-city':'proace-city','proace-max':'proace-max'};return `<article class="model-card"><img src="assets/images/${photos[m.id]}.webp" width="1000" height="650" loading="lazy" alt="Toyota ${esc(m.name)} · voorbeeldconfiguratie"><h3>Toyota ${esc(m.name)}</h3><p>${esc(m.description)}</p><a class="button" href="model-${m.id}.html">Bekijk de ${esc(m.name)}</a></article>`;}
 function usedCard(){return `<article class="vehicle-card"><div class="image-slot"><strong>Beeldvak: Toyota ${esc(v.model)}</strong><span>Fictieve testwagen, geen voertuigfoto</span></div><div class="card-copy"><p class="demo-label">Synthetische testwagen · geen aanbod</p><h3>${esc(v.make+' '+v.model+' '+v.trim)}</h3><p class="price">${money(v.price)}</p><p class="small">Fictieve totaalprijs, geen verkoopprijs</p><p>Eerste inschrijving: ${v.firstRegistration}<br>${new Intl.NumberFormat('nl-BE').format(v.mileage)} km<br>Hybride · Automatisch</p><p class="small">Alle voertuigwaarden zijn testdata.</p><a class="button primary" data-detail-link href="${detailHref()}">Bekijk deze wagen</a></div></article>`;}
 function updateFinder(){
  const used=state.mode==='used',isVan=state.mode==='vans';
@@ -73,7 +73,7 @@ function formHTML(ctx){
  const model=ctx.kind==='model'?`<div class="form-field"><label for="${key}-chosen-model">${ctx.catalog==='vans'?'Bestelwagenmodel':'Model'}</label><select id="${key}-chosen-model" name="chosenModel"><option value="all">${ctx.catalog==='vans'?'Nog geen bestelwagen gekozen':'Nog geen model gekozen'}</option>${(ctx.catalog==='vans'?vans:models).map(m=>`<option value="${m.id}">Toyota ${esc(m.name)}</option>`).join('')}</select></div>`:'';
  return `<form class="request-form" autocomplete="off" novalidate><p class="context" data-form-context>${esc(ctx.label)}</p>${intent}${model}${workshop}${business}<p class="small">Velden met * zijn verplicht.</p><div class="form-errors" role="alert" tabindex="-1"></div><div class="form-field"><label for="${key}-name">Naam *</label><input id="${key}-name" name="name" autocomplete="off" maxlength="100" required aria-describedby="${key}-name-error"><span class="field-error" id="${key}-name-error"></span></div><fieldset><legend>Hoe mogen we je contacteren? *</legend><div class="contact-options"><label><input type="radio" name="channel" value="email" required aria-describedby="${key}-channel-error"> Via e-mail</label><label><input type="radio" name="channel" value="phone" required aria-describedby="${key}-channel-error"> Telefonisch</label></div><span id="${key}-channel-error" class="field-error"></span></fieldset><div class="form-field" data-contact-field hidden><label for="${key}-contact" data-contact-label>E-mailadres *</label><input id="${key}-contact" name="contact" type="email" maxlength="150" disabled autocomplete="off" aria-describedby="${key}-contact-error"><span class="field-error" id="${key}-contact-error"></span></div><div class="form-field"><label for="${key}-question">Je vraag (optioneel)</label><textarea id="${key}-question" name="question" maxlength="2000" placeholder="Bijvoorbeeld over ${ctx.kind==='fleet'?'je planning, je huidige wagens of wat je wilt veranderen':ctx.kind==='workshop'?'het onderhoud of wat je opmerkt aan je wagen':'het model, de uitvoering of je volgende stap'}."></textarea></div>${['workshop','fleet'].includes(ctx.kind)?'':`<label><input type="checkbox" name="tradein"> Ik wil ook mijn huidige wagen inruilen (optioneel)</label>`}<p class="small">Dit is een aanvraag, geen bevestigde afspraak${ctx.kind==='workshop'?'':' of voertuigreservatie'}.</p><button class="primary" type="submit">${intents[ctx.intent]}</button><div class="form-status" role="status" tabindex="-1"></div><p class="small form-meta">Demo: niet verzonden. Contactgegevens blijven alleen tijdelijk in dit geopende document. Niets wordt verstuurd of duurzaam opgeslagen.</p><button type="button" class="inline-reset" data-clear-form>Testgegevens wissen</button><details><summary>Privacy in deze demo</summary><p>Deze lokale proef heeft geen ontvanger, tracking of opslag van contactgegevens. Gebruik geen echte persoonsgegevens. De definitieve privacyverklaring hoort bij de livekoppeling en is hier niet nagebootst.</p></details></form>`;
 }
-function saveDraft(form){const ctx=form._ctx;const data=Object.fromEntries(new FormData(form));drafts.set(ctx.key,{...data,tradein:!!form.elements.tradein?.checked,contactValues:{...form._contactValues}});}
+function saveDraft(form){const ctx=form._ctx;const data=Object.fromEntries(new FormData(form));drafts.set(ctx.key,{...data,preparedKey:ctx.preparedKey,preparedQuestion:ctx.question,tradein:!!form.elements.tradein?.checked,contactValues:{...form._contactValues}});}
 function contactUpdate(form){const channel=form.elements.channel.value, field=$('[data-contact-field]',form);field.hidden=!channel;form.elements.contact.disabled=!channel;form.elements.contact.required=!!channel;if(channel){$('[data-contact-label]',form).textContent=channel==='email'?'E-mailadres *':'Telefoonnummer *';form.elements.contact.type=channel==='email'?'email':'tel';form.elements.contact.inputMode=channel==='email'?'email':'tel';form.elements.contact.value=form._contactValues[channel]||'';}}
 function setupForm(container,ctx){
  container.innerHTML=formHTML(ctx);const form=$('form',container);form._ctx=ctx;form._contactValues={email:'',phone:''};form.elements.intent.value=ctx.intent;
@@ -83,6 +83,7 @@ function setupForm(container,ctx){
  if(ctx.question)form.elements.question.value=ctx.question;
  const draft=drafts.get(ctx.key);
  if(draft){for(const key of ['name','question','company','fleetSize'])if(form.elements[key])form.elements[key].value=draft[key]||'';if(draft.channel)form.elements.channel.value=draft.channel;if(form.elements.tradein)form.elements.tradein.checked=draft.tradein;form._contactValues={...draft.contactValues};}
+ if(ctx.prepared&&ctx.preparedKey!==draft?.preparedKey){form.elements.fleetSize.value=ctx.fleetSize||'';if(!draft||draft.question===draft.preparedQuestion)form.elements.question.value=ctx.question||'';}
  contactUpdate(form);
  $$('input[name=channel]',form).forEach(n=>n.addEventListener('change',()=>{contactUpdate(form);$('.form-status',form).textContent='';}));
  form.elements.contact.addEventListener('input',()=>{form._contactValues[form.elements.channel.value]=form.elements.contact.value;});
@@ -136,17 +137,17 @@ async function submitForm(e,form){
 }
 
 function generalRequest(kind,button){
- const fleet=kind==='fleet';
+ const fleet=kind==='fleet',prepared=fleet&&button.hasAttribute('data-fleet-prepared');
  const topic=fleet?'je zakelijke wagens':button.dataset.topic||'je wagenkeuze';
  const fleetSummary=$('#fleet-summary')?.textContent?.trim();
- const ctx={kind,key:kind+'-'+topic,intent:kind,topic,label:fleet?'Fleetgesprek · Toyota De Bruyn Machelen':topic,fleetSize:$('#fleet-size')?.value||'',question:fleet?fleetSummary||'':button.dataset.question||''};
+ const ctx={kind,key:kind+'-'+topic+(prepared?'-prepared':'-direct'),prepared,preparedKey:prepared?fleetSummary:'',intent:kind,topic,label:fleet?'Fleetgesprek · Toyota De Bruyn Machelen'+(prepared?' · '+fleetSummary:''):topic,fleetSize:prepared?$('#fleet-size')?.value||'':'',question:prepared?fleetSummary||'':button.dataset.question||''};
  $('#request-title').textContent=intents[kind];
  $('#request-context').textContent='Demo: niet verzonden. Een aanvraag is nog geen bevestigde afspraak. Gebruik testgegevens.';
  activeForm=setupForm($('#modal-form'),ctx);show($('#request-dialog'),button);
 }
 function requestModal(kind,button,modelId,service){
  const workshop=kind==='workshop';
- const chosen=modelId||document.body.dataset.modelId||(state.model!=='all'?state.model:'all');
+ const chosen=modelId||(button?.hasAttribute('data-drive-selection')?$('#drive-model')?.value:null)||document.body.dataset.modelId||(state.model!=='all'?state.model:'all');
  const m=allModels.find(x=>x.id===chosen),catalog=vans.some(x=>x.id===chosen)||(chosen==='all'&&state.mode==='vans')?'vans':'new';
  const ctx=workshop?{kind:'workshop',key:'workshop',intent:'workshop',service,label:'Werkplaatsaanvraag · Toyota De Bruyn Machelen'}:{kind:'model',key:catalog+'-'+chosen,intent:'testdrive',model:chosen,catalog,label:'Proefritaanvraag · '+(m?'Toyota '+m.name:catalog==='vans'?'Nog geen bestelwagen gekozen':'Nog geen model gekozen')};
  $('#request-title').textContent=workshop?'Werkplaatsafspraak aanvragen':'Proefrit aanvragen';
@@ -202,7 +203,7 @@ document.addEventListener('click',e=>{
  else if(button.dataset.request){
   if(button.dataset.request==='testdrive'&&state.mode==='used'&&$('#model')?.value===v.modelId){location.href=detailHref()+'&intent=testdrive#aanvraag';}
   else if(['fleet','advice','offers'].includes(button.dataset.request))generalRequest(button.dataset.request,button);
-  else requestModal(button.dataset.request,button);
+  else requestModal(button.dataset.request,button,undefined,button.dataset.service);
  }
  else if(button.dataset.intent){chooseIntent(button.dataset.intent);}
  else if(button.dataset.modelRequest||button.dataset.service){const previous=$('#scope-dialog').open?opener:button;$('#scope-dialog').close();requestModal(button.dataset.service?'workshop':'testdrive',previous,button.dataset.modelRequest,button.dataset.service);}

@@ -1,8 +1,8 @@
 'use strict';
-// Eigen bedrijfsbron: locatiepagina Toyota De Bruyn, gecontroleerd 31-10-2026.
+// Eigen bedrijfsbron: locatiepagina Toyota De Bruyn, hercontrole 05-11-2026.
 window.DEALER = Object.freeze({name:'Toyota De Bruyn Machelen',street:'Kerklaan 56',city:'1830 Machelen',phone:'02 251 81 28',tel:'+3222518128',email:'machelen@toyotadebruyn.be',showroom:'Maandag–vrijdag 07.30–18.00 · zaterdag 09.00–17.00',workshop:'Maandag–vrijdag 08.00–12.00 en 13.00–17.00',source:'https://www.toyotadebruyn.be/nl/about/machelen'});
 // Beperkte modelselectie; geen complete catalogus, voorraad of prijslijst.
-window.MODELS = Object.freeze([{id:'yaris-cross',name:'Yaris Cross',description:"Verhoogde zitpositie. Full hybrid zonder laadkabel."},{id:'c-hr-plus',name:'C-HR+',description:"Een uitgesproken coupélijn. Volledig elektrisch."},{id:'rav4',name:'RAV4',description:"Schoolrit, werkdag, weekend weg. Als hybrid of plug-in hybrid."}]);
-// Modelnamen: Toyota België, bedrijfsvoertuigen, gecontroleerd 31-10-2026.
+window.MODELS = Object.freeze([{id:'yaris-cross',name:'Yaris Cross',description:"Hoog zitten. Gewoon tanken. Full hybrid zonder laadkabel, voor de ritten die jouw week maken."},{id:'c-hr-plus',name:'C-HR+',description:"Elektrisch rijden mag gezien worden. Een uitgesproken coupélijn en een volledig elektrische aandrijving."},{id:'rav4',name:'RAV4',description:"Van schoolpoort tot weekend weg. Ontdek de RAV4 als hybrid of plug-in hybrid."}]);
+// Modelnamen: Toyota België, bedrijfsvoertuigen, hercontrole 05-11-2026.
 // https://nl.toyota.be/business/modellen/bedrijfsvoertuigen/diesel-benzine
-window.VANS = Object.freeze([{id:'proace-city',name:'Proace City',description:'Ontdek het model en bespreek welke uitvoering bij je werk past.'},{id:'proace',name:'Proace',description:'Ontdek het model en bespreek welke uitvoering bij je werk past.'},{id:'proace-max',name:'Proace Max',description:'Ontdek het model en bespreek welke uitvoering bij je werk past.'}]);
+window.VANS = Object.freeze([{id:'proace-city',name:'Proace City',description:"Veel te doen. Compact op weg. Begin bij je materiaal, dagelijkse stops en de ruimte die je nodig hebt."},{id:'proace',name:'Proace',description:"Jouw werk stopt niet aan de laadklep. Vergelijk toegang, laadruimte en inrichting voor jouw werkdag."},{id:'proace-max',name:'Proace Max',description:"Grote plannen beginnen bij wat er mee moet. Bekijk de uitvoering voor je transport- en inrichtingsvraag."}]);
