@@ -1,0 +1,16 @@
+TOYOTA DE BRUYN — FACEBOOK EN INSTAGRAM
+
+Pak de volledige ZIP uit en open index.html.
+
+10 uploadbeelden: vijf Facebook-JPEGs en vijf Instagram-JPEGs met schuin TWEEDEHANDS-bannertje. Allemaal exact 1080 x 1350 px (4:5), sRGB en kleiner dan 1 MB.
+20 HTML-mockups: per wagen Facebook mobiel/desktop en Instagram mobiel/desktop.
+10 captions: Facebook met wagenlink, Instagram met uitnodiging voor een privébericht.
+
+De losse JPEGs zijn de uploadbeelden, NIET de screenshots van een socialmedia-interface.
+Lees uploadcheck.html voor de bestandscontrole, bronnen en grenzen. De oorspronkelijke beelden zijn bewaard; voor deze exports is geen tekst of footer weggeknipt. De vijf Instagram-beelden zijn AI-bewerkingen van de gekozen concepten, met de bekende grens dat AI ook fotodetails kan wijzigen.
+
+De oude 20%-tekstregel voor advertenties is afgeschaft in september 2020. Geen universele 20%-limiet voor organische beeldposts toegepast. Leesbaarheid blijft een creatieve afweging, geen gemeten bereikbelofte. De kleine garantieregel staat ook leesbaar in de caption.
+
+Rechtstreekse Meta-documentatie was in de webcontrole niet volledig uitleesbaar. HubSpots eigen actuele publicatie-eisen zijn wel gelezen als extra conservatieve routecheck. Geen echte upload, Meta-goedkeuring, fysieke toesteltest, publicatie of automatisering. Geen claim dat deze exports geschikt zijn voor elk advertentieformaat, Stories of Reels. Instagram-gebruikersnaam in de mockup is illustratief en niet als echt account bevestigd. Geen bio-link of klikbare captionlink aangenomen.
+
+Voorraad/prijs/uitrusting/garantie komen uit de vijf wagenfiches van 7 november 2026 en moeten vóór echte publicatie nogmaals bevestigd worden. Garantieduren letterlijk in maanden; voorwaarden niet afgeleid.
